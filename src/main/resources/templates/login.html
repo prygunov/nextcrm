@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+<head>
+    <title>Авторизация NextCRM</title>
+    <link th:href="@{/css/registration.css}" rel="stylesheet"/>
+</head>
+<body>
+<div th:if="${success}">
+    Ваша заявка принята, ожидайте одобрения администратором.
+</div>
+<div th:if="${param.error}">
+    Неправильные логин или пароль.
+</div>
+<div th:if="${param.logout}">
+    Вы вышли из учетной запаси.
+</div>
+
+
+<form th:action="@{/login}" method="post">
+
+    <div class="container">
+        <h1>NextCRM - Вход</h1>
+
+        <label for="username"><b>Логин</b></label>
+        <input type="text" name="username" id="username" required>
+
+        <label for="psw"><b>Пароль</b></label>
+        <input type="password" name="password" id="psw" required>
+
+        <hr>
+
+        <button type="submit" class="registerbtn">Войти</button>
+    </div>
+
+    <div class="container registration">
+        <p>Нет учетной записи? <a th:href="@{/registration}">Создайте</a>.</p>
+    </div>
+
+</form>
+
+</body>
+</html>

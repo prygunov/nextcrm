@@ -1,0 +1,57 @@
+<h2>Сотрудники</h2>
+<table>
+    <tr>
+        <td>Идентификатор</td>
+        <td>Имя пользователя</td>
+        <td>Имя</td>
+        <td>Фамилия</td>
+        <td>Подтвержден</td>
+        <td>Роль</td>
+    </tr>
+
+    <th:block th:each="user : ${users}">
+        <tr>
+            <td>
+                <a th:href="@{/settings/management/{id} (id = ${user.id})}" th:text="${user.id}">
+                </a>
+            </td>
+            <td th:text="${user.login}"></td>
+            <td th:text="${user.firstname}"></td>
+            <td th:text="${user.lastname}"></td>
+            <td th:text="${user.approved}"></td>
+            <td th:text="${user.role}"></td>
+        </tr>
+    </th:block>
+</table>
+
+<h2>Роли</h2>
+<table>
+    <tr>
+        <td>Идентификатор</td>
+        <td>Наименование</td>
+        <td>Задачи</td>
+        <td>Клиенты</td>
+        <td>Заказы</td>
+    </tr>
+
+    <th:block th:each="role : ${roles}">
+        <tr>
+            <td  th:text="${role.id}">
+            </td>
+            <td th:text="${role.name}">
+            </td>
+            <td>
+                <a th:href="@{/settings/management/roles/tasks/{id} (id = ${role.id})}" th:text="${role.tasks}">
+                </a>
+            </td>
+            <td>
+                <a th:href="@{/settings/management/roles/clients/{id} (id = ${role.id})}" th:text="${role.clients}">
+                </a>
+            </td>
+            <td >
+                <a th:href="@{/settings/management/roles/orders/{id} (id = ${role.id})}" th:text="${role.orders}">
+                </a>
+            </td>
+          </tr>
+    </th:block>
+</table>

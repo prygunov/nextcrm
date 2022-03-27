@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Регистрация NextCRM</title>
+    <link th:href="@{/css/registration.css}" rel="stylesheet"/>
+</head>
+<body>
+<form th:action="@{/registration}" th:object="${user}" method="post">
+
+    <div class="container">
+        <h1>Регистрация</h1>
+        <p>
+            Заполните поля ниже и оставьте заявку на регистрацию, после проверки администратором учетная запись будет
+            активна.</p>
+        <hr>
+
+        <label for="login"><b>E-mail</b></label>
+        <input type="text" name="login" id="login" required>
+
+        <label for="lastName"><b>Фамилия</b></label>
+        <input type="text" name="lastname" id="lastName" required>
+
+        <label for="firstName"><b>Имя</b></label>
+        <input type="text" name="firstname" id="firstName" required>
+
+        <label for="psw"><b>Пароль</b></label>
+        <input type="password" name="password" id="psw" required>
+
+        <label for="matchingPassword"><b>Повторите пароль</b></label>
+        <input type="password" name="matchingPassword" id="matchingPassword" required>
+        <hr>
+
+        <button type="submit" class="registerbtn">Оставить заявку</button>
+    </div>
+
+    <div class="container signin">
+        <p>Уже есть учетная запись? <a th:href="@{/login}">Войдите</a>.</p>
+    </div>
+
+</form>
+
+</body>
+</html>
