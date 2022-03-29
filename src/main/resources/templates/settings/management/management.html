@@ -1,42 +1,45 @@
 <h2>Сотрудники</h2>
-<table>
+<table class="table">
     <tr>
-        <td>Идентификатор</td>
-        <td>Имя пользователя</td>
-        <td>Имя</td>
-        <td>Фамилия</td>
-        <td>Подтвержден</td>
-        <td>Роль</td>
+        <td scope="col">Идентификатор</td>
+        <td scope="col">Имя пользователя</td>
+        <td scope="col">Имя</td>
+        <td scope="col">Фамилия</td>
+        <td scope="col">Подтвержден</td>
+        <td scope="col">Роль</td>
     </tr>
 
     <th:block th:each="user : ${users}">
         <tr>
-            <td>
+            <th scope="row">
                 <a th:href="@{/settings/management/{id} (id = ${user.id})}" th:text="${user.id}">
                 </a>
-            </td>
+            </th>
             <td th:text="${user.login}"></td>
             <td th:text="${user.firstname}"></td>
             <td th:text="${user.lastname}"></td>
             <td th:text="${user.approved}"></td>
-            <td th:text="${user.role}"></td>
+            <td th:text="${user.role?.name}"></td>
         </tr>
     </th:block>
 </table>
 
 <h2>Роли</h2>
-<table>
+<a th:href="@{/settings/management/roles/create}">
+    Создать роль
+</a>
+<table class="table">
     <tr>
-        <td>Идентификатор</td>
-        <td>Наименование</td>
-        <td>Задачи</td>
-        <td>Клиенты</td>
-        <td>Заказы</td>
+        <td scope="col">Идентификатор</td>
+        <td scope="col">Наименование</td>
+        <td scope="col">Задачи</td>
+        <td scope="col">Клиенты</td>
+        <td scope="col">Заказы</td>
     </tr>
 
     <th:block th:each="role : ${roles}">
         <tr>
-            <td  th:text="${role.id}">
+            <td scope="row" th:text="${role.id}">
             </td>
             <td th:text="${role.name}">
             </td>

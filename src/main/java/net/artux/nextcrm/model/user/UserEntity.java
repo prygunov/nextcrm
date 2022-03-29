@@ -1,20 +1,22 @@
-package net.artux.nextcrm.model;
+package net.artux.nextcrm.model.user;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import net.artux.nextcrm.model.BaseEntity;
+import net.artux.nextcrm.model.role.RoleEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.Constraint;
 
 @Getter
 @Setter
 @RequiredArgsConstructor
-@Table(name = "users")
+@Table(name = "app_user")
 @Entity
-public class UserEntity extends BaseEntity{
+public class UserEntity extends BaseEntity {
 
+    @Column(unique = true)
     private String login;
     private String firstname;
     private String lastname;

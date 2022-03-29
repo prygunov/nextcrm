@@ -1,4 +1,4 @@
-package net.artux.nextcrm.model.dto;
+package net.artux.nextcrm.model.user;
 
 import com.sun.istack.NotNull;
 import lombok.Data;

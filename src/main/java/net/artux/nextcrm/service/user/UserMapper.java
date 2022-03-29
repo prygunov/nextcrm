@@ -1,7 +1,7 @@
 package net.artux.nextcrm.service.user;
 
-import net.artux.nextcrm.model.UserEntity;
-import net.artux.nextcrm.model.dto.UserDto;
+import net.artux.nextcrm.model.user.UserEntity;
+import net.artux.nextcrm.model.user.UserDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

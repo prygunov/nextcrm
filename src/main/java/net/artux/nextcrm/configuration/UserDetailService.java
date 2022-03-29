@@ -1,17 +1,13 @@
 package net.artux.nextcrm.configuration;
 
 import lombok.RequiredArgsConstructor;
-import net.artux.nextcrm.model.UserEntity;
-import net.artux.nextcrm.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import net.artux.nextcrm.model.user.UserEntity;
+import net.artux.nextcrm.repository.UsersRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -21,8 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserDetailService implements UserDetailsService {
 
-  @Autowired
-  private final UserRepository usersRepository;
+  private final UsersRepository usersRepository;
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

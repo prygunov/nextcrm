@@ -1,7 +1,7 @@
 package net.artux.nextcrm.controller;
 
 import lombok.RequiredArgsConstructor;
-import net.artux.nextcrm.model.dto.UserDto;
+import net.artux.nextcrm.model.user.UserDto;
 import net.artux.nextcrm.service.user.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +20,7 @@ public class RegistrationController {
     @GetMapping
     public String getRegistrationPage(Model model){
         model.addAttribute("user", new UserDto());
-        return "registration";
+        return "auth/registration";
     }
 
     @PostMapping
@@ -29,7 +29,7 @@ public class RegistrationController {
         user.setRole_id(null);
         userService.registerUser(user);
         model.addAttribute("success", true);
-        return "login";
+        return "auth/login";
     }
 
 }
