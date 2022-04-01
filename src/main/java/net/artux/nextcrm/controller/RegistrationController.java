@@ -1,7 +1,7 @@
 package net.artux.nextcrm.controller;
 
 import lombok.RequiredArgsConstructor;
-import net.artux.nextcrm.model.user.UserDto;
+import net.artux.nextcrm.model.user.UserCreateDto;
 import net.artux.nextcrm.service.user.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,15 +19,13 @@ public class RegistrationController {
 
     @GetMapping
     public String getRegistrationPage(Model model){
-        model.addAttribute("user", new UserDto());
+        model.addAttribute("user", new UserCreateDto());
         return "auth/registration";
     }
 
     @PostMapping
-    public String registerUser(@ModelAttribute UserDto user, Model model){
-        user.setApproved(false);
-        user.setRole_id(null);
-        userService.registerUser(user);
+    public String registerUser(@ModelAttribute UserCreateDto user, Model model){
+        userService.create(user);
         model.addAttribute("success", true);
         return "auth/login";
     }

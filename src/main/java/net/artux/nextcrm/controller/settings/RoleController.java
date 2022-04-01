@@ -1,6 +1,7 @@
 package net.artux.nextcrm.controller.settings;
 
 import net.artux.nextcrm.controller.BaseController;
+import net.artux.nextcrm.controller.BaseEntityController;
 import net.artux.nextcrm.model.role.RoleDto;
 import net.artux.nextcrm.model.role.RoleEntity;
 import net.artux.nextcrm.service.role.RoleService;
@@ -14,37 +15,18 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/settings/management/roles")
-public class RoleController extends BaseController {
+public class RoleController extends BaseEntityController<RoleDto, RoleDto, RoleEntity, RoleService> {
 
     private final RoleService roleService;
 
     public RoleController(RoleService roleService) {
-        super("Роли");
+        super("Роли", "settings/management/roles", roleService);
         this.roleService = roleService;
     }
 
     @RequestMapping(value = "/{action}/{id}", method = RequestMethod.GET)
     public ModelAndView updateRole(@PathVariable Long id, @PathVariable String action){
         roleService.changeRole(id, action);
-        return new ModelAndView("redirect:/settings/management");
-    }
-
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String getCreate(Model model){
-        model.addAttribute("role", new RoleDto());
-
-        return pageWithContent("settings/management/create-role", model);
-    }
-
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ModelAndView create(@ModelAttribute RoleDto role){
-        roleService.createRole(role);
-
-        return new ModelAndView("redirect:/settings/management");
-    }
-
-    @Override
-    protected ModelAndView getHome(Model model) {
-        return new ModelAndView("redirect:/settings/management");
+        return new ModelAndView("redirect:/settings/management/roles");
     }
 }

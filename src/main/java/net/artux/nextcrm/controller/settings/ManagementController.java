@@ -1,7 +1,7 @@
 package net.artux.nextcrm.controller.settings;
 
 import net.artux.nextcrm.controller.BaseController;
-import net.artux.nextcrm.model.user.UserDto;
+import net.artux.nextcrm.model.user.UserCreateDto;
 import net.artux.nextcrm.model.user.UserEntity;
 import net.artux.nextcrm.service.role.RoleService;
 import net.artux.nextcrm.service.user.UserService;
@@ -31,20 +31,28 @@ public class ManagementController extends BaseController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String getUser(Model model, @PathVariable Long id){
-        UserEntity userEntity = userService.getUser(id);
+        /* = userService.read(id);
 
         model.addAttribute("title", "Сотрудник " + userEntity.getLastname() + " " + userEntity.getFirstname());
         model.addAttribute("roles", roleService.getAll());
-        model.addAttribute("user", userEntity);
+        model.addAttribute("user", userEntity);*/
         return pageWithContent("settings/management/edit-user", model);
     }
 
     @PostMapping
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
-    public String setUser(@ModelAttribute UserDto user, @PathVariable Long id, Model model){
-        userService.updateUser(id, user);
+    public String updateUser(@ModelAttribute UserCreateDto user, @PathVariable Long id, Model model){
+        //userService.updateUser(id, user);
 
         return getHome(model);
+    }
+
+    @PostMapping
+    @RequestMapping(value = "/remove/{id}", method = RequestMethod.GET)
+    public String removeUser(@PathVariable Long id, Model model){
+        //userService.removeUser(id);
+
+        return getUser(model, id);
     }
 
 }

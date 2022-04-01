@@ -1,14 +1,18 @@
-package net.artux.nextcrm.service.role;
+package net.artux.nextcrm.model.client;
 
 import net.artux.nextcrm.model.role.RoleDto;
 import net.artux.nextcrm.model.role.RoleEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
-public interface RoleMapper {
+public interface ClientMapper {
 
     @Mapping(target = "id", ignore = true)
-    RoleEntity from(RoleDto dto);
+    ClientEntity from(ClientDto dto);
+    List<ClientDto> listDto(List<ClientEntity> entities);
+    ClientDto dto(ClientEntity entity);
 
 }

@@ -1,22 +1,20 @@
-package net.artux.nextcrm.model.role;
+package net.artux.nextcrm.model.client;
 
 import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.artux.nextcrm.model.BaseEntity;
-import net.artux.nextcrm.model.CDto;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Data
 @Getter
-public class RoleDto extends CDto {
+@RequiredArgsConstructor
+@Table(name = "client")
+@Entity
+public class ClientEntity extends BaseEntity {
 
     private String name;
-    private boolean tasks;
-    private boolean clients;
-    private boolean orders;
-    private boolean analysis;
-
+    private int age;
 }

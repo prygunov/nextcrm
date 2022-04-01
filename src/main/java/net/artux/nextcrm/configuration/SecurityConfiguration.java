@@ -25,7 +25,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   };
 
   private static final String[] WHITE_LIST = {
-          "/css/**", "/static/**"
+          "/css/**", "/js/*", "/static/**"
   };
 
   @Override

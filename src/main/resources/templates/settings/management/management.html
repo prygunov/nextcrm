@@ -1,4 +1,8 @@
 <h2>Сотрудники</h2>
+<a th:href="@{/settings/management/create}">
+    <button type="button" class="btn btn-primary">Создать сотрудника</button>
+</a>
+
 <table class="table">
     <tr>
         <td scope="col">Идентификатор</td>
@@ -10,9 +14,9 @@
     </tr>
 
     <th:block th:each="user : ${users}">
-        <tr>
+        <tr class='clickable-row' th:data-href="@{/settings/management/{id} (id = ${user.id})}">
             <th scope="row">
-                <a th:href="@{/settings/management/{id} (id = ${user.id})}" th:text="${user.id}">
+                <a th:text="${user.id}">
                 </a>
             </th>
             <td th:text="${user.login}"></td>
@@ -26,7 +30,7 @@
 
 <h2>Роли</h2>
 <a th:href="@{/settings/management/roles/create}">
-    Создать роль
+    <button type="button" class="btn btn-primary">Создать роль</button>
 </a>
 <table class="table">
     <tr>

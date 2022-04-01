@@ -1,0 +1,31 @@
+<div th:with="url=${'/settings/management/users/'}">
+
+    <a class="btn btn-primary" role="button" th:href="@{${url} + 'create'}">
+        <button type="button" class="btn btn-primary">Создать сотрудника</button>
+    </a>
+
+    <table class="table">
+        <tr>
+            <td scope="col">Идентификатор</td>
+            <td scope="col">Имя пользователя</td>
+            <td scope="col">Имя</td>
+            <td scope="col">Фамилия</td>
+            <td scope="col">Подтвержден</td>
+            <td scope="col">Роль</td>
+        </tr>
+
+        <th:block th:each="object : ${objects}">
+            <tr class='clickable-row' th:data-href="@{${url} + ${object.id} +'/edit'}">
+                <th scope="row">
+                    <a th:text="${object.id}">
+                    </a>
+                </th>
+                <td th:text="${object.login}"></td>
+                <td th:text="${object.firstname}"></td>
+                <td th:text="${object.lastname}"></td>
+                <td th:text="${object.approved}"></td>
+                <td th:text="${object.role}"></td>
+            </tr>
+        </th:block>
+    </table>
+</div>

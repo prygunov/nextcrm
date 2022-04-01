@@ -1,18 +1,16 @@
-package net.artux.nextcrm.model;
+package net.artux.nextcrm.model.client;
 
 import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import net.artux.nextcrm.model.CDto;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Data
 @Getter
-@RequiredArgsConstructor
-@Table(name = "client")
-@Entity
-public class ClientEntity extends BaseEntity {
+public class ClientDto extends CDto {
 
     private String name;
     private int age;

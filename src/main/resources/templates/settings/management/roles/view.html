@@ -1,0 +1,41 @@
+<div th:with="url=${'/settings/management/roles/'}">
+
+    <a class="btn btn-primary" role="button" th:href="@{${url} + 'create'}">
+        <button type="button" class="btn btn-primary">Создать роль</button>
+    </a>
+
+    <table class="table">
+        <tr>
+            <td scope="col">Идентификатор</td>
+            <td scope="col">Наименование</td>
+            <td scope="col">Задачи</td>
+            <td scope="col">Клиенты</td>
+            <td scope="col">Заказы</td>
+            <td scope="col">Действия</td>
+        </tr>
+
+        <th:block th:each="role : ${objects}">
+            <tr>
+                <td scope="row" th:text="${role.id}">
+                </td>
+                <td th:text="${role.name}">
+                </td>
+                <td>
+                    <a th:href="@{/settings/management/roles/tasks/{id} (id = ${role.id})}" th:text="${role.tasks}">
+                    </a>
+                </td>
+                <td>
+                    <a th:href="@{/settings/management/roles/clients/{id} (id = ${role.id})}" th:text="${role.clients}">
+                    </a>
+                </td>
+                <td>
+                    <a th:href="@{/settings/management/roles/orders/{id} (id = ${role.id})}" th:text="${role.orders}">
+                    </a>
+                </td>
+                <td>
+                    <a class="btn btn-outline-danger" th:href="@{/settings/management/roles/{id}/remove (id = ${role.id})}" role="button">Удалить</a>
+                </td>
+            </tr>
+        </th:block>
+    </table>
+</div>

@@ -1,0 +1,12 @@
+<form th:action="@{/clients/{id}/update (id = ${object.id})}" th:object="${object}" method="post">
+    <div class="form-group">
+        <label for="login"><b>Login</b></label>
+        <input type="text" name="login" id="login" required th:value="${object.name}">
+
+        <label for="lastname"><b>Фамилия</b></label>
+        <input type="text" name="lastname" id="lastname" required th:value="${object.age}">
+
+        <input type="submit" name="action" value="Сохранить" />
+    </div>
+</form>
+<a class="btn btn-primary" role="button" th:href="@{/clients/{id}/remove (id = ${object.id})}">Удалить</a>

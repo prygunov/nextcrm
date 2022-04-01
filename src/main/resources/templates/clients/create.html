@@ -1,0 +1,11 @@
+<form th:action="@{/clients/create}" th:object="${object}" method="post">
+    <div class="container">
+        <label for="name"><b>Login</b></label>
+        <input type="text" name="name" id="name" required>
+
+        <label for="age"><b>Фамилия</b></label>
+        <input type="text" name="age" id="age" required>
+
+        <input type="submit" name="action" value="Добавить" />
+    </div>
+</form>

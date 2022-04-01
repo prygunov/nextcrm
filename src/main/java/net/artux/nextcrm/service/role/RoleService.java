@@ -1,19 +1,23 @@
 package net.artux.nextcrm.service.role;
 
-import lombok.RequiredArgsConstructor;
 import net.artux.nextcrm.model.role.RoleDto;
 import net.artux.nextcrm.model.role.RoleEntity;
+import net.artux.nextcrm.model.role.RoleMapper;
 import net.artux.nextcrm.repository.RoleRepository;
+import net.artux.nextcrm.service.AbstractService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-@RequiredArgsConstructor
-public class RoleService {
+public class RoleService extends AbstractService<RoleEntity, RoleDto, RoleDto, RoleRepository> {
 
-   private final RoleRepository repository;
    private final RoleMapper roleMapper;
+
+   public RoleService(RoleRepository repository, RoleMapper roleMapper) {
+      super(repository);
+      this.roleMapper = roleMapper;
+   }
 
    public RoleEntity getWithId(Long id){
       return repository.getById(id);
@@ -39,7 +43,24 @@ public class RoleService {
       repository.save(entity);
    }
 
-   public void createRole(RoleDto dto){
+   @Override
+   public RoleDto create(RoleDto dto) {
       repository.save(roleMapper.from(dto));
+      return dto;
+   }
+
+   @Override
+   public RoleDto update(Long id, RoleDto dto) {
+      return null;
+   }
+
+   @Override
+   public RoleDto read(Long id) {
+      return null;
+   }
+
+   @Override
+   public List<RoleDto> readAll() {
+      return roleMapper.list(repository.findAll());
    }
 }
