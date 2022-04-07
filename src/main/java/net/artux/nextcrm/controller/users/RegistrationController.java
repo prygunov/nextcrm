@@ -1,4 +1,4 @@
-package net.artux.nextcrm.controller;
+package net.artux.nextcrm.controller.users;
 
 import lombok.RequiredArgsConstructor;
 import net.artux.nextcrm.model.user.UserCreateDto;

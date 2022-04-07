@@ -15,7 +15,7 @@ import javax.persistence.MappedSuperclass;
 @AllArgsConstructor
 @NoArgsConstructor
 @MappedSuperclass
-public abstract class BaseEntity {
+public abstract class BaseEntity extends CDto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

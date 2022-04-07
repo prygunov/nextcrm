@@ -1,6 +1,7 @@
-package net.artux.nextcrm.repository;
+package net.artux.nextcrm.repository.settings;
 
 import net.artux.nextcrm.model.user.UserEntity;
+import net.artux.nextcrm.repository.CRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;

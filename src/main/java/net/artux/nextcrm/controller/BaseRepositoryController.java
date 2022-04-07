@@ -1,27 +1,25 @@
 package net.artux.nextcrm.controller;
 
 import net.artux.nextcrm.model.BaseEntity;
-import net.artux.nextcrm.model.CDto;
-import net.artux.nextcrm.service.CService;
+import net.artux.nextcrm.repository.CRepository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 
-public abstract class BaseEntityController<D extends CDto, // DTO на создание и редактирование
-        V extends CDto, // DTO на просмотр
-        E extends BaseEntity, // Основная сущность
-        S extends CService<E, D, V>> extends BaseController{
+public abstract class BaseRepositoryController<E extends BaseEntity, // Основная сущность
+        S extends CRepository<E>> extends BaseController{
 
     public final String folder;
-    private final S service;
-    public Class<D> dClass;
+    private final S repository;
+    public Class<E> dClass;
 
-    public BaseEntityController(String pageTitle, String folder, S service) {
+    public BaseRepositoryController(String pageTitle, String folder, S repository) {
         super(pageTitle);
         this.folder = folder;
-        this.service = service;
-        dClass = (Class<D>) ((ParameterizedType) getClass()
+        this.repository = repository;
+        dClass = (Class<E>) ((ParameterizedType) getClass()
                 .getGenericSuperclass()).getActualTypeArguments()[0];
     }
 
@@ -38,37 +36,49 @@ public abstract class BaseEntityController<D extends CDto, // DTO на созд�
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(@ModelAttribute D object, Model model){
-        service.create(object);
+    public String create(@ModelAttribute E object, Model model){
+        repository.save(object);
         return getHome(model);
     }
 
     @Override
     @GetMapping
     public String getHome(Model model){
-        var list = service.readAll();
+        var list = repository.findAll();
         model.addAttribute("objects", list);
         return pageWithContent(folder + "/view", model);
     }
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
     public String edit(Model model, @PathVariable Long id){
-        V v = service.read(id);
+        E v = repository.findById(id).orElseThrow();
+
         model.addAttribute("object", v);
         return pageWithContent(folder + "/edit", model);
     }
 
     @PostMapping
     @RequestMapping(value = "/{id}/update", method = RequestMethod.POST)
-    public Object update(@ModelAttribute D dto, @PathVariable Long id, Model model){
-        service.update(id, dto);
+    public Object update(@ModelAttribute E dto, @PathVariable Long id, Model model) throws IllegalAccessException {
+        E v = repository.findById(id).orElseThrow();
+        for (Field f :
+                v.getClass().getDeclaredFields()) {
+            f.setAccessible(true);
+            f.set(v, f.get(dto));
+        }
+        repository.save(v);
         return getHome(model);
     }
 
     @RequestMapping(value = "/{id}/remove", method = RequestMethod.GET)
     public String remove(@PathVariable Long id, Model model){
-        service.delete(id);
+        repository.deleteById(id);
         return getHome(model);
+    }
+
+    @ModelAttribute("url")
+    public String getPageUrl(){
+        return getClass().getAnnotation(RequestMapping.class).value()[0] + '/';
     }
 
 }

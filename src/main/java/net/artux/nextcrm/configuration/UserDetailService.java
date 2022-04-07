@@ -2,7 +2,7 @@ package net.artux.nextcrm.configuration;
 
 import lombok.RequiredArgsConstructor;
 import net.artux.nextcrm.model.user.UserEntity;
-import net.artux.nextcrm.repository.UsersRepository;
+import net.artux.nextcrm.repository.settings.UsersRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,6 +26,7 @@ public class UserDetailService implements UserDetailsService {
       throw new UsernameNotFoundException("Not approved");
     if (userEntity.getRole() == null)
       throw new UsernameNotFoundException("User does not have role.");
+
     List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(userEntity.getRole().getName()));
 
     return new User(userEntity.getLogin(), userEntity.getPassword(), authorities);

@@ -3,7 +3,7 @@ package net.artux.nextcrm.service.role;
 import net.artux.nextcrm.model.role.RoleDto;
 import net.artux.nextcrm.model.role.RoleEntity;
 import net.artux.nextcrm.model.role.RoleMapper;
-import net.artux.nextcrm.repository.RoleRepository;
+import net.artux.nextcrm.repository.settings.RoleRepository;
 import net.artux.nextcrm.service.AbstractService;
 import org.springframework.stereotype.Component;
 

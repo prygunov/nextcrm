@@ -21,7 +21,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   private final UserDetailService userDetailsService;
 
   private static final String[] ADMIN_LIST = {
-          "/settings", "/swagger-ui/**"
+          "/settings"
   };
 
   private static final String[] WHITE_LIST = {
@@ -38,7 +38,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/registration").not().fullyAuthenticated()
             //Доступ только для пользователей с ролью Администратор
             .antMatchers(ADMIN_LIST).hasRole("admin")
-            .antMatchers("/news").hasRole("user")
 
             .antMatchers(WHITE_LIST).permitAll()//Доступ разрешен всем пользователей
             //Все остальные страницы требуют аутентификации

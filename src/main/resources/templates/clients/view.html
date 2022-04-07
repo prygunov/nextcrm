@@ -6,7 +6,7 @@
     <tr>
         <td scope="col">Идентификатор</td>
         <td scope="col">Имя пользователя</td>
-        <td scope="col">Возраст</td>
+        <td scope="col">Дата рождения</td>
     </tr>
 
     <th:block th:each="object : ${objects}">
@@ -16,7 +16,7 @@
                 </a>
             </th>
             <td th:text="${object.name}"></td>
-            <td th:text="${object.age}"></td>
+            <td th:text="${object.birthday}"></td>
         </tr>
     </th:block>
 </table>

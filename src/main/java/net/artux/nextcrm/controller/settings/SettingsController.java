@@ -18,4 +18,8 @@ public class SettingsController extends BaseController {
         return pageWithContent("settings/menu", model);
     }
 
+    @GetMapping("/statuses")
+    public String getStatuses(Model model){
+        return pageWithContent("settings/statuses/menu", model);
+    }
 }
