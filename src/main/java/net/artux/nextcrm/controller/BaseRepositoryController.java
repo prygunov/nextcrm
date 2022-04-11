@@ -4,6 +4,7 @@ import net.artux.nextcrm.model.BaseEntity;
 import net.artux.nextcrm.repository.CRepository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -12,7 +13,7 @@ public abstract class BaseRepositoryController<E extends BaseEntity, // Осно
         S extends CRepository<E>> extends BaseController{
 
     public final String folder;
-    private final S repository;
+    protected final S repository;
     public Class<E> dClass;
 
     public BaseRepositoryController(String pageTitle, String folder, S repository) {
@@ -36,9 +37,9 @@ public abstract class BaseRepositoryController<E extends BaseEntity, // Осно
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(@ModelAttribute E object, Model model){
+    public ModelAndView create(@ModelAttribute E object, Model model){
         repository.save(object);
-        return getHome(model);
+        return new ModelAndView("redirect:" + getPageUrl());
     }
 
     @Override
@@ -67,18 +68,15 @@ public abstract class BaseRepositoryController<E extends BaseEntity, // Осно
             f.set(v, f.get(dto));
         }
         repository.save(v);
-        return getHome(model);
+        return new ModelAndView("redirect:" + getPageUrl());
     }
 
     @RequestMapping(value = "/{id}/remove", method = RequestMethod.GET)
-    public String remove(@PathVariable Long id, Model model){
+    public ModelAndView remove(@PathVariable Long id, Model model){
         repository.deleteById(id);
-        return getHome(model);
+        return new ModelAndView("redirect:" + getPageUrl());
     }
 
-    @ModelAttribute("url")
-    public String getPageUrl(){
-        return getClass().getAnnotation(RequestMapping.class).value()[0] + '/';
-    }
+
 
 }

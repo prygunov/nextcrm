@@ -28,6 +28,6 @@ public class UserCreateDto extends CDto {
     private String login;
 
     private boolean approved;
-    private Long role_id;
+    private Long roleId;
 
 }

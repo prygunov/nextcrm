@@ -5,6 +5,7 @@ import net.artux.nextcrm.model.CDto;
 import net.artux.nextcrm.service.CService;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.lang.reflect.ParameterizedType;
 
@@ -14,7 +15,7 @@ public abstract class BaseEntityController<D extends CDto, // DTO на созд�
         S extends CService<E, D, V>> extends BaseController{
 
     public final String folder;
-    private final S service;
+    protected final S service;
     public Class<D> dClass;
 
     public BaseEntityController(String pageTitle, String folder, S service) {
@@ -38,9 +39,9 @@ public abstract class BaseEntityController<D extends CDto, // DTO на созд�
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(@ModelAttribute D object, Model model){
+    public ModelAndView create(@ModelAttribute D object, Model model){
         service.create(object);
-        return getHome(model);
+        return new ModelAndView("redirect:" + getPageUrl());
     }
 
     @Override
@@ -53,8 +54,8 @@ public abstract class BaseEntityController<D extends CDto, // DTO на созд�
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
     public String edit(Model model, @PathVariable Long id){
-        V v = service.read(id);
-        model.addAttribute("object", v);
+        D d = service.getForEdit(id);
+        model.addAttribute("object", d);
         return pageWithContent(folder + "/edit", model);
     }
 
@@ -62,13 +63,13 @@ public abstract class BaseEntityController<D extends CDto, // DTO на созд�
     @RequestMapping(value = "/{id}/update", method = RequestMethod.POST)
     public Object update(@ModelAttribute D dto, @PathVariable Long id, Model model){
         service.update(id, dto);
-        return getHome(model);
+        return new ModelAndView("redirect:" + getPageUrl());
     }
 
     @RequestMapping(value = "/{id}/remove", method = RequestMethod.GET)
-    public String remove(@PathVariable Long id, Model model){
+    public ModelAndView remove(@PathVariable Long id, Model model){
         service.delete(id);
-        return getHome(model);
+        return new ModelAndView("redirect:" + getPageUrl());
     }
 
 }

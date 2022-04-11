@@ -21,7 +21,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   private final UserDetailService userDetailsService;
 
   private static final String[] ADMIN_LIST = {
-          "/settings"
+          "/settings", "/**"
   };
 
   private static final String[] WHITE_LIST = {
@@ -37,9 +37,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             //Доступ только для не зарегистрированных пользователей
             .antMatchers("/registration").not().fullyAuthenticated()
             //Доступ только для пользователей с ролью Администратор
-            .antMatchers(ADMIN_LIST).hasRole("admin")
+
 
             .antMatchers(WHITE_LIST).permitAll()//Доступ разрешен всем пользователей
+            .antMatchers("/orders").hasRole("orders")
+            .antMatchers("/tasks").hasRole("tasks")
+            .antMatchers("/clients").hasRole("clients")
+            .antMatchers(ADMIN_LIST).hasRole("admin")
             //Все остальные страницы требуют аутентификации
             .anyRequest().authenticated()
             .and()

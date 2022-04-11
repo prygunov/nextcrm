@@ -8,6 +8,11 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
+    @Mapping(target = "roleId", expression = "java(entity.getRole()!=null ? entity.getRole().getId() : null)")
+    @Mapping(target = "password", ignore = true)
+    @Mapping(target = "matchingPassword", ignore = true)
+    UserCreateDto dto(UserEntity entity);
+
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "role", ignore = true)
     UserEntity from(UserCreateDto dto);

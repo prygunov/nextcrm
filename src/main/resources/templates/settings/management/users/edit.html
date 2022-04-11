@@ -21,10 +21,10 @@
             <input type="checkbox" name="approved" id="approved" th:checked="${object.approved}"/>
         </div>
         <div class="form-group">
-            <select name="role_id">
+            <select name="roleId">
                 <option th:value="null">Выберете роль</option>
                 <option th:each="role : ${roles}" th:value="${role.id}"
-                        th:text="${role.name}" th:selected="${object.role == role.name}"></option>
+                        th:text="${role.name}" th:selected="${object.roleId == role.id}"></option>
             </select>
         </div>
 

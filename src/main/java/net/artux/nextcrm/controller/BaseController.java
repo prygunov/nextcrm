@@ -27,4 +27,9 @@ public abstract class BaseController {
 
     @GetMapping
     protected abstract Object getHome(Model model);
+
+    @ModelAttribute("url")
+    protected String getPageUrl(){
+        return getClass().getAnnotation(RequestMapping.class).value()[0] + '/';
+    }
 }

@@ -1,4 +1,4 @@
-package net.artux.nextcrm.repository.settings;
+package net.artux.nextcrm.repository.settings.management;
 
 import net.artux.nextcrm.model.role.RoleEntity;
 import net.artux.nextcrm.repository.CRepository;

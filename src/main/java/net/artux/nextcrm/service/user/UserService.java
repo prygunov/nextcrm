@@ -4,9 +4,9 @@ import net.artux.nextcrm.model.user.UserCreateDto;
 import net.artux.nextcrm.model.user.UserDto;
 import net.artux.nextcrm.model.user.UserEntity;
 import net.artux.nextcrm.model.user.UserMapper;
-import net.artux.nextcrm.repository.settings.UsersRepository;
+import net.artux.nextcrm.repository.settings.management.RoleRepository;
+import net.artux.nextcrm.repository.settings.management.UsersRepository;
 import net.artux.nextcrm.service.AbstractService;
-import net.artux.nextcrm.service.role.RoleService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -15,22 +15,28 @@ import java.util.List;
 @Component
 public class UserService extends AbstractService<UserEntity, UserCreateDto, UserDto, UsersRepository> {
     private final UserMapper mapper;
-    private final RoleService roleService;
+    private final RoleRepository roleRepository;
     private final UsersRepository repository;
     private final PasswordEncoder encoder;
     private final UserValidationService validationService;
 
-    UserService(UsersRepository repository, UserMapper mapper, RoleService roleService, UsersRepository repository1, PasswordEncoder encoder, UserValidationService validationService) {
+    UserService(UsersRepository repository, UserMapper mapper, RoleRepository roleRepository, UsersRepository repository1, PasswordEncoder encoder, UserValidationService validationService) {
         super(repository);
         this.mapper = mapper;
-        this.roleService = roleService;
+        this.roleRepository = roleRepository;
         this.repository = repository1;
         this.encoder = encoder;
         this.validationService = validationService;
     }
 
-    public List<UserEntity> getAllUsers() {
-        return repository.getAll();
+    public UserCreateDto register(UserCreateDto dto){
+        if (validationService.isValid(dto)) {
+            UserEntity entity = mapper.fromForRegister(dto);
+            entity.setPassword(encoder.encode(dto.getPassword()));
+            repository.save(entity);
+            return dto;
+        }
+        return dto;
     }
 
     @Override
@@ -38,10 +44,20 @@ public class UserService extends AbstractService<UserEntity, UserCreateDto, User
         if (validationService.isValid(dto)) {
             UserEntity entity = mapper.fromForRegister(dto);
             entity.setPassword(encoder.encode(dto.getPassword()));
+            entity.setApproved(dto.isApproved());
+            if (dto.getRoleId() != null)
+                entity.setRole(roleRepository.getById(dto.getRoleId()));
+            else
+                entity.setRole(null);
             repository.save(entity);
             return dto;
         }
-        return null;
+        return dto;
+    }
+
+    @Override
+    public UserCreateDto getForEdit(Long id) {
+        return mapper.dto(findById(id, "Не найден"));
     }
 
     @Override
@@ -51,8 +67,8 @@ public class UserService extends AbstractService<UserEntity, UserCreateDto, User
         entity.setFirstname(dto.getFirstname());
         entity.setLastname(dto.getLastname());
         entity.setApproved(dto.isApproved());
-        if (dto.getRole_id() != null)
-            entity.setRole(roleService.getWithId(dto.getRole_id()));
+        if (dto.getRoleId() != null)
+            entity.setRole(roleRepository.getById(dto.getRoleId()));
         else
             entity.setRole(null);
         repository.save(entity);

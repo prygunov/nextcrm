@@ -1,4 +1,4 @@
-package net.artux.nextcrm.controller.users;
+package net.artux.nextcrm.controller.settings.management.users;
 
 import lombok.RequiredArgsConstructor;
 import net.artux.nextcrm.model.user.UserCreateDto;
@@ -25,7 +25,7 @@ public class RegistrationController {
 
     @PostMapping
     public String registerUser(@ModelAttribute UserCreateDto user, Model model){
-        userService.create(user);
+        userService.register(user);
         model.addAttribute("success", true);
         return "auth/login";
     }

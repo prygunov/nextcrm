@@ -1,0 +1,37 @@
+<div>
+    <form th:attr="action=${object.id == null} ? ${url} + 'create' :  ${url} + ${object.id} +  '/update'"
+          th:object="${object}" method="post">
+
+        <input type="hidden" name="id" th:value="${object.id == null} ? 0 : ${object.id}" />
+
+        <div class="form-group">
+            <label for="name" class="form-control"><b>Название</b></label>
+            <input type="text" class="form-text" name="name" id="name" required th:value="${object.name}">
+        </div>
+        <div class="form-group">
+            <label for="price" class="form-control"><b>Цена</b></label>
+            <input type="number" class="form-number" name="price" id="price" required th:value="${object.price}">
+        </div>
+        <div class="form-group">
+            <label for="photo" class="form-control"><b>Ссылка на фото</b></label>
+            <input type="text" class="form-text" name="photo" id="photo" required th:value="${object.photo}">
+        </div>
+        <div class="form-group">
+            <label for="code" class="form-control"><b>Арктикул</b></label>
+            <input type="text" class="form-text" name="code" id="code" required th:value="${object.code}">
+        </div>
+        <div class="form-group">
+            <select name="categoryId">
+                <option th:value="null">Выберете категорию</option>
+                <option th:each="category : ${categories}" th:value="${category.id}"
+                        th:text="${category.name}" th:selected="${object.categoryId == category.id}"></option>
+            </select>
+        </div>
+        <hr>
+        <button type="submit" name="action" class="btn btn-primary">Сохранить</button>
+    </form>
+    <div th:if="${object.id != null}">
+        <a class="btn btn-primary" role="button" th:href="@{${url} + ${object.id} +  '/remove'}">Удалить</a>
+    </div>
+
+</div>

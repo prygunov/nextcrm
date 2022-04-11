@@ -11,6 +11,8 @@ public interface CService<E extends BaseEntity,
 
     D create(D dto);
 
+    D getForEdit(Long id);
+
     D update(Long id, D dto);
 
     V read(Long id);

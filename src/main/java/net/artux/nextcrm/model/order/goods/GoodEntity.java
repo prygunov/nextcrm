@@ -20,7 +20,7 @@ import javax.persistence.Table;
 public class GoodEntity extends BaseEntity {
 
     @ManyToOne
-    private CategoryEntity categoryEntity;
+    private CategoryEntity category;
 
     private String name;
     private String code;

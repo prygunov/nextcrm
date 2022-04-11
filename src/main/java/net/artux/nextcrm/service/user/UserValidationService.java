@@ -2,7 +2,7 @@ package net.artux.nextcrm.service.user;
 
 import lombok.RequiredArgsConstructor;
 import net.artux.nextcrm.model.user.UserCreateDto;
-import net.artux.nextcrm.repository.settings.UsersRepository;
+import net.artux.nextcrm.repository.settings.management.UsersRepository;
 import org.springframework.stereotype.Component;
 
 @Component

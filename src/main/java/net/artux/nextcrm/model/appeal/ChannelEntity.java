@@ -1,26 +1,24 @@
-package net.artux.nextcrm.model.order.goods;
+package net.artux.nextcrm.model.appeal;
 
 import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.artux.nextcrm.model.BaseEntity;
 import net.artux.nextcrm.model.client.ClientEntity;
-import net.artux.nextcrm.model.order.OrderStatusEntity;
+import net.artux.nextcrm.model.client.PotentialClientEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.util.Date;
 
 @Data
 @Getter
 @RequiredArgsConstructor
-@Table(name = "good_category")
+@Table(name = "channel")
 @Entity
-public class CategoryEntity extends BaseEntity {
+public class ChannelEntity extends BaseEntity {
 
-    @ManyToOne
-    private CategoryEntity parent;
     private String name;
     private String description;
 
