@@ -66,7 +66,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     builder.userDetailsService(userDetailsService);
     builder.inMemoryAuthentication()
             .withUser("admin")
-            .password(new BCryptPasswordEncoder().encode("admin")).roles("admin");
+            .password(new BCryptPasswordEncoder().encode("admin")).roles("admin","clients", "tasks", "orders");
   }
 
   @Bean
