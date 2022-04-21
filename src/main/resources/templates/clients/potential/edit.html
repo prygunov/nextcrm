@@ -1,0 +1,29 @@
+<div>
+    <form th:attr="action=${object.id == null} ? ${url} + 'create' :  ${url} + ${object.id} +  '/update'"
+          th:object="${object}" method="post">
+
+        <input type="hidden" name="id" th:value="${object.id == null} ? 0 : ${object.id}" />
+
+        <div class="form-group">
+            <label for="name" class="form-control"><b>Имя</b></label>
+            <input type="text" class="form-text" name="name" id="name" required th:value="${object.name}">
+        </div>
+
+        <div class="form-group">
+            <label for="phone" class="form-control"><b>Номер телефона</b></label>
+            <input type="tel" class="form-text" name="phone" id="phone" required th:value="${object.phone}">
+        </div>
+
+        <div class="form-group">
+            <label for="email" class="form-control"><b>Эл. почта</b></label>
+            <input type="email" class="form-text" name="email" id="email" required th:value="${object.email}">
+        </div>
+
+        <hr>
+        <button type="submit" name="action" class="btn btn-primary">Сохранить</button>
+    </form>
+    <div th:if="${object.id != null}">
+        <a class="btn btn-primary" role="button" th:href="@{${url} + ${object.id} +  '/remove'}">Удалить</a>
+    </div>
+
+</div>

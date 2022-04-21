@@ -1,0 +1,70 @@
+<div>
+    <form th:attr="action=${object.id == null} ? ${url} + 'createPotential' :  ${url} + ${object.id} +  '/update'"
+          th:object="${object}" method="post">
+
+        <input type="hidden" name="id" th:value="${object.id == null} ? 0 : ${object.id}" />
+
+        <div class="form-group">
+            <select name="status">
+                <option th:value="null">Статус</option>
+                <option th:each="status : ${statuses}" th:value="${status.id}"
+                        th:text="${status.name}" th:selected="${object.status?.id == status.id}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="subject" class="form-control"><b>Предмет обращения</b></label>
+            <input type="text" class="form-text" name="subject" id="subject" required th:value="${object.subject}">
+        </div>
+
+        <div class="form-group">
+            <label for="content" class="form-control"><b>Содержание</b></label>
+            <input type="text" class="form-text" name="content" id="content" required th:value="${object.content}">
+        </div>
+
+        <div th:if="${object.id == null}">
+            <div class="form-group">
+                <label for="appeal" class="form-control"><b>Клиент</b></label>
+                <select name="appeal" id="appeal">
+                    <option th:value="null">Отсутствует</option>
+                    <option th:each="client : ${clients}" th:value="${client.id}"
+                            th:text="@{${client.name} + ' ' + ${client.lastname}}" th:selected="${object.client?.id == client.id}"></option>
+                </select>
+            </div>
+
+            <p>Если клиент не выбран, будет создан потенциальный из формы ниже</p>
+
+            <div class="form-group">
+                <label for="name" class="form-control"><b>Имя</b></label>
+                <input type="text" class="form-text" name="potentialClient.name" id="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone" class="form-control"><b>Номер телефона</b></label>
+                <input type="tel" class="form-text" name="potentialClient.phone" id="phone">
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="form-control"><b>Эл. почта</b></label>
+                <input type="email" class="form-text" name="potentialClient.email" id="email">
+            </div>
+
+        </div>
+        <div th:if="${object.client != null}">
+            <p th:text="@{'Обращение поступило от клиента ' + ${object.client.name} + ' ' + ${object.client.lastname}}"></p>
+            <a class="btn btn-primary" role="button" th:href="@{'/clients/' + ${object.client.id} +  '/edit'}">Перейти к клиенту</a>
+        </div>
+
+        <div th:if="${object.potentialClient != null}">
+            <p th:text="@{'Обращение поступило от потенциального клиента ' + ${object.potentialClient.name}}"></p>
+            <a class="btn btn-primary" role="button" th:href="@{'/potential/' + ${object.potentialClient.id} +  '/edit'}">Перейти к потенциальному клиенту</a>
+        </div>
+
+        <button type="submit" name="action" class="btn btn-primary">Сохранить</button>
+    </form>
+    <div th:if="${object.id != null}">
+        <a class="btn btn-primary" role="button" th:href="@{${url} + ${object.id} +  '/remove'}">Удалить обращение</a>
+    </div>
+
+
+</div>

@@ -10,6 +10,7 @@ import net.artux.nextcrm.model.order.OrderEntity;
 import net.artux.nextcrm.model.order.OrderStatusEntity;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.Date;
@@ -22,12 +23,16 @@ import java.util.Date;
 public class DeliveryEntity extends BaseEntity {
 
     @OneToOne
-    private DeliveryStatusEntity client;
+    private DeliveryTypeEntity type;
+
+    @ManyToOne
+    private DeliveryStatusEntity status;
+
     @OneToOne
     private OrderEntity order;
-    @OneToOne
+
+    @ManyToOne
     private AddressEntity address;
     private Date date;
-
     private String information;
 }

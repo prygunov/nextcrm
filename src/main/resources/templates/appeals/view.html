@@ -1,0 +1,31 @@
+<a th:href="@{${url} + 'create'}">
+    <button type="button" class="btn btn-primary">Новое обращение</button>
+</a>
+
+<table class="table">
+    <tr>
+        <td scope="col">Идентификатор</td>
+        <td scope="col">Время</td>
+        <td scope="col">Статус</td>
+        <td scope="col">Предмет обращения</td>
+        <td scope="col">Клиент</td>
+    </tr>
+
+    <th:block th:each="object : ${objects}">
+        <tr class='clickable-row' th:data-href="@{${url} + ${object.id} +'/edit'}">
+            <th scope="row">
+                <a th:text="${object.id}">
+                </a>
+            </th>
+            <td th:text="${object.time}"></td>
+            <td th:text="${object.status?.name}"></td>
+            <td th:text="${object.subject}"></td>
+            <td th:if= "${object.client != null}">
+                <p th:text="@{${object.client.name} + ' ' + ${object.client.lastname}}"></p>
+            </td>
+            <td th:if="${object.potentialClient != null}">
+                    <p th:text="${object.potentialClient.name}"></p>
+            </td>
+        </tr>
+    </th:block>
+</table>

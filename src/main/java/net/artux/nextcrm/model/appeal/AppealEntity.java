@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import net.artux.nextcrm.model.BaseEntity;
 import net.artux.nextcrm.model.client.ClientEntity;
 import net.artux.nextcrm.model.client.PotentialClientEntity;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -25,6 +26,8 @@ public class AppealEntity extends BaseEntity {
     private ChannelEntity channel;
     private String subject;
     private String content;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date time;
     @ManyToOne
     private ClientEntity client;

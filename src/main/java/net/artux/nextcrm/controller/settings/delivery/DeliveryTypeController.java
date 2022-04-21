@@ -1,0 +1,19 @@
+package net.artux.nextcrm.controller.settings.delivery;
+
+import net.artux.nextcrm.controller.BaseRepositoryController;
+import net.artux.nextcrm.model.appeal.AppealStatusEntity;
+import net.artux.nextcrm.model.order.delivery.DeliveryTypeEntity;
+import net.artux.nextcrm.repository.DeliveryTypeRepository;
+import net.artux.nextcrm.repository.settings.statuses.AppealStatusRepository;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("/settings/delivery")
+public class DeliveryTypeController extends BaseRepositoryController<DeliveryTypeEntity, DeliveryTypeRepository> {
+
+    public DeliveryTypeController(DeliveryTypeRepository repository){
+        super("Доставка - Типы", "settings/delivery", repository);
+    }
+
+}
