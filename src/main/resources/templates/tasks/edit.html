@@ -2,63 +2,100 @@
     <form th:attr="action=${object.id == null} ? ${url} + 'create' :  ${url} + ${object.id} +  '/update'"
           th:object="${object}" method="post">
 
-        <input type="hidden" name="id" th:value="${object.id == null} ? 0 : ${object.id}" />
+        <input type="hidden" name="id" th:value="${object.id == null} ? 0 : ${object.id}"/>
+
+
+        <div th:if="${object.id != null}">
+            <h3 th:text="@{'Задача ' + ${object.id}}"></h3>
+            <label for="time"><b>Время начала</b></label>
+            <input type="datetime-local" name="time" id="time" class="form-control" th:field="*{time}" readonly/>
+        </div>
+        <div th:if="${object.id == null}">
+            <h3>Новая задача </h3>
+        </div>
+        <hr>
 
         <div class="form-group">
-            <select name="status">
-                <option th:value="null">Статус</option>
+            <label for="status"><b>Статус</b></label>
+            <select name="status" id="status" class="form-control">
+                <option th:value="null">Не задан</option>
                 <option th:each="status : ${statuses}" th:value="${status.id}"
                         th:text="${status.name}" th:selected="${object.status?.id == status.id}"></option>
             </select>
         </div>
 
         <div class="form-group">
-            <label for="name" class="form-control"><b>Название</b></label>
-            <input type="text" class="form-text" name="name" id="name" required th:value="${object.name}">
+            <label for="name"><b>Название</b></label>
+            <input type="text" class="form-control" name="name" id="name" required th:value="${object.name}">
         </div>
 
         <div class="form-group">
-            <label for="content" class="form-control"><b>Содержание задачи</b></label>
-            <input type="text" class="form-text" name="content" id="content" required th:value="${object.description}">
+            <label for="description"><b>Содержание задачи</b></label>
+            <textarea type="text" class="form-control" name="description" id="description" required
+                      th:text="${object.description}" rows="4"></textarea>
         </div>
 
         <div class="form-group">
-            <label for="deadline">Срок выполнения</label>
-            <input type="date" name="deadline" id="deadline" th:value="${{object.deadline}}"/>
+            <label for="deadline"><b>Срок выполнения</b></label>
+            <input type="date" name="deadline" class="form-control" id="deadline" th:value="${{object.deadline}}"/>
         </div>
 
         <div class="form-group">
-            <select name="employee">
-                <option th:value="null">Ответственный за выполнение</option>
+            <label for="employee"><b>Ответственный за выполнение</b></label>
+            <select name="employee" id="employee" class="form-control">
+                <option th:value="null">Не задан</option>
                 <option th:each="employee : ${employees}" th:value="${employee.id}"
                         th:text="${employee.login}" th:selected="${object.employee?.id == employee.id}"></option>
             </select>
         </div>
         <div th:if="${object.id == null}">
             <div class="form-group">
-                <select name="appeal">
-                    <option th:value="null">Связанное обращение</option>
+                <label for="appeal"><b>Связанное обращение</b></label>
+                <select name="appeal" id="appeal" class="form-control">
+                    <option th:value="null">Не задано</option>
                     <option th:each="appeal : ${appeals}" th:value="${appeal.id}"
                             th:text="${appeal.subject}" th:selected="${object.appeal?.id == appeal.id}"></option>
                 </select>
             </div>
 
             <div class="form-group">
-                <select name="order">
-                    <option th:value="null">Связанный заказ</option>
+                <label for="order"><b>Связанный заказ</b></label>
+                <select name="order" id="order" class="form-control">
+                    <option th:value="null">Не задан</option>
                     <option th:each="order : ${orders}" th:value="${order.id}"
                             th:text="@{'Заказ ' + ${order.id}}" th:selected="${object.order?.id == order.id}"></option>
                 </select>
             </div>
         </div>
         <div th:if="${object.id != null}">
-            <a th:if="${object.appeal != null}" class="btn btn-primary" role="button" th:href="@{'/appeals/'+ ${object.appeal.id} +  '/edit'}">К связанному обращению</a>
-            <a th:if="${object.order != null}" class="btn btn-primary" role="button" th:href="@{'/orders/'+ ${object.order.id} +  '/edit'}">К связанному заказу</a>
+            <a th:if="${object.appeal != null}" class="btn btn-primary" role="button"
+               th:href="@{'/appeals/'+ ${object.appeal.id} +  '/edit'}">К связанному обращению</a>
+            <a th:if="${object.order != null}" class="btn btn-primary" role="button"
+               th:href="@{'/orders/'+ ${object.order.id} +  '/edit'}">К связанному заказу</a>
         </div>
+        <br>
         <button type="submit" name="action" class="btn btn-primary">Сохранить</button>
     </form>
     <div th:if="${object.id != null}">
         <a class="btn btn-primary" role="button" th:href="@{${url} + ${object.id} +  '/remove'}">Удалить</a>
+
+        <hr>
+
+        <h3>Комментарии</h3>
+        <a class="btn btn-primary" role="button"
+           th:href="@{'/tasks/comments/create?taskId='+ ${object.id}}">Добавить</a>
+
+        <th:block th:each="comment : ${object.comments}">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${comment.author.login}"></h5>
+                    <h6 class="card-subtitle mb-2 text-muted" th:text="${comment.time}"></h6>
+                    <p class="card-text" th:text="${comment.content}"></p>
+                </div>
+            </div>
+        </th:block>
+        <hr>
+
     </div>
 
 </div>

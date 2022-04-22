@@ -1,6 +1,6 @@
 package net.artux.nextcrm.controller.clients;
 
-import net.artux.nextcrm.controller.BaseRepositoryController;
+import net.artux.nextcrm.controller.util.BaseRepositoryController;
 import net.artux.nextcrm.model.client.ClientEntity;
 import net.artux.nextcrm.repository.ClientRepository;
 import org.springframework.stereotype.Controller;

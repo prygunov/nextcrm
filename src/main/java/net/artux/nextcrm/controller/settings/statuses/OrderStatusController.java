@@ -1,6 +1,6 @@
 package net.artux.nextcrm.controller.settings.statuses;
 
-import net.artux.nextcrm.controller.BaseRepositoryController;
+import net.artux.nextcrm.controller.util.BaseRepositoryController;
 import net.artux.nextcrm.model.order.OrderStatusEntity;
 import net.artux.nextcrm.repository.settings.statuses.OrderStatusRepository;
 import org.springframework.stereotype.Controller;

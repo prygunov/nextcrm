@@ -1,6 +1,6 @@
 package net.artux.nextcrm.controller.appeals;
 
-import net.artux.nextcrm.controller.BaseRepositoryController;
+import net.artux.nextcrm.controller.util.BaseRepositoryController;
 import net.artux.nextcrm.model.appeal.AppealEntity;
 import net.artux.nextcrm.model.appeal.AppealStatusEntity;
 import net.artux.nextcrm.repository.AppealsRepository;

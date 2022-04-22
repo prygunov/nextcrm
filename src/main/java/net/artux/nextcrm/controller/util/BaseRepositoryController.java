@@ -1,4 +1,4 @@
-package net.artux.nextcrm.controller;
+package net.artux.nextcrm.controller.util;
 
 import net.artux.nextcrm.model.BaseEntity;
 import net.artux.nextcrm.repository.CRepository;
@@ -76,7 +76,5 @@ public abstract class BaseRepositoryController<E extends BaseEntity, // Осно
         repository.deleteById(id);
         return new ModelAndView("redirect:" + getPageUrl());
     }
-
-
 
 }

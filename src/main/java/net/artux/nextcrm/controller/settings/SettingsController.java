@@ -1,6 +1,6 @@
 package net.artux.nextcrm.controller.settings;
 
-import net.artux.nextcrm.controller.BaseController;
+import net.artux.nextcrm.controller.util.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

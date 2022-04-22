@@ -11,8 +11,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.Date;
+import java.util.List;
 
 @Table(name = "task")
 @Data
@@ -25,9 +27,9 @@ public class TaskEntity extends BaseEntity {
     private TaskStatusEntity status;
     private String name;
     private String description;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date time;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date deadline;
     @ManyToOne
     private UserEntity employee;
@@ -36,5 +38,8 @@ public class TaskEntity extends BaseEntity {
     private AppealEntity appeal;
     @ManyToOne
     private OrderEntity order;
+
+    @OneToMany
+    private List<TaskCommentEntity> comments;
 
 }

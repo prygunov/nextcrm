@@ -1,4 +1,4 @@
-package net.artux.nextcrm.controller;
+package net.artux.nextcrm.controller.util;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;

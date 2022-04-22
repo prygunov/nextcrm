@@ -1,6 +1,6 @@
 package net.artux.nextcrm.controller.settings.goods;
 
-import net.artux.nextcrm.controller.BaseEntityController;
+import net.artux.nextcrm.controller.util.BaseEntityController;
 import net.artux.nextcrm.model.order.goods.CategoryDto;
 import net.artux.nextcrm.model.order.goods.CategoryEntity;
 import net.artux.nextcrm.service.orders.CategoriesService;

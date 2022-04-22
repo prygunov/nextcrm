@@ -1,12 +1,16 @@
-<a th:href="@{/clients/create}">
+
+<a th:href="@{/orders/create}">
     <button type="button" class="btn btn-primary">Новый заказ</button>
 </a>
+
+<div th:insert="orders/filter"></div>
 
 <table class="table">
     <tr>
         <td scope="col">Номер</td>
         <td scope="col">Время</td>
         <td scope="col">Статус</td>
+        <td scope="col">Менеджер</td>
         <td scope="col">Клиент</td>
     </tr>
 
@@ -18,7 +22,8 @@
             </th>
             <td th:text="${object.time}"></td>
             <td th:text="${object.status}"></td>
-            <td th:text="${object.client}"></td>
+            <td th:text="${object.employee?.name}"></td>
+            <td th:text="@{${object.client?.name} + ' '+ ${object.client?.lastname}}"></td>
         </tr>
     </th:block>
 </table>

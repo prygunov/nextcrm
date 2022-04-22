@@ -9,6 +9,7 @@ import net.artux.nextcrm.model.order.delivery.DeliveryEntity;
 import net.artux.nextcrm.model.order.goods.GoodEntity;
 import net.artux.nextcrm.model.order.payment.PaymentEntity;
 import net.artux.nextcrm.model.user.UserEntity;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -22,9 +23,7 @@ import java.util.List;
 @Data
 @Getter
 @RequiredArgsConstructor
-@Table(name = "app_order")
-@Entity
-public class OrderEntity extends BaseEntity {
+public class OrderFilter extends BaseEntity {
 
     @OneToOne
     private ClientEntity client;
@@ -33,14 +32,10 @@ public class OrderEntity extends BaseEntity {
 
     @OneToOne
     private DeliveryEntity delivery;
-    @OneToMany
-    private List<PaymentEntity> payments;
 
     @ManyToOne
     private UserEntity employee;
 
-    @ManyToMany
-    private List<GoodEntity> goodEntityList;
-    private Date time;
-    private String comment;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date date;
 }

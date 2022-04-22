@@ -1,4 +1,4 @@
-package net.artux.nextcrm.controller;
+package net.artux.nextcrm.controller.util;
 
 import net.artux.nextcrm.model.BaseEntity;
 import net.artux.nextcrm.model.CDto;

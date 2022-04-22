@@ -21,7 +21,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   private final UserDetailService userDetailsService;
 
   private static final String[] ADMIN_LIST = {
-          "/settings", "/**"
+          "/settings"
   };
 
   private static final String[] WHITE_LIST = {
@@ -40,10 +40,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
             .antMatchers(WHITE_LIST).permitAll()//Доступ разрешен всем пользователей
-            .antMatchers("/orders").hasRole("orders")
-            .antMatchers("/tasks").hasRole("tasks")
-            .antMatchers("/clients").hasRole("clients")
-            .antMatchers(ADMIN_LIST).hasRole("admin")
+            .antMatchers("/orders").hasAuthority("orders")
+            .antMatchers("/tasks").hasAuthority("tasks")
+            .antMatchers("/clients").hasAuthority("clients")
+            .antMatchers(ADMIN_LIST).hasAuthority("admin")
             //Все остальные страницы требуют аутентификации
             .anyRequest().authenticated()
             .and()
@@ -66,7 +66,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     builder.userDetailsService(userDetailsService);
     builder.inMemoryAuthentication()
             .withUser("admin")
-            .password(new BCryptPasswordEncoder().encode("admin")).roles("admin","clients", "tasks", "orders");
+            .password(new BCryptPasswordEncoder().encode("admin")).authorities("admin","clients", "tasks", "orders");
   }
 
   @Bean

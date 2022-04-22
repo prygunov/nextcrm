@@ -1,6 +1,6 @@
 package net.artux.nextcrm.controller.tasks;
 
-import net.artux.nextcrm.controller.BaseRepositoryController;
+import net.artux.nextcrm.controller.util.BaseRepositoryController;
 import net.artux.nextcrm.model.appeal.AppealEntity;
 import net.artux.nextcrm.model.order.OrderEntity;
 import net.artux.nextcrm.model.task.TaskEntity;

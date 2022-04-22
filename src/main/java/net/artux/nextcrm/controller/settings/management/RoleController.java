@@ -1,6 +1,6 @@
 package net.artux.nextcrm.controller.settings.management;
 
-import net.artux.nextcrm.controller.BaseRepositoryController;
+import net.artux.nextcrm.controller.util.BaseRepositoryController;
 import net.artux.nextcrm.model.role.RoleEntity;
 import net.artux.nextcrm.repository.settings.management.RoleRepository;
 import org.springframework.stereotype.Controller;
