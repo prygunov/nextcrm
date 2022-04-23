@@ -2,7 +2,7 @@ package net.artux.nextcrm.controller.clients;
 
 import net.artux.nextcrm.controller.util.BaseRepositoryController;
 import net.artux.nextcrm.model.client.PotentialClientEntity;
-import net.artux.nextcrm.repository.PotentialClientRepository;
+import net.artux.nextcrm.repository.clients.PotentialClientRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 

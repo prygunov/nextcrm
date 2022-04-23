@@ -4,7 +4,7 @@ import net.artux.nextcrm.controller.util.BaseRepositoryController;
 import net.artux.nextcrm.model.appeal.AppealEntity;
 import net.artux.nextcrm.model.appeal.AppealStatusEntity;
 import net.artux.nextcrm.repository.AppealsRepository;
-import net.artux.nextcrm.repository.PotentialClientRepository;
+import net.artux.nextcrm.repository.clients.PotentialClientRepository;
 import net.artux.nextcrm.repository.settings.statuses.AppealStatusRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

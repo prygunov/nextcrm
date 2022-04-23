@@ -30,11 +30,23 @@
                     <label for="type"><b>Тип доставки</b></label>
                     <select name="delivery.type" id="type" class="form-control">
                         <option th:value="null">Не задан</option>
-                        <option th:each="type : ${types}" th:value="${category.id}"
+                        <option th:each="type : ${deliveryTypes}" th:value="${category.id}"
                                 th:text="${type.name}" th:selected="${object.delivery?.type?.id == type.id}"></option>
                     </select>
                 </div>
             </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="deliveryStatus"><b>Статус доставки</b></label>
+                    <select name="delivery.status" id="deliveryStatus" class="form-control">
+                        <option th:value="null">Не задан</option>
+                        <option th:each="status : ${deliveryStatuses}" th:value="${category.id}"
+                                th:text="${status.name}"
+                                th:selected="${object.delivery?.status?.id == status.id}"></option>
+                    </select>
+                </div>
+            </div>
+
             <div class="col">
                 <div class="form-group">
                     <label for="deliveryStatus"><b>Статус доставки</b></label>

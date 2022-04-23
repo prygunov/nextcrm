@@ -9,57 +9,34 @@ import net.artux.nextcrm.model.order.delivery.DeliveryEntity;
 import net.artux.nextcrm.model.order.goods.GoodEntity;
 import net.artux.nextcrm.model.order.payment.PaymentEntity;
 import net.artux.nextcrm.model.user.UserEntity;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
 @Data
 @Getter
 @RequiredArgsConstructor
-@Table(name = "app_order")
+@Table(name = "order_event")
 @Entity
-public class OrderEntity extends BaseEntity {
-
-    @OneToOne
-    private ClientEntity client;
-
-    @OneToOne
-    private OrderStatusEntity status;
-
-    @OneToOne
-    private DeliveryEntity delivery;
-
-    @OneToMany
-    private List<PaymentEntity> payments;
+public class OrderEventEntity extends BaseEntity {
 
     @ManyToOne
-    private UserEntity employee;
-
-    @ManyToMany
-    private List<GoodEntity> goodEntityList;
-
+    @NotNull
+    private OrderEntity order;
+    @ManyToOne
+    @NotNull
+    private UserEntity author;
+    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private Date time = new Date();
+    private Date time;
+    private String content;
 
-    private String comment;
-
-    @OneToMany
-    @JoinColumn(name = "order_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<OrderEventEntity> events;
-
-    @OneToMany
-    @JoinColumn(name = "order_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<CallEntity> calls;
 }

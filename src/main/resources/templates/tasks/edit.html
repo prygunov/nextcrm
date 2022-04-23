@@ -14,20 +14,44 @@
             <h3>Новая задача </h3>
         </div>
         <hr>
+        <div class="row">
+            <div class="col">
 
-        <div class="form-group">
-            <label for="status"><b>Статус</b></label>
-            <select name="status" id="status" class="form-control">
-                <option th:value="null">Не задан</option>
-                <option th:each="status : ${statuses}" th:value="${status.id}"
-                        th:text="${status.name}" th:selected="${object.status?.id == status.id}"></option>
-            </select>
+                <div class="form-group">
+                    <label for="status"><b>Статус</b></label>
+                    <select name="status" id="status" class="form-control">
+                        <option th:value="null">Не задан</option>
+                        <option th:each="status : ${statuses}" th:value="${status.id}"
+                                th:text="${status.name}" th:selected="${object.status?.id == status.id}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="name"><b>Название</b></label>
+                    <input type="text" class="form-control" name="name" id="name" required th:value="${object.name}">
+                </div>
+
+            </div>
+
+            <div class="col">
+
+                <div class="form-group">
+                    <label for="deadline"><b>Срок выполнения</b></label>
+                    <input type="datetime-local" name="deadline" class="form-control" id="deadline" th:value="${{object.deadline}}"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="employee"><b>Ответственный за выполнение</b></label>
+                    <select name="employee" id="employee" class="form-control">
+                        <option th:value="null">Не задан</option>
+                        <option th:each="employee : ${employees}" th:value="${employee.id}"
+                                th:text="${employee.login}" th:selected="${object.employee?.id == employee.id}"></option>
+                    </select>
+                </div>
+
+            </div>
         </div>
 
-        <div class="form-group">
-            <label for="name"><b>Название</b></label>
-            <input type="text" class="form-control" name="name" id="name" required th:value="${object.name}">
-        </div>
 
         <div class="form-group">
             <label for="description"><b>Содержание задачи</b></label>
@@ -35,19 +59,7 @@
                       th:text="${object.description}" rows="4"></textarea>
         </div>
 
-        <div class="form-group">
-            <label for="deadline"><b>Срок выполнения</b></label>
-            <input type="date" name="deadline" class="form-control" id="deadline" th:value="${{object.deadline}}"/>
-        </div>
 
-        <div class="form-group">
-            <label for="employee"><b>Ответственный за выполнение</b></label>
-            <select name="employee" id="employee" class="form-control">
-                <option th:value="null">Не задан</option>
-                <option th:each="employee : ${employees}" th:value="${employee.id}"
-                        th:text="${employee.login}" th:selected="${object.employee?.id == employee.id}"></option>
-            </select>
-        </div>
         <div th:if="${object.id == null}">
             <div class="form-group">
                 <label for="appeal"><b>Связанное обращение</b></label>
@@ -83,16 +95,18 @@
 
         <h3>Комментарии</h3>
         <a class="btn btn-primary" role="button"
-           th:href="@{'/tasks/comments/create?taskId='+ ${object.id}}">Добавить</a>
+           th:href="@{'/tasks/comments/auto/create?taskId='+ ${object.id}}">Добавить</a>
 
         <th:block th:each="comment : ${object.comments}">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title" th:text="${comment.author.login}"></h5>
+                    <h5 class="card-title" ><a th:href="@{'/settings/management/users/'+ ${comment.author?.id} + '/edit'}" th:text="${comment.author?.login}"></a></h5>
                     <h6 class="card-subtitle mb-2 text-muted" th:text="${comment.time}"></h6>
                     <p class="card-text" th:text="${comment.content}"></p>
+                    <a th:href="@{'/tasks/comments/'+ ${comment.id} + '/edit'}">Редактировать</a>
                 </div>
             </div>
+            <br>
         </th:block>
         <hr>
 

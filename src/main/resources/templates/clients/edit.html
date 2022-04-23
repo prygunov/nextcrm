@@ -4,22 +4,27 @@
           th:object="${object}" method="post">
         <div class="form-group">
             <label for="name"><b>Имя</b></label>
-            <input type="text" name="name" id="name" required th:value="${object.name}">
+            <input type="text" class="form-control" th:field="*{name}">
         </div>
         <div class="form-group">
             <label for="lastname"><b>Фамилия</b></label>
-            <input type="text" name="lastname" id="lastname" th:value="${object.lastname}">
+            <input type="text" class="form-control" th:field="*{lastname}">
         </div>
         <div class="form-group">
             <label for="phone"><b>Телефон</b></label>
-            <input type="text" name="phone" id="phone" required th:value="${object.phone}">
+            <input type="tel" class="form-control" th:field="*{phone}">
+        </div>
+        <div class="form-group">
+            <label for="email"><b>Почта</b></label>
+            <input type="tel" class="form-control" th:field="*{email}">
         </div>
         <div class="form-group">
             <label for="birthday">Дата рождения</label>
-            <input type="date" name="birthday" id="birthday" th:value="${{object.birthday}}"/>
+            <input type="date" class="form-control" th:field="*{birthday}"/>
         </div>
         <div class="form-group">
-            <select name="sex">
+            <label for="sex">Пол</label>
+            <select name="sex" class="form-control" id="sex">
                 <option th:each="sex : ${T(net.artux.nextcrm.model.client.Sex).values()}"
                         th:value="${sex}" th:text="${sex}" th:selected="${object.sex == sex}">
                 </option>
@@ -27,14 +32,37 @@
         </div>
         <div class="form-group">
             <label for="information">Дополнительная информация</label>
-            <input type="text" name="information" id="information" th:value="${object.information}"/>
+            <input type="text" class="form-control" th:field="*{information}"/>
         </div>
-        <input type="submit" name="action" value="Сохранить"/>
+        <input type="submit" name="action" class="btn btn-primary" value="Сохранить"/>
 </div>
 </form>
 
 <div th:if="${object.id != null}">
     <a class="btn btn-primary" role="button" th:href="@{${url} + ${object.id} +  '/remove'}">Удалить</a>
 </div>
+
+<hr>
+<h4>Заказы</h4>
+<table class="table">
+    <tr>
+        <td scope="col">Номер</td>
+        <td scope="col">Время</td>
+        <td scope="col">Статус</td>
+        <td scope="col">Менеджер</td>
+    </tr>
+
+    <th:block th:each="order : ${orders}">
+        <tr class='clickable-row' th:data-href="@{/orders/{id}/edit (id = ${order.id})}">
+            <th scope="row">
+                <a th:text="${order.id}">
+                </a>
+            </th>
+            <td th:text="${order.time}"></td>
+            <td th:text="${order.status}"></td>
+            <td th:text="${order.employee?.login}"></td>
+        </tr>
+    </th:block>
+</table>
 
 </div>

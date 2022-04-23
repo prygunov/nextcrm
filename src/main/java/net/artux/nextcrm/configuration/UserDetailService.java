@@ -38,6 +38,8 @@ public class UserDetailService implements UserDetailsService {
       authorities.add(new SimpleGrantedAuthority("orders"));
     if (role.isTasks())
       authorities.add(new SimpleGrantedAuthority("tasks"));
+    if (authorities.size() == 3)
+      authorities.add(new SimpleGrantedAuthority("admin"));
     return new User(userEntity.getLogin(), userEntity.getPassword(), authorities);
   }
 }

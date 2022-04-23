@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @RequiredArgsConstructor
 public abstract class BaseController {
@@ -27,6 +28,10 @@ public abstract class BaseController {
 
     @GetMapping
     protected abstract Object getHome(Model model);
+
+    protected Object defaultPage(Model model){
+        return new ModelAndView("redirect:" + getPageUrl());
+    }
 
     @ModelAttribute("url")
     protected String getPageUrl(){

@@ -1,12 +1,7 @@
 package net.artux.nextcrm.service.orders;
 
 import net.artux.nextcrm.model.order.OrderEntity;
-import net.artux.nextcrm.model.order.goods.GoodDto;
-import net.artux.nextcrm.model.order.goods.GoodEntity;
-import net.artux.nextcrm.model.order.goods.GoodMapper;
-import net.artux.nextcrm.repository.OrdersRepository;
-import net.artux.nextcrm.repository.settings.goods.GoodsRepository;
-import net.artux.nextcrm.service.AbstractService;
+import net.artux.nextcrm.repository.orders.OrdersRepository;
 import net.artux.nextcrm.service.CService;
 import org.springframework.stereotype.Component;
 

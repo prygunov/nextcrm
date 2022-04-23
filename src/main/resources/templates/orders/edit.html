@@ -1,38 +1,38 @@
 <div class="row">
     <div class="col">
-    <form th:attr="action=${object.id == null} ? ${url} + 'create' :  ${url} + ${object.id} +  '/update'"
-          th:object="${object}" method="post">
+        <form th:attr="action=${object.id == null} ? ${url} + 'create' :  ${url} + ${object.id} +  '/update'"
+              th:object="${object}" method="post">
 
-        <input type="hidden" name="id" th:value="${object.id == null} ? 0 : ${object.id}"/>
+            <input type="hidden" name="id" th:value="${object.id == null} ? 0 : ${object.id}"/>
 
-        <H3>Основное</H3>
-        <div class="row">
-            <div class="col">
-                <div class="form-group">
-                    <label for="status"><b>Статус</b></label>
-                    <select name="status" class="form-control" id="status">
-                        <option th:value="null">Не задан</option>
-                        <option th:each="status : ${statuses}" th:value="${status.id}"
-                                th:text="${status.name}" th:selected="${object.status?.id == status.id}"></option>
-                    </select>
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <label for="employee"><b>Менеджер</b></label>
-                    <select name="employee" id="employee" class="form-control">
-                        <option th:value="null">Не задан</option>
-                        <option th:each="employee : ${employees}" th:value="${employee.id}"
-                                th:text="${employee.login}"
-                                th:selected="${object.employee?.id == employee.id}"></option>
-                    </select>
-                </div>
-            </div>
-            <div class="row" th:if="${object.time != null}">
+            <H3>Основное</H3>
+            <div class="row">
                 <div class="col">
-                    <label for="object.time"><b>Время заказа</b></label>
-                    <input type="time" class="form-control" name="time" id="object.time" readonly
-                           th:value="${object.time}">
+                    <div class="form-group">
+                        <label for="status"><b>Статус</b></label>
+                        <select name="status" class="form-control" id="status">
+                            <option th:value="null">Не задан</option>
+                            <option th:each="status : ${statuses}" th:value="${status.id}"
+                                    th:text="${status.name}" th:selected="${object.status?.id == status.id}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="employee"><b>Менеджер</b></label>
+                        <select name="employee" id="employee" class="form-control">
+                            <option th:value="null">Не задан</option>
+                            <option th:each="employee : ${employees}" th:value="${employee.id}"
+                                    th:text="${employee.login}"
+                                    th:selected="${object.employee?.id == employee.id}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row" th:if="${object.id != null}">
+                    <div class="col">
+                        <label for="time"><b>Время заказа</b></label>
+                        <input type="datetime-local" class="form-control" readonly th:field="*{time}">
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -42,85 +42,129 @@
                            th:value="${object.comment}">
                 </div>
             </div>
-        </div>
 
+            <div class="row" th:if="${object.client == null}">
+                <div class="col">
+                    <label for="client"><b>Клиент</b></label>
+                    <select name="client" id="client" class="form-control">
+                        <option th:value="null">Не задан</option>
+                        <option th:each="client : ${clients}" th:value="${client.id}"
+                                th:text="@{${client.name} + ' ' + ${client.lastname}}"
+                                th:selected="${object.client?.id == client.id}"></option>
+                    </select>
+                </div>
+            </div>
 
-        <div th:if="${object.client != null}">
+            <div th:if="${object.client != null}">
+                <hr>
+
+                <input type="hidden" name="client.id"
+                       th:value="${object.client?.id == null} ? 0 : ${object.client?.id}"/>
+
+                <div class="row justify-content-between">
+                    <div class="col-lg-2">
+                        <H3>Клиент</H3>
+                    </div>
+                    <div class="col-lg-2">
+                        <a class="btn btn-primary" style="width: 100%" role="button"
+                           th:href="@{'/clients/' + ${object.client.id} +  '/edit'}">Редактировать</a>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <label for="client.name"><b>Имя</b></label>
+                        <input type="text" class="form-control" name="client.name" id="client.name" readonly
+                               th:value="${object.client.name}">
+                    </div>
+                    <div class="col">
+                        <label for="client.lastname"><b>Фамилия</b></label>
+                        <input type="text" class="form-control" name="client.lastname" id="client.lastname" readonly
+                               th:value="${object.client.lastname}">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="client.phone"><b>Номер телефона</b></label> <a
+                            th:href="@{'tel:' + ${object.client.phone}}">Позвонить</a>
+                        <input type="text" class="form-control" name="client.phone" id="client.phone" readonly
+                               th:value="${object.client.phone}">
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="client.email"><b>Почта</b></label> <a
+                            th:href="@{'mailto:' + ${object.client.email}}">Написать на почту</a>
+                        <input type="text" class="form-control" name="client.email" id="client.email" readonly
+                               th:value="${object.client.email}">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <label for="client.birthday"><b>Дата рождения</b></label>
+                        <input type="date" class="form-control" name="client.birthday" id="client.birthday" readonly
+                               th:value="${object.client.birthday}">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <label for="client.information"><b>Дополнительная информация</b></label>
+                        <input type="text" class="form-control" name="client.information" id="client.information"
+                               readonly
+                               th:value="${object.client.information}">
+                    </div>
+                </div>
+
+                <hr>
+            </div>
+
+            <H3>Состав заказа</H3>
             <hr>
-
-            <input type="hidden" name="client.id" th:value="${object.client?.id == null} ? 0 : ${object.client?.id}"/>
-
-            <div class="row justify-content-between">
-                <div class="col-lg-2">
-                    <H3>Клиент</H3>
-                </div>
-                <div class="col-lg-2">
-                    <a class="btn btn-primary" style="width: 100%" role="button"
-                       th:href="@{'/clients/' + ${object.client.id} +  '/edit'}">Редактировать</a>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col">
-                    <label for="client.name"><b>Имя</b></label>
-                    <input type="text" class="form-control" name="client.name" id="client.name" readonly
-                           th:value="${object.client.name}">
-                </div>
-                <div class="col">
-                    <label for="client.lastname"><b>Фамилия</b></label>
-                    <input type="text" class="form-control" name="client.lastname" id="client.lastname" readonly
-                           th:value="${object.client.lastname}">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <label for="client.phone"><b>Номер телефона</b></label> <a th:href="@{'tel:' + ${object.client.phone}}">Позвонить</a>
-                    <input type="text" class="form-control" name="client.phone" id="client.phone" readonly
-                           th:value="${object.client.phone}">
-
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <label for="client.email"><b>Почта</b></label> <a th:href="@{'mailto:' + ${object.client.email}}">Написать на почту</a>
-                    <input type="text" class="form-control" name="client.email" id="client.email" readonly
-                           th:value="${object.client.email}">
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col">
-                    <label for="client.birthday"><b>Дата рождения</b></label>
-                    <input type="date" class="form-control" name="client.birthday" id="client.birthday" readonly
-                           th:value="${object.client.birthday}">
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col">
-                    <label for="client.information"><b>Дополнительная информация</b></label>
-                    <input type="text" class="form-control" name="client.information" id="client.information" readonly
-                           th:value="${object.client.information}">
-                </div>
-            </div>
-
+            <H3>Доставка</H3>
             <hr>
+            <H3>Оплата</H3>
+            <hr>
+            <button type="submit" name="action" class="btn btn-primary">Сохранить</button>
+        </form>
+        <div th:if="${object.id != null}">
+            <a class="btn btn-primary" role="button" th:href="@{${url} + ${object.id} +  '/remove'}">Удалить</a>
         </div>
-
-        <H3>Состав заказа</H3>
-        <hr>
-        <H3>Доставка</H3>
-        <hr>
-        <H3>Оплата</H3>
-        <hr>
-        <button type="submit" name="action" class="btn btn-primary">Сохранить</button>
-    </form>
-    <div th:if="${object.id != null}">
-        <a class="btn btn-primary" role="button" th:href="@{${url} + ${object.id} +  '/remove'}">Удалить</a>
     </div>
-    </div>
-    <div class="col-auto">
-        <h3>События заказа</h3>
+    <div class="col-auto" th:if="${object.id != null}">
+        <h3>События</h3>
+        <a class="btn btn-primary" role="button"
+           th:href="@{'/orders/events/auto/create?orderId='+ ${object.id}}">Добавить</a>
 
+        <th:block th:each="event : ${object.events}">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><a th:href="@{'/settings/management/users/'+ ${event.author?.id} + '/edit'}"
+                                              th:text="${event.author?.login}"></a></h5>
+                    <h6 class="card-subtitle mb-2 text-muted" th:text="${event.time}"></h6>
+                    <p class="card-text" th:text="${event.content}"></p>
+                    <a th:href="@{'/orders/events/'+ ${event.id} + '/edit'}">Редактировать</a>
+                </div>
+            </div>
+            <br>
+        </th:block>
+        <hr>
+
+        <h3>Журнал звонков</h3>
+        <th:block th:each="call : ${object.calls}">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><a th:href="@{'/settings/management/users/'+ ${call.author?.id} + '/edit'}"
+                                              th:text="${call.author?.login}"></a></h5>
+                    <h6 class="card-subtitle mb-2 text-muted" th:text="${call.time}"></h6>
+                    <p class="card-text" th:text="@{'Входящий:' + ${call.income}}"></p>
+                    <p class="card-text" th:text="@{'Номер:' + ${call.number}}"></p>
+                </div>
+            </div>
+            <br>
+        </th:block>
+        <hr>
     </div>
 </div>

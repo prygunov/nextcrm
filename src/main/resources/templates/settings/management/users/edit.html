@@ -1,28 +1,29 @@
-<div th:with="url=${'/settings/management/users/'}">
+<div>
     <form th:attr="action=${object.id == null} ? ${url} + 'create' :  ${url} + ${object.id} +  '/update'"
           th:object="${object}" method="post">
 
         <input type="hidden" name="id" th:value="${object.id == null} ? 0 : ${object.id}" />
 
         <div class="form-group">
-            <label for="login"><b>Login</b></label>
-            <input type="text" name="login" id="login" required th:value="${object.login}">
+            <label for="login"><b>Псевдоним</b></label>
+            <input type="text" class="form-control" name="login" id="login" required th:value="${object.login}">
         </div>
         <div class="form-group">
             <label for="lastname"><b>Фамилия</b></label>
-            <input type="text" name="lastname" id="lastname" required th:value="${object.lastname}">
+            <input type="text" class="form-control" name="lastname" id="lastname" required th:value="${object.lastname}">
         </div>
         <div class="form-group">
             <label for="firstname"><b>Имя</b></label>
-            <input type="text" name="firstname" id="firstname" required th:value="${object.firstname}">
+            <input type="text" class="form-control" name="firstname" id="firstname" required th:value="${object.firstname}">
         </div>
         <div class="form-group">
             <label for="approved"><b>Подтвержден</b></label>
             <input type="checkbox" name="approved" id="approved" th:checked="${object.approved}"/>
         </div>
         <div class="form-group">
-            <select name="roleId">
-                <option th:value="null">Выберете роль</option>
+            <label for="roleId"><b>Роль</b></label>
+            <select name="roleId" id="roleId" class="form-control">
+                <option th:value="null">Не задана</option>
                 <option th:each="role : ${roles}" th:value="${role.id}"
                         th:text="${role.name}" th:selected="${object.roleId == role.id}"></option>
             </select>
@@ -32,11 +33,11 @@
 
             <div class="form-group">
                 <label for="psw"><b>Пароль</b></label>
-                <input type="password" name="password" id="psw" required>
+                <input type="password"  class="form-control" name="password" id="psw" required>
             </div>
             <div class="form-group">
                 <label for="matchingPassword"><b>Повторите пароль</b></label>
-                <input type="password" name="matchingPassword" id="matchingPassword" required>
+                <input type="password" class="form-control" name="matchingPassword" id="matchingPassword" required>
             </div>
 
         </div>
@@ -47,5 +48,29 @@
     <div th:if="${object.id != null}">
         <a class="btn btn-primary" role="button" th:href="@{${url} + ${object.id} +  '/remove'}">Удалить</a>
     </div>
+
+    <hr>
+    <h3>Последняя активность</h3>
+    <h4>Заказы</h4>
+    <table class="table">
+        <tr>
+            <td scope="col">Номер</td>
+            <td scope="col">Время</td>
+            <td scope="col">Статус</td>
+            <td scope="col">Клиент</td>
+        </tr>
+
+        <th:block th:each="order : ${orders}">
+            <tr class='clickable-row' th:data-href="@{/orders/{id}/edit (id = ${order.id})}">
+                <th scope="row">
+                    <a th:text="${order.id}">
+                    </a>
+                </th>
+                <td th:text="${order.time}"></td>
+                <td th:text="${order.status}"></td>
+                <td th:text="@{${order.client?.name} + ' '+ ${order.client?.lastname}}"></td>
+            </tr>
+        </th:block>
+    </table>
 
 </div>

@@ -1,0 +1,22 @@
+<div>
+    <form th:attr="action=${object.id == null} ? ${url} + 'create' :  ${url} + ${object.id} +  '/update'"
+          th:object="${object}" method="post">
+
+        <input type="hidden" th:field="*{id}"/>
+        <input type="hidden" th:field="*{time}"/>
+        <input type="hidden" th:field="*{author}"/>
+        <input type="hidden" name="task" th:value="${object.task.id}"/>
+
+        <div class="form-group">
+            <label for="content"><b>Содержание</b></label>
+            <textarea type="text" class="form-control" th:field="*{content}" required rows="4"></textarea>
+        </div>
+
+        <br>
+        <button type="submit" name="action" class="btn btn-primary">Сохранить</button>
+    </form>
+    <div th:if="${object.id != null}">
+        <a class="btn btn-primary" role="button" th:href="@{${url} + ${object.id} +  '/remove'}">Удалить</a>
+    </div>
+
+</div>

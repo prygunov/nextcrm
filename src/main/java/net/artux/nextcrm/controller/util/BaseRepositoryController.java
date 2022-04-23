@@ -37,9 +37,9 @@ public abstract class BaseRepositoryController<E extends BaseEntity, // Осно
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ModelAndView create(@ModelAttribute E object, Model model){
+    public Object create(@ModelAttribute E object, Model model){
         repository.save(object);
-        return new ModelAndView("redirect:" + getPageUrl());
+        return defaultPage(model);
     }
 
     @Override
@@ -68,13 +68,14 @@ public abstract class BaseRepositoryController<E extends BaseEntity, // Осно
             f.set(v, f.get(dto));
         }
         repository.save(v);
-        return new ModelAndView("redirect:" + getPageUrl());
+        return defaultPage(model);
     }
 
     @RequestMapping(value = "/{id}/remove", method = RequestMethod.GET)
-    public ModelAndView remove(@PathVariable Long id, Model model){
+    public Object remove(@PathVariable Long id, Model model){
+        E v = repository.findById(id).orElseThrow();
         repository.deleteById(id);
-        return new ModelAndView("redirect:" + getPageUrl());
+        model.addAttribute(v);
+        return defaultPage(model);
     }
-
 }

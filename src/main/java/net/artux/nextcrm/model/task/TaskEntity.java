@@ -10,6 +10,7 @@ import net.artux.nextcrm.model.user.UserEntity;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -40,6 +41,7 @@ public class TaskEntity extends BaseEntity {
     private OrderEntity order;
 
     @OneToMany
+    @JoinColumn(name = "task_id")
     private List<TaskCommentEntity> comments;
 
 }

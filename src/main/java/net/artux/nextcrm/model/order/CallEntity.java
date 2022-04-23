@@ -1,11 +1,9 @@
-package net.artux.nextcrm.model.task;
+package net.artux.nextcrm.model.order;
 
 import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.artux.nextcrm.model.BaseEntity;
-import net.artux.nextcrm.model.appeal.AppealEntity;
-import net.artux.nextcrm.model.order.OrderEntity;
 import net.artux.nextcrm.model.user.UserEntity;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -15,23 +13,24 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-@Table(name = "task_comment")
 @Data
-@Entity
-@RequiredArgsConstructor
 @Getter
-public class TaskCommentEntity extends BaseEntity {
+@RequiredArgsConstructor
+@Table(name = "call")
+@Entity
+public class CallEntity extends BaseEntity {
 
     @ManyToOne
-    private TaskEntity task;
+    @NotNull
+    private OrderEntity order;
     @ManyToOne
     @NotNull
     private UserEntity author;
-
-    private String content;
-
+    private String number;
+    private boolean income;
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date time;
+    private String result;
 
 }
