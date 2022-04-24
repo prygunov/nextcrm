@@ -12,6 +12,7 @@
         <td scope="col">Статус</td>
         <td scope="col">Менеджер</td>
         <td scope="col">Клиент</td>
+        <td scope="col">Сумма</td>
     </tr>
 
     <th:block th:each="object : ${objects}">
@@ -21,9 +22,10 @@
                 </a>
             </th>
             <td th:text="${object.time}"></td>
-            <td th:text="${object.status?.name}"></td>
-            <td th:text="${object.employee?.login}"></td>
-            <td th:text="@{${object.client?.name} + ' '+ ${object.client?.lastname}}"></td>
+            <td th:text="${object.statusName}"></td>
+            <td th:text="${object.login}"></td>
+            <td th:text="${object.clientName}"></td>
+            <td th:text="${object.price}"></td>
         </tr>
     </th:block>
 </table>

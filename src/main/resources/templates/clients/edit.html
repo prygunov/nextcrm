@@ -50,17 +50,19 @@
         <td scope="col">Время</td>
         <td scope="col">Статус</td>
         <td scope="col">Менеджер</td>
+        <td scope="col">Сумма</td>
     </tr>
 
-    <th:block th:each="order : ${orders}">
-        <tr class='clickable-row' th:data-href="@{/orders/{id}/edit (id = ${order.id})}">
+    <th:block th:each="object : ${orders}">
+        <tr class='clickable-row' th:data-href="@{/orders/{id}/edit (id = ${object.id})}">
             <th scope="row">
-                <a th:text="${order.id}">
+                <a th:text="${object.id}">
                 </a>
             </th>
-            <td th:text="${order.time}"></td>
-            <td th:text="${order.status}"></td>
-            <td th:text="${order.employee?.login}"></td>
+            <td th:text="${object.time}"></td>
+            <td th:text="${object.statusName}"></td>
+            <td th:text="${object.login}"></td>
+            <td th:text="${object.price}"></td>
         </tr>
     </th:block>
 </table>

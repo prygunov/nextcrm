@@ -38,7 +38,7 @@ public class UsersController extends BaseEntityController<UserCreateDto, UserDto
     @Override
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
     public String edit(Model model, @PathVariable Long id) {
-        model.addAttribute("orders", ordersRepository.findAllByEmployeeId(id));
+        model.addAttribute("orders", ordersRepository.getDtosForUser(id));
         return super.edit(model, id);
     }
 }

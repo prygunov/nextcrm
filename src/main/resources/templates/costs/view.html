@@ -1,0 +1,32 @@
+<a th:href="@{${url} + 'create'}">
+    <button type="button" class="btn btn-primary">Новый расход</button>
+</a>
+
+<table class="table">
+    <tr>
+        <td scope="col">Статья расхода</td>
+        <td scope="col">Сумма</td>
+        <td scope="col">Период</td>
+        <td scope="col"></td>
+        <td scope="col">Сотрудник</td>
+        <td scope="col">Заказ</td>
+    </tr>
+
+    <th:block th:each="object : ${objects}">
+        <tr class='clickable-row' th:data-href="@{${url} + ${object.id} +'/edit'}">
+            <th scope="row">
+                <a th:text="${object.article?.name}">
+                </a>
+            </th>
+            <td th:text="${object.sum}"></td>
+            <td th:text="${object.startPeriod}"></td>
+            <td th:text="${object.endPeriod}"></td>
+            <td>
+                <p th:if= "${object.employee != null}" th:text="@{${object.employee.firstname} + ' ' + ${object.employee.lastname}}"></p>
+            </td>
+            <td>
+                <p th:if= "${object.order != null}" th:text="${object.order.id}"></p>
+            </td>
+        </tr>
+    </th:block>
+</table>

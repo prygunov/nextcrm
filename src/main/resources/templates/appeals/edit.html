@@ -4,35 +4,54 @@
 
         <input type="hidden" name="id" th:value="${object.id == null} ? 0 : ${object.id}" />
 
-        <div class="form-group">
-            <label for="status"><b>Статус</b></label>
-            <select name="status" id="status" class="form-control">
-                <option th:value="null">Статус</option>
-                <option th:each="status : ${statuses}" th:value="${status.id}"
-                        th:text="${status.name}" th:selected="${object.status?.id == status.id}"></option>
-            </select>
+        <div class="row">
+
+            <div class="col">
+                <div class="form-group">
+                    <label for="status"><b>Статус</b></label>
+                    <select name="status" id="status" class="form-control">
+                        <option th:value="null">Не задан</option>
+                        <option th:each="status : ${statuses}" th:value="${status.id}"
+                                th:text="${status.name}" th:selected="${object.status?.id == status.id}"></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-group">
+                    <label for="channel"><b>Канал продаж</b></label>
+                    <select name="channel" id="channel" class="form-control">
+                        <option th:value="null">Не задан</option>
+                        <option th:each="channel : ${channels}" th:value="${channel.id}"
+                                th:text="${channel.name}" th:selected="${object.channel?.id == channel.id}"></option>
+                    </select>
+                </div>
+
+            </div>
+
         </div>
+
 
         <div class="form-group">
             <label for="subject"><b>Предмет обращения</b></label>
-            <input type="text" class="form-text" name="subject" id="subject" required th:value="${object.subject}">
+            <input type="text" class="form-control" name="subject" id="subject" required th:value="${object.subject}">
         </div>
 
         <div class="form-group">
-            <label for="content" class="form-control"><b>Содержание</b></label>
-            <input type="text" class="form-text" name="content" id="content" required th:value="${object.content}">
+            <label for="content"><b>Содержание</b></label>
+            <input type="text" class="form-control" name="content" id="content" required th:value="${object.content}">
         </div>
 
         <div th:if="${object.id == null}">
             <div class="form-group">
-                <label for="appeal" class="form-control"><b>Клиент</b></label>
-                <select name="appeal" id="appeal">
+                <label for="appeal" ><b>Клиент</b></label>
+                <select name="appeal" id="appeal" class="form-control">
                     <option th:value="null">Отсутствует</option>
                     <option th:each="client : ${clients}" th:value="${client.id}"
                             th:text="@{${client.name} + ' ' + ${client.lastname}}" th:selected="${object.client?.id == client.id}"></option>
                 </select>
             </div>
-
+            <br>
             <p>Если клиент не выбран, будет создан потенциальный из формы ниже</p>
 
             <div class="form-group">

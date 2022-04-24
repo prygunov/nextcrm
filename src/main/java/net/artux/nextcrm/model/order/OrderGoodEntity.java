@@ -26,40 +26,10 @@ import java.util.List;
 @Data
 @Getter
 @RequiredArgsConstructor
-@Table(name = "app_order")
+@Table(name = "app_order_goods")
 @Entity
-public class OrderEntity extends BaseEntity {
+public class OrderGoodEntity extends BaseEntity {
 
-    @OneToOne
-    private ClientEntity client;
-
-    @OneToOne
-    private OrderStatusEntity status;
-
-    @OneToOne
-    private DeliveryEntity delivery;
-
-    @OneToMany
-    private List<PaymentEntity> payments;
-
-    @ManyToOne
-    private UserEntity employee;
-
-    @ManyToMany
-    private List<GoodEntity> goods;
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private Date time = new Date();
-
-    private String comment;
-
-    @OneToMany
-    @JoinColumn(name = "order_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<OrderEventEntity> events;
-
-    @OneToMany
-    @JoinColumn(name = "order_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<CallEntity> calls;
+    private Long order_entity_id;
+    private Long goods_id;
 }

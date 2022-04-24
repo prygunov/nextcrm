@@ -1,0 +1,22 @@
+<a th:href="@{${url} + 'create'}">
+    <button type="button" class="btn btn-primary">Новая статья расходов</button>
+</a>
+
+<table class="table">
+    <tr>
+        <td scope="col">Идентификатор</td>
+        <td scope="col">Наименование</td>
+        <td scope="col">Активность</td>
+    </tr>
+
+    <th:block th:each="object : ${objects}">
+        <tr class='clickable-row' th:data-href="@{${url} + ${object.id} +'/edit'}">
+            <th scope="row">
+                <a th:text="${object.id}">
+                </a>
+            </th>
+            <td th:text="${object.name}"></td>
+            <td th:text="${object.active}"></td>
+        </tr>
+    </th:block>
+</table>

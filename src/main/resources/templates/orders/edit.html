@@ -123,6 +123,15 @@
 
             <H3>Состав заказа</H3>
             <hr>
+
+            <select id="goods" th:field="*{goods}" size="20" multiple="multiple">
+                <option th:each="good : ${allGoods}"
+                        th:value="${{good}}"
+                        th:text="@{${good.name} + ' - ' + ${good.price}}">
+                </option>
+            </select>
+
+
             <H3>Доставка</H3>
             <hr>
             <H3>Оплата</H3>

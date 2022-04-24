@@ -1,10 +1,13 @@
-package net.artux.nextcrm.model.order;
+package net.artux.nextcrm.model.costs;
 
 import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.artux.nextcrm.model.BaseEntity;
 import net.artux.nextcrm.model.client.ClientEntity;
+import net.artux.nextcrm.model.order.CallEntity;
+import net.artux.nextcrm.model.order.OrderEventEntity;
+import net.artux.nextcrm.model.order.OrderStatusEntity;
 import net.artux.nextcrm.model.order.delivery.DeliveryEntity;
 import net.artux.nextcrm.model.order.goods.GoodEntity;
 import net.artux.nextcrm.model.order.payment.PaymentEntity;
@@ -26,40 +29,11 @@ import java.util.List;
 @Data
 @Getter
 @RequiredArgsConstructor
-@Table(name = "app_order")
+@Table(name = "cost_article")
 @Entity
-public class OrderEntity extends BaseEntity {
+public class CostArticleEntity extends BaseEntity {
 
-    @OneToOne
-    private ClientEntity client;
+    private String name;
+    private boolean active;
 
-    @OneToOne
-    private OrderStatusEntity status;
-
-    @OneToOne
-    private DeliveryEntity delivery;
-
-    @OneToMany
-    private List<PaymentEntity> payments;
-
-    @ManyToOne
-    private UserEntity employee;
-
-    @ManyToMany
-    private List<GoodEntity> goods;
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private Date time = new Date();
-
-    private String comment;
-
-    @OneToMany
-    @JoinColumn(name = "order_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<OrderEventEntity> events;
-
-    @OneToMany
-    @JoinColumn(name = "order_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<CallEntity> calls;
 }

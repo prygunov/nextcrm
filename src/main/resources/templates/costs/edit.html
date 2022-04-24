@@ -1,0 +1,54 @@
+<div>
+
+    <form th:attr="action=${object.id == null} ? ${url} + 'create' :  ${url} + ${object.id} +  '/update'"
+          th:object="${object}" method="post">
+        <div class="row">
+
+            <div class="col">
+                <div class="form-group">
+                    <label for="article">Статья расходов</label>
+                    <select class="form-control" id="article" th:field="*{article}">
+                        <option th:value="null">Не задана</option>
+                        <option th:each="article : ${articles}"
+                                th:value="${{article}}" th:text="${article.name}">
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Период</label>
+                    <input type="date" class="form-control" th:field="*{startPeriod}"/>
+                    -
+                    <input type="date" class="form-control" th:field="*{endPeriod}"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="comment">Комментарий</label>
+                    <input type="text" class="form-control" th:field="*{comment}"/>
+                </div>
+
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="sum"><b>Сумма</b></label>
+                    <input type="number" class="form-control" th:field="*{sum}">
+                </div>
+
+                <div class="form-group">
+                    <label for="employee"><b>Сотрудник</b></label>
+                    <select name="employee" id="employee" class="form-control">
+                        <option th:value="null">Не задан</option>
+                        <option th:each="employee : ${employees}" th:value="${employee.id}"
+                                th:text="${employee.login}"
+                                th:selected="${object.employee?.id == employee.id}"></option>
+                    </select>
+                </div>
+
+            </div>
+
+        </div>
+        <input type="submit" name="action" class="btn btn-primary" value="Сохранить"/>
+    </form>
+</div>
+<div th:if="${object.id != null}">
+    <a class="btn btn-primary" role="button" th:href="@{${url} + ${object.id} +  '/remove'}">Удалить</a>
+</div>

@@ -2,17 +2,20 @@
     <form th:action="@{${url} + 'create'}" th:object="${object}" method="post">
         <div class="form-group">
             <label for="name"><b>Название</b></label>
-            <input type="text" name="name" id="name" required>
-
+            <input type="text" class="form-control" name="name" id="name" required>
+        </div>
+        <p>Доступ к разделам:</p>
+        <br>
             <label for="tasks"><b>Задачи</b></label>
             <input type="checkbox" name="tasks" id="tasks"/>
+        <br>
             <label for="clients"><b>Клиенты</b></label>
             <input type="checkbox" name="tasks" id="clients"/>
+        <br>
             <label for="orders"><b>Заказы</b></label>
             <input type="checkbox" name="tasks" id="orders"/>
-
             <hr>
             <input type="submit" name="action" value="Добавить"/>
-        </div>
+
     </form>
 </div>

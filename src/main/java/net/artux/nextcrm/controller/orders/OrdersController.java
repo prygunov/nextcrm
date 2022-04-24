@@ -7,10 +7,12 @@ import net.artux.nextcrm.model.order.OrderFilter;
 import net.artux.nextcrm.model.order.OrderStatusEntity;
 import net.artux.nextcrm.model.order.delivery.DeliveryStatusEntity;
 import net.artux.nextcrm.model.order.delivery.DeliveryTypeEntity;
+import net.artux.nextcrm.model.order.goods.GoodEntity;
 import net.artux.nextcrm.model.user.UserEntity;
 import net.artux.nextcrm.repository.clients.ClientRepository;
 import net.artux.nextcrm.repository.orders.DeliveryTypeRepository;
 import net.artux.nextcrm.repository.orders.OrdersRepository;
+import net.artux.nextcrm.repository.settings.goods.GoodsRepository;
 import net.artux.nextcrm.repository.settings.management.UsersRepository;
 import net.artux.nextcrm.repository.settings.statuses.DeliveryStatusRepository;
 import net.artux.nextcrm.repository.settings.statuses.OrderStatusRepository;
@@ -27,14 +29,16 @@ public class OrdersController extends BaseRepositoryController<OrderEntity, Orde
 
 
     private final OrderStatusRepository statusRepository;
+    private final GoodsRepository goodsRepository;
     private final ClientRepository clientRepository;
     private final UsersRepository usersRepository;
     private final DeliveryStatusRepository deliveryStatusRepository;
     private final DeliveryTypeRepository deliveryTypeRepository;
 
-    public OrdersController(OrdersRepository repository, OrderStatusRepository statusRepository, ClientRepository clientRepository, UsersRepository usersRepository, DeliveryStatusRepository deliveryStatusRepository, DeliveryTypeRepository deliveryTypeRepository){
+    public OrdersController(OrdersRepository repository, OrderStatusRepository statusRepository, GoodsRepository goodsRepository, ClientRepository clientRepository, UsersRepository usersRepository, DeliveryStatusRepository deliveryStatusRepository, DeliveryTypeRepository deliveryTypeRepository){
         super("Заказы", "orders", repository);
         this.statusRepository = statusRepository;
+        this.goodsRepository = goodsRepository;
         this.clientRepository = clientRepository;
         this.usersRepository = usersRepository;
         this.deliveryStatusRepository = deliveryStatusRepository;
@@ -44,7 +48,7 @@ public class OrdersController extends BaseRepositoryController<OrderEntity, Orde
     @Override
     public String getHome(Model model) {
         model.addAttribute("object", new OrderFilter());
-        model.addAttribute("objects", repository.findAll());
+        model.addAttribute("objects", repository.findAllWithSum());
         return pageWithContent("orders/menu", model);
     }
 
@@ -71,5 +75,10 @@ public class OrdersController extends BaseRepositoryController<OrderEntity, Orde
     @ModelAttribute("employees")
     private List<UserEntity> getUsers(){
         return usersRepository.findAll();
+    }
+
+    @ModelAttribute("allGoods")
+    private List<GoodEntity> getGoods(){
+        return goodsRepository.findAll();
     }
 }

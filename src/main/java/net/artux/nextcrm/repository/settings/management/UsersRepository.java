@@ -13,7 +13,7 @@ public interface UsersRepository extends CRepository<UserEntity> {
 
     List<UserEntity> findAllByApprovedIsTrue();
 
-    @Query(value = "SELECT * from app_user u inner join user_role r on u.role_id = r.id or u.role_id is null ", nativeQuery = true)
+    @Query(value = "SELECT * from app_user u inner join user_role r on u.role_id = r.id or u.role_id is null", nativeQuery = true)
     List<UserEntity> getAll();
 
 }

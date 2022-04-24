@@ -1,4 +1,4 @@
-package net.artux.nextcrm.controller.settings.appeals;
+package net.artux.nextcrm.controller.appeals;
 
 import net.artux.nextcrm.controller.util.BaseRepositoryController;
 import net.artux.nextcrm.model.appeal.ChannelEntity;

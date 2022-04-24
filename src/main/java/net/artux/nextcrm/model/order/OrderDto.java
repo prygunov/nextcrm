@@ -13,6 +13,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
@@ -25,41 +26,30 @@ import java.util.List;
 
 @Data
 @Getter
-@RequiredArgsConstructor
-@Table(name = "app_order")
 @Entity
-public class OrderEntity extends BaseEntity {
+public class OrderDto extends BaseEntity {
 
-    @OneToOne
-    private ClientEntity client;
-
-    @OneToOne
-    private OrderStatusEntity status;
-
-    @OneToOne
-    private DeliveryEntity delivery;
-
-    @OneToMany
-    private List<PaymentEntity> payments;
-
-    @ManyToOne
-    private UserEntity employee;
-
-    @ManyToMany
-    private List<GoodEntity> goods;
-
+    private String statusName;
+    private String login;
+    private Long employeeId;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private Date time = new Date();
+    private Date time;
+    private Long clientId;
+    private String clientName;
+    private Double price;
 
-    private String comment;
+    public OrderDto(){
 
-    @OneToMany
-    @JoinColumn(name = "order_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<OrderEventEntity> events;
+    }
 
-    @OneToMany
-    @JoinColumn(name = "order_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<CallEntity> calls;
+    public OrderDto(Long id, String statusName, String login, Long employeeId, Date time, Long clientId, String clientName, Double price) {
+        super(id);
+        this.statusName = statusName;
+        this.login = login;
+        this.employeeId = employeeId;
+        this.time = time;
+        this.clientId = clientId;
+        this.clientName = clientName;
+        this.price = price;
+    }
 }
