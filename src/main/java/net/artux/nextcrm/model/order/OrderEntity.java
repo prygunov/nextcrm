@@ -21,8 +21,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
@@ -54,7 +52,7 @@ public class OrderEntity extends BaseEntity {
     private UserEntity employee;
 
     @ManyToMany
-    @Size(min = 1)
+    @Size(min = 1, max = 100)
     private List<GoodEntity> goods;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
