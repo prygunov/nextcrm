@@ -43,6 +43,16 @@
                     </select>
                 </div>
 
+                <div class="form-group">
+                    <label for="order"><b>Связанный заказ</b></label>
+                    <select class="form-control" id="order" th:field="*{order}">
+                        <option th:value="null">Не задан</option>
+                        <option th:each="o : ${orders}"
+                                th:value="${{o}}" th:text="${o.id}">
+                        </option>
+                    </select>
+                </div>
+
             </div>
 
         </div>

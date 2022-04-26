@@ -27,7 +27,6 @@ import java.util.List;
 @RequestMapping("/orders")
 public class OrdersController extends BaseRepositoryController<OrderEntity, OrdersRepository> {
 
-
     private final OrderStatusRepository statusRepository;
     private final GoodsRepository goodsRepository;
     private final ClientRepository clientRepository;

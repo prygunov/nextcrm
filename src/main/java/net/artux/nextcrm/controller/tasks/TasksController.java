@@ -13,6 +13,8 @@ import net.artux.nextcrm.repository.settings.management.UsersRepository;
 import net.artux.nextcrm.repository.settings.statuses.TaskStatusRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,7 +42,7 @@ public class TasksController extends BaseRepositoryController<TaskEntity, TasksR
 
     @Override
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ModelAndView create(@ModelAttribute TaskEntity object, Model model){
+    public ModelAndView create(@ModelAttribute TaskEntity object, BindingResult bindingResult, Model model) {
         object.setTime(new Date());
         repository.save(object);
         return new ModelAndView("redirect:" + getPageUrl());

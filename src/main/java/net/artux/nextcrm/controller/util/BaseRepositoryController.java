@@ -2,10 +2,14 @@ package net.artux.nextcrm.controller.util;
 
 import net.artux.nextcrm.model.BaseEntity;
 import net.artux.nextcrm.repository.CRepository;
+import org.springframework.boot.context.properties.bind.BindResult;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 
@@ -37,9 +41,14 @@ public abstract class BaseRepositoryController<E extends BaseEntity, // Осно
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public Object create(@ModelAttribute E object, Model model){
-        repository.save(object);
-        return defaultPage(model);
+    public Object create(@Valid @ModelAttribute E object, BindingResult result, Model model) throws Exception{
+        if (!result.hasErrors()) {
+            repository.save(object);
+            return defaultPage(model);
+        }else{
+            model.addAttribute("object", object);
+            return pageWithContent(folder + "/edit", model);
+        }
     }
 
     @Override
@@ -60,7 +69,7 @@ public abstract class BaseRepositoryController<E extends BaseEntity, // Осно
 
     @PostMapping
     @RequestMapping(value = "/{id}/update", method = RequestMethod.POST)
-    public Object update(@ModelAttribute E dto, @PathVariable Long id, Model model) throws IllegalAccessException {
+    public Object update(@Valid @ModelAttribute E dto, @PathVariable Long id, Model model) throws IllegalAccessException {
         E v = repository.findById(id).orElseThrow();
         for (Field f :
                 v.getClass().getDeclaredFields()) {
