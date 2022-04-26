@@ -31,7 +31,9 @@ public abstract class BaseRepositoryController<E extends BaseEntity, // Осно
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(Model model){
         try {
-            model.addAttribute("object", dClass.newInstance());
+            Object o = dClass.newInstance();
+            model.addAttribute("object", o);
+            model.addAttribute(o);
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -41,12 +43,14 @@ public abstract class BaseRepositoryController<E extends BaseEntity, // Осно
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public Object create(@Valid @ModelAttribute E object, BindingResult result, Model model) throws Exception{
-        if (!result.hasErrors()) {
+    public Object create(@Valid @ModelAttribute E object, final BindingResult bindingResult, Model model) throws Exception{
+        if (!bindingResult.hasErrors()) {
             repository.save(object);
             return defaultPage(model);
         }else{
+            object.setId(null);
             model.addAttribute("object", object);
+            model.addAttribute(object);
             return pageWithContent(folder + "/edit", model);
         }
     }
@@ -64,20 +68,27 @@ public abstract class BaseRepositoryController<E extends BaseEntity, // Осно
         E v = repository.findById(id).orElseThrow();
 
         model.addAttribute("object", v);
+        model.addAttribute(v);
         return pageWithContent(folder + "/edit", model);
     }
 
     @PostMapping
     @RequestMapping(value = "/{id}/update", method = RequestMethod.POST)
-    public Object update(@Valid @ModelAttribute E dto, @PathVariable Long id, Model model) throws IllegalAccessException {
-        E v = repository.findById(id).orElseThrow();
-        for (Field f :
-                v.getClass().getDeclaredFields()) {
-            f.setAccessible(true);
-            f.set(v, f.get(dto));
+    public Object update(@Valid @ModelAttribute E dto, final BindingResult bindingResult, @PathVariable Long id,  Model model) throws IllegalAccessException {
+        if (!bindingResult.hasErrors()) {
+            E v = repository.findById(id).orElseThrow();
+            for (Field f :
+                    v.getClass().getDeclaredFields()) {
+                f.setAccessible(true);
+                f.set(v, f.get(dto));
+            }
+            repository.save(v);
+            return defaultPage(model);
+        }else{
+            model.addAttribute("object", dto);
+            model.addAttribute(dto);
+            return pageWithContent(folder + "/edit", model);
         }
-        repository.save(v);
-        return defaultPage(model);
     }
 
     @RequestMapping(value = "/{id}/remove", method = RequestMethod.GET)

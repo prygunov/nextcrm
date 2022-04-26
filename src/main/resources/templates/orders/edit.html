@@ -1,7 +1,9 @@
 <div class="row">
     <div class="col">
         <form th:attr="action=${object.id == null} ? ${url} + 'create' :  ${url} + ${object.id} +  '/update'"
-              th:object="${object}" method="post">
+              th:object="${orderEntity}" method="post">
+
+            <div th:insert="errors"></div>
 
             <input type="hidden" name="id" th:value="${object.id == null} ? 0 : ${object.id}"/>
 

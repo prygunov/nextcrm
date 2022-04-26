@@ -24,9 +24,7 @@
 
     <div class="container">
         <br>
-        <div th:errors="" th:if="${#fields.hasAnyErrors()}">
-            <p th:each="err : ${#fields.allErrors()}" th:text="${err}">...</p>
-        </div>
+
         <th:block th:insert="${content != null} ? ${content} : welcome">
 
         </th:block>
