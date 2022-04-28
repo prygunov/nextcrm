@@ -1,14 +1,14 @@
 <div class="row">
     <div class="col">
-        <form th:attr="action=${object.id == null} ? ${url} + 'create' :  ${url} + ${object.id} +  '/update'"
+        <form th:attr="action=${orderEntity.id == null} ? ${url} + 'create' :  ${url} + ${orderEntity.id} +  '/edit'"
               th:object="${orderEntity}" method="post">
 
             <div th:insert="errors"></div>
 
-            <input type="hidden" name="id" th:value="${object.id == null} ? 0 : ${object.id}"/>
+            <input type="hidden" name="id" th:value="${orderEntity.id == null} ? 0 : ${orderEntity.id}"/>
+            <input type="hidden" th:field="*{goods}"/>
 
-
-            <h2 th:if="${object.id != null}" th:text="@{'Заказ '+ ${object.id}}"></h2>
+            <h2 th:if="${orderEntity.id != null}" th:text="@{'Заказ '+ ${orderEntity.id}}"></h2>
 
             <H3>Основное</H3>
             <div class="row">
@@ -18,7 +18,7 @@
                         <select name="status" class="form-control" id="status">
                             <option th:value="null">Не задан</option>
                             <option th:each="status : ${statuses}" th:value="${status.id}"
-                                    th:text="${status.name}" th:selected="${object.status?.id == status.id}"></option>
+                                    th:text="${status.name}" th:selected="${orderEntity.status?.id == status.id}"></option>
                         </select>
                     </div>
                 </div>
@@ -29,11 +29,11 @@
                             <option th:value="null">Не задан</option>
                             <option th:each="employee : ${employees}" th:value="${employee.id}"
                                     th:text="${employee.login}"
-                                    th:selected="${object.employee?.id == employee.id}"></option>
+                                    th:selected="${orderEntity.employee?.id == employee.id}"></option>
                         </select>
                     </div>
                 </div>
-                <div class="row" th:if="${object.id != null}">
+                <div class="row" th:if="${orderEntity.id != null}">
                     <div class="col">
                         <label for="time"><b>Время заказа</b></label>
                         <input type="datetime-local" class="form-control" readonly th:field="*{time}">
@@ -44,27 +44,27 @@
                 <div class="col">
                     <label for="comment"><b>Комментарий к заказу</b></label>
                     <input type="text" class="form-control" name="comment" id="comment"
-                           th:value="${object.comment}">
+                           th:value="${orderEntity.comment}">
                 </div>
             </div>
 
-            <div class="row" th:if="${object.client == null}">
+            <div class="row" th:if="${orderEntity.client == null}">
                 <div class="col">
                     <label for="client"><b>Клиент</b></label>
                     <select name="client" id="client" class="form-control">
                         <option th:value="null">Не задан</option>
                         <option th:each="client : ${clients}" th:value="${client.id}"
                                 th:text="@{${client.name} + ' ' + ${client.lastname}}"
-                                th:selected="${object.client?.id == client.id}"></option>
+                                th:selected="${orderEntity.client?.id == client.id}"></option>
                     </select>
                 </div>
             </div>
 
-            <div th:if="${object.client != null}">
+            <div th:if="${orderEntity.client != null}">
                 <hr>
 
                 <input type="hidden" name="client.id"
-                       th:value="${object.client?.id == null} ? 0 : ${object.client?.id}"/>
+                       th:value="${orderEntity.client?.id == null} ? 0 : ${orderEntity.client?.id}"/>
 
                 <div class="row justify-content-between">
                     <div class="col-lg-2">
@@ -72,7 +72,7 @@
                     </div>
                     <div class="col-lg-2">
                         <a class="btn btn-primary" style="width: 100%" role="button"
-                           th:href="@{'/clients/' + ${object.client.id} +  '/edit'}">Редактировать</a>
+                           th:href="@{'/clients/' + ${orderEntity.client.id} +  '/edit'}">Редактировать</a>
                     </div>
                 </div>
 
@@ -80,29 +80,29 @@
                     <div class="col">
                         <label for="client.name"><b>Имя</b></label>
                         <input type="text" class="form-control" name="client.name" id="client.name" readonly
-                               th:value="${object.client.name}">
+                               th:value="${orderEntity.client.name}">
                     </div>
                     <div class="col">
                         <label for="client.lastname"><b>Фамилия</b></label>
                         <input type="text" class="form-control" name="client.lastname" id="client.lastname" readonly
-                               th:value="${object.client.lastname}">
+                               th:value="${orderEntity.client.lastname}">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
                         <label for="client.phone"><b>Номер телефона</b></label> <a
-                            th:href="@{'tel:' + ${object.client.phone}}">Позвонить</a>
+                            th:href="@{'tel:' + ${orderEntity.client.phone}}">Позвонить</a>
                         <input type="text" class="form-control" name="client.phone" id="client.phone" readonly
-                               th:value="${object.client.phone}">
+                               th:value="${orderEntity.client.phone}">
 
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
                         <label for="client.email"><b>Почта</b></label> <a
-                            th:href="@{'mailto:' + ${object.client.email}}">Написать на почту</a>
+                            th:href="@{'mailto:' + ${orderEntity.client.email}}">Написать на почту</a>
                         <input type="text" class="form-control" name="client.email" id="client.email" readonly
-                               th:value="${object.client.email}">
+                               th:value="${orderEntity.client.email}">
                     </div>
                 </div>
 
@@ -110,7 +110,7 @@
                     <div class="col">
                         <label for="client.birthday"><b>Дата рождения</b></label>
                         <input type="date" class="form-control" name="client.birthday" id="client.birthday" readonly
-                               th:value="${object.client.birthday}">
+                               th:value="${orderEntity.client.birthday}">
                     </div>
                 </div>
 
@@ -119,7 +119,7 @@
                         <label for="client.information"><b>Дополнительная информация</b></label>
                         <input type="text" class="form-control" name="client.information" id="client.information"
                                readonly
-                               th:value="${object.client.information}">
+                               th:value="${orderEntity.client.information}">
                     </div>
                 </div>
 
@@ -129,30 +129,74 @@
             <H3>Состав заказа</H3>
             <hr>
 
-            <select id="goods" th:field="*{goods}" size="20" multiple="multiple">
-                <option th:each="good : ${allGoods}"
-                        th:value="${{good}}"
-                        th:text="@{${good.name} + ' - ' + ${good.price}}">
-                </option>
-            </select>
+            <label for="site-search">Search the site:</label>
+            <input type="search" id="site-search" name="q" th:value="${q}">
+            <button type="submit" name="search">Поиск</button>
+            <table class="table">
+                <tr>
+                    <td scope="col">Фото</td>
+                    <td scope="col">Категория</td>
+                    <td scope="col">Артикул</td>
+                    <td scope="col">Наименование</td>
+                    <td scope="col">Сумма</td>
+                    <td scope="col">Действие</td>
+                </tr>
 
+                <th:block th:each="good : ${selectGoods}" >
+                    <tr class='clickable-row' th:data-href="@{/goods/{id}/edit (id = ${good.id})}">
+                        <th scope="row">
+                            <img th:src="${good.photo}" class="rounded">
+                        </th>
+                        <td th:text="${good.category?.name}"></td>
+                        <td th:text="${good.code}"></td>
+                        <td th:text="${good.name}"></td>
+                        <td th:text="${good.price}"></td>
+                        <td><button type="submit" name="addGood" th:value="${good.id}">Добавить</button></td>
+                    </tr>
+                </th:block>
+            </table>
+
+            <table class="table">
+                <tr>
+                    <td scope="col">Фото</td>
+                    <td scope="col">Категория</td>
+                    <td scope="col">Артикул</td>
+                    <td scope="col">Наименование</td>
+                    <td scope="col">Сумма</td>
+                    <td scope="col">Действие</td>
+                </tr>
+
+                <th:block th:each="good, i : *{goods}">
+                    <tr  class='clickable-row' th:data-href="@{/settings/goods/{id}/edit (id = ${good.id})}">
+                        <th scope="row">
+                            <img th:src="${good.photo}" class="rounded">
+                        </th>
+                        <td th:text="${good.category?.name}"></td>
+                        <td th:text="${good.code}"></td>
+                        <td th:text="${good.name}"></td>
+                        <td th:text="${good.price}"></td>
+                        <td><button type="submit" name="removeGood" th:value="${i.index}">Удалить</button></td>
+                    </tr>
+                </th:block>
+            </table>
 
             <H3>Доставка</H3>
             <hr>
             <H3>Оплата</H3>
             <hr>
-            <button type="submit" name="action" class="btn btn-primary">Сохранить</button>
+            <button type="submit" name="save" class="btn btn-primary">Сохранить</button>
+            <div th:if="${orderEntity.id != null}">
+                <button type="submit" name="remove" class="btn btn-primary">Удалить</button>
+            </div>
         </form>
-        <div th:if="${object.id != null}">
-            <a class="btn btn-primary" role="button" th:href="@{${url} + ${object.id} +  '/remove'}">Удалить</a>
-        </div>
+
     </div>
-    <div class="col-auto" th:if="${object.id != null}">
+    <div class="col-auto" th:if="${orderEntity.id != null}">
         <h3>События</h3>
         <a class="btn btn-primary" role="button"
-           th:href="@{'/orders/events/auto/create?orderId='+ ${object.id}}">Добавить</a>
+           th:href="@{'/orders/events/auto/create?orderId='+ ${orderEntity.id}}">Добавить</a>
 
-        <th:block th:each="event : ${object.events}">
+        <th:block th:each="event : ${orderEntity.events}">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title"><a th:href="@{'/settings/management/users/'+ ${event.author?.id} + '/edit'}"
@@ -167,7 +211,7 @@
         <hr>
 
         <h3>Журнал звонков</h3>
-        <th:block th:each="call : ${object.calls}">
+        <th:block th:each="call : ${orderEntity.calls}">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title"><a th:href="@{'/settings/management/users/'+ ${call.author?.id} + '/edit'}"
@@ -183,19 +227,22 @@
 
         <h3>Расходы</h3>
         <a class="btn btn-primary" role="button"
-           th:href="@{'/costs/create/'+ ${object.id}}">Новый</a>
-        <th:block th:each="cost : ${object.costs}">
+           th:href="@{'/costs/create/'+ ${orderEntity.id}}">Новый</a>
+        <th:block th:each="cost : ${orderEntity.costs}">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title"><a th:href="@{'/costs/'+ ${cost.id} + '/edit'}"
                                               th:text="${cost.article?.name}"></a></h5>
 
-                    <h6 class="card-subtitle mb-2 text-muted" th:if="${cost.endPeriod==null}" th:text="${cost.startPeriod}"></h6>
-                    <h6 class="card-subtitle mb-2 text-muted" th:if="${cost.endPeriod!=null}" th:text="@{${cost.startPeriod} + ' ' + ${cost.endPeriod}}"></h6>
+                    <h6 class="card-subtitle mb-2 text-muted" th:if="${cost.endPeriod==null}"
+                        th:text="${cost.startPeriod}"></h6>
+                    <h6 class="card-subtitle mb-2 text-muted" th:if="${cost.endPeriod!=null}"
+                        th:text="@{${cost.startPeriod} + ' ' + ${cost.endPeriod}}"></h6>
                     <p class="card-text" th:text="@{'Сумма:' + ${cost.sum}}"></p>
                     <p class="card-text" th:text="@{'Комментарий:' + ${cost.comment}}"></p>
                 </div>
             </div>
+            <b th:text="'Итого расход: ' + ${#aggregates.sum(orderEntity.costs.![sum])}"></b>
             <br>
         </th:block>
         <hr>

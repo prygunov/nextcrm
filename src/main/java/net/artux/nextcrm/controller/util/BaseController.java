@@ -30,7 +30,11 @@ public abstract class BaseController {
     protected abstract Object getHome(Model model);
 
     protected Object defaultPage(Model model){
-        return new ModelAndView("redirect:" + getPageUrl());
+        return redirect(getPageUrl(), model);
+    }
+    protected Object redirect(String url, Model model){
+        ModelAndView modelAndView = new ModelAndView("redirect:" + url, model.asMap());
+        return modelAndView;
     }
 
     @ModelAttribute("url")

@@ -10,4 +10,6 @@ import java.util.Optional;
 
 public interface GoodsRepository extends CRepository<GoodEntity> {
 
+    List<GoodEntity> findAllByNameContainsIgnoreCase(String param);
+
 }

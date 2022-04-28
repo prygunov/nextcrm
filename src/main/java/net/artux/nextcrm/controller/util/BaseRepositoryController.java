@@ -72,7 +72,6 @@ public abstract class BaseRepositoryController<E extends BaseEntity, // Осно
         return pageWithContent(folder + "/edit", model);
     }
 
-    @PostMapping
     @RequestMapping(value = "/{id}/update", method = RequestMethod.POST)
     public Object update(@Valid @ModelAttribute E dto, final BindingResult bindingResult, @PathVariable Long id,  Model model) throws IllegalAccessException {
         if (!bindingResult.hasErrors()) {

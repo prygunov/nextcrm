@@ -3,6 +3,7 @@ package net.artux.nextcrm.model.costs;
 import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import net.artux.nextcrm.model.BaseEntity;
 import net.artux.nextcrm.model.client.ClientEntity;
 import net.artux.nextcrm.model.order.CallEntity;
@@ -27,8 +28,8 @@ import javax.persistence.Table;
 import java.util.Date;
 import java.util.List;
 
-@Data
 @Getter
+@Setter
 @RequiredArgsConstructor
 @Table(name = "cost")
 @Entity
