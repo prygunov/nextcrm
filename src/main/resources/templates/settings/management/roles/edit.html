@@ -1,21 +1,19 @@
-<div th:with="url=${'/settings/management/roles/'}">
+<div>
     <form th:action="@{${url} + 'create'}" th:object="${object}" method="post">
         <div class="form-group">
             <label for="name"><b>Название</b></label>
             <input type="text" class="form-control" name="name" id="name" required>
         </div>
         <p>Доступ к разделам:</p>
+        <label for="tasks"><b>Задачи</b></label>
+        <input type="checkbox" name="tasks" id="tasks"/>
         <br>
-            <label for="tasks"><b>Задачи</b></label>
-            <input type="checkbox" name="tasks" id="tasks"/>
+        <label for="clients"><b>Клиенты</b></label>
+        <input type="checkbox" name="clients" id="clients"/>
         <br>
-            <label for="clients"><b>Клиенты</b></label>
-            <input type="checkbox" name="tasks" id="clients"/>
-        <br>
-            <label for="orders"><b>Заказы</b></label>
-            <input type="checkbox" name="tasks" id="orders"/>
-            <hr>
-            <input type="submit" name="action" value="Добавить"/>
-
+        <label for="orders"><b>Заказы</b></label>
+        <input type="checkbox" name="orders" id="orders"/>
+        <hr>
+        <input type="submit" name="action" value="Добавить"/>
     </form>
 </div>

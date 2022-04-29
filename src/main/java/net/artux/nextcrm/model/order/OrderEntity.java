@@ -25,6 +25,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Getter
@@ -51,7 +52,7 @@ public class OrderEntity extends BaseEntity {
     @NotNull
     private UserEntity employee;
 
-    @ManyToMany
+    @OneToMany
     @Size(min = 1, max = 100)
     private List<GoodEntity> goods;
 

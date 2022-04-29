@@ -5,6 +5,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
+
+import java.util.function.BiConsumer;
 
 @RequiredArgsConstructor
 public abstract class BaseController {
@@ -30,11 +34,17 @@ public abstract class BaseController {
     protected abstract Object getHome(Model model);
 
     protected Object defaultPage(Model model){
-        return redirect(getPageUrl(), model);
+        return new RedirectView(getPageUrl(), false);
     }
-    protected Object redirect(String url, Model model){
-        ModelAndView modelAndView = new ModelAndView("redirect:" + url, model.asMap());
-        return modelAndView;
+
+    protected Object redirect(String url, Model model, RedirectAttributes redirectAttributes){
+        model.asMap().forEach(new BiConsumer<String, Object>() {
+            @Override
+            public void accept(String s, Object o) {
+                redirectAttributes.addFlashAttribute(s, o);
+            }
+        });
+        return new RedirectView(url, false);
     }
 
     @ModelAttribute("url")

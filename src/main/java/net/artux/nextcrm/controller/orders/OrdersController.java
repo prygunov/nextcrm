@@ -2,9 +2,7 @@ package net.artux.nextcrm.controller.orders;
 
 import net.artux.nextcrm.controller.util.BaseController;
 import net.artux.nextcrm.model.client.ClientEntity;
-import net.artux.nextcrm.model.order.OrderEntity;
-import net.artux.nextcrm.model.order.OrderFilter;
-import net.artux.nextcrm.model.order.OrderStatusEntity;
+import net.artux.nextcrm.model.order.*;
 import net.artux.nextcrm.model.order.delivery.DeliveryStatusEntity;
 import net.artux.nextcrm.model.order.delivery.DeliveryTypeEntity;
 import net.artux.nextcrm.model.order.goods.GoodEntity;
@@ -24,10 +22,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.lang.reflect.Field;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 @Controller
 @RequestMapping("/orders")
@@ -63,13 +66,13 @@ public class OrdersController extends BaseController {
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(Model model){
-        Object o = new OrderEntity();
-        model.addAttribute(o);
+        if (model.getAttribute("orderEntity")==null)
+            model.addAttribute(new OrderEntity());
 
         return pageWithContent(folder + "/edit", model);
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    @RequestMapping(value = "/create", params = "save")
     public Object create(@Valid @ModelAttribute OrderEntity object, final BindingResult bindingResult, Model model) throws Exception{
         if (!bindingResult.hasErrors()) {
             repository.save(object);
@@ -79,6 +82,26 @@ public class OrdersController extends BaseController {
             model.addAttribute(object);
             return pageWithContent(folder + "/edit", model);
         }
+    }
+
+    @RequestMapping(value = "/create", params = "addGood")
+    public Object addGoodSave(@ModelAttribute OrderEntity dto, @RequestParam("addGood")Long goodId, Model model){
+        dto.getGoods().add(goodsRepository.getById(goodId));
+        return pageWithContent(folder + "/edit", model);
+    }
+
+    @RequestMapping(value = "/create", params = "removeGood")
+    public Object removeGoodSave(@ModelAttribute OrderEntity dto, @RequestParam("removeGood")Long index, Model model){
+        dto.getGoods().remove(index.intValue());
+        return pageWithContent(folder + "/edit", model);
+    }
+
+    @RequestMapping(value = "/create", params = "search")
+    public Object findGoodsSave(@ModelAttribute OrderEntity dto, RedirectAttributes redirectAttributes, @RequestParam("q") String param, Model model){
+        model.addAttribute("selectGoods", goodsRepository.findAllByNameContainsIgnoreCase(param));
+        model.addAttribute("q", param);
+
+        return redirect(getPageUrl() + "create#search", model, redirectAttributes);
     }
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)

@@ -5,8 +5,11 @@
 
             <div th:insert="errors"></div>
 
-            <input type="hidden" name="id" th:value="${orderEntity.id == null} ? 0 : ${orderEntity.id}"/>
+            <input type="hidden" th:field="*{id}"/>
             <input type="hidden" th:field="*{goods}"/>
+            <input type="hidden" th:field="*{calls}"/>
+            <input type="hidden" th:field="*{costs}"/>
+            <input type="hidden" th:field="*{events}"/>
 
             <h2 th:if="${orderEntity.id != null}" th:text="@{'Заказ '+ ${orderEntity.id}}"></h2>
 
@@ -48,7 +51,7 @@
                 </div>
             </div>
 
-            <div class="row" th:if="${orderEntity.client == null}">
+            <div class="row" th:if="${orderEntity.id == null}">
                 <div class="col">
                     <label for="client"><b>Клиент</b></label>
                     <select name="client" id="client" class="form-control">
@@ -60,7 +63,7 @@
                 </div>
             </div>
 
-            <div th:if="${orderEntity.client != null}">
+            <div th:if="${orderEntity.id != null}">
                 <hr>
 
                 <input type="hidden" name="client.id"
@@ -125,36 +128,58 @@
 
                 <hr>
             </div>
-
-            <H3>Состав заказа</H3>
+            <div class="row">
+                <H3>Состав заказа</H3>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#search">
+                    Добавить товары
+                </button>
+            </div>
             <hr>
 
-            <label for="site-search">Search the site:</label>
-            <input type="search" id="site-search" name="q" th:value="${q}">
-            <button type="submit" name="search">Поиск</button>
-            <table class="table">
-                <tr>
-                    <td scope="col">Фото</td>
-                    <td scope="col">Категория</td>
-                    <td scope="col">Артикул</td>
-                    <td scope="col">Наименование</td>
-                    <td scope="col">Сумма</td>
-                    <td scope="col">Действие</td>
-                </tr>
 
-                <th:block th:each="good : ${selectGoods}" >
-                    <tr class='clickable-row' th:data-href="@{/goods/{id}/edit (id = ${good.id})}">
-                        <th scope="row">
-                            <img th:src="${good.photo}" class="rounded">
-                        </th>
-                        <td th:text="${good.category?.name}"></td>
-                        <td th:text="${good.code}"></td>
-                        <td th:text="${good.name}"></td>
-                        <td th:text="${good.price}"></td>
-                        <td><button type="submit" name="addGood" th:value="${good.id}">Добавить</button></td>
-                    </tr>
-                </th:block>
-            </table>
+
+            <div class="modal fade" id="search" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Добавить в заказ товары</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <label for="site-search">По наименованию:</label>
+                            <input type="search" id="site-search" name="q" th:value="${q}">
+                            <button type="submit" name="search">Поиск</button>
+                            <table class="table">
+                                <tr>
+                                    <td scope="col">Фото</td>
+                                    <td scope="col">Категория</td>
+                                    <td scope="col">Артикул</td>
+                                    <td scope="col">Наименование</td>
+                                    <td scope="col">Сумма</td>
+                                    <td scope="col">Действие</td>
+                                </tr>
+
+                                <th:block th:each="good : ${selectGoods}" >
+                                    <tr class='clickable-row' th:data-href="@{/goods/{id}/edit (id = ${good.id})}">
+                                        <th scope="row">
+                                            <img th:src="${good.photo}" class="rounded">
+                                        </th>
+                                        <td th:text="${good.category?.name}"></td>
+                                        <td th:text="${good.code}"></td>
+                                        <td th:text="${good.name}"></td>
+                                        <td th:text="${good.price}"></td>
+                                        <td><button type="submit" name="addGood" th:value="${good.id}">Добавить</button></td>
+                                    </tr>
+                                </th:block>
+                            </table>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <table class="table">
                 <tr>
@@ -169,7 +194,7 @@
                 <th:block th:each="good, i : *{goods}">
                     <tr  class='clickable-row' th:data-href="@{/settings/goods/{id}/edit (id = ${good.id})}">
                         <th scope="row">
-                            <img th:src="${good.photo}" class="rounded">
+                            <img th:src="${good.photo}" class="img-thumbnail" width="100">
                         </th>
                         <td th:text="${good.category?.name}"></td>
                         <td th:text="${good.code}"></td>
