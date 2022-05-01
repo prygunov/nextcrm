@@ -33,6 +33,7 @@ public class DeliveryEntity extends BaseEntity {
 
     @ManyToOne
     private AddressEntity address;
+
     private Date date;
     private String information;
 }

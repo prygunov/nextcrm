@@ -1,0 +1,45 @@
+<div>
+    <form th:attr="action=${object.id == null} ? ${url} + 'create' :  ${url} + ${object.id} +  '/update'"
+          th:object="${addressEntity}" method="post">
+
+        <div th:insert="errors"></div>
+
+        <div class="form-group">
+            <label for="index"><b>Индекс</b></label>
+            <input type="number" class="form-control" th:field="*{index}">
+        </div>
+        <div class="form-group">
+            <label for="region"><b>Регион</b></label>
+            <input type="text" class="form-control" th:field="*{region}">
+        </div>
+        <div class="form-group">
+            <label for="city"><b>Город</b></label>
+            <input type="text" class="form-control" th:field="*{city}">
+        </div>
+        <div class="form-group">
+            <label for="street"><b>Улица</b></label>
+            <input type="text" class="form-control" th:field="*{street}">
+        </div>
+        <div class="form-group">
+            <label for="house"><b>Дом</b></label>
+            <input type="number" class="form-control" th:field="*{house}">
+        </div>
+        <div class="form-group">
+            <label for="entrance"><b>Подъезд</b></label>
+            <input type="number" class="form-control" th:field="*{entrance}">
+        </div>
+        <div class="form-group">
+            <label for="building"><b>Строение</b></label>
+            <input type="number" class="form-control" th:field="*{building}">
+        </div>
+        <div class="form-group">
+            <label for="flat"><b>Квартира</b></label>
+            <input type="number" class="form-control" th:field="*{flat}">
+        </div>
+        <input type="submit" name="action" class="btn btn-primary" value="Сохранить"/>
+</form>
+
+<div th:if="${object.id != null}">
+    <a class="btn btn-primary" role="button" th:href="@{${url} + ${object.id} +  '/remove'}">Удалить</a>
+</div>
+</div>

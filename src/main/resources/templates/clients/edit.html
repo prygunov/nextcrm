@@ -1,7 +1,10 @@
-<div th:with="url=${'/clients/'}">
+<div>
 
     <form th:attr="action=${object.id == null} ? ${url} + 'create' :  ${url} + ${object.id} +  '/update'"
-          th:object="${object}" method="post">
+          th:object="${clientEntity}" method="post">
+
+        <div th:insert="errors"></div>
+
         <div class="form-group">
             <label for="name"><b>Имя</b></label>
             <input type="text" class="form-control" th:field="*{name}">
@@ -16,7 +19,7 @@
         </div>
         <div class="form-group">
             <label for="email"><b>Почта</b></label>
-            <input type="tel" class="form-control" th:field="*{email}">
+            <input type="email" class="form-control" th:field="*{email}">
         </div>
         <div class="form-group">
             <label for="birthday">Дата рождения</label>
@@ -26,7 +29,7 @@
             <label for="sex">Пол</label>
             <select name="sex" class="form-control" id="sex">
                 <option th:each="sex : ${T(net.artux.nextcrm.model.client.Sex).values()}"
-                        th:value="${sex}" th:text="${sex}" th:selected="${object.sex == sex}">
+                        th:value="${sex}" th:text="${sex}" th:selected="${clientEntity.sex == sex}">
                 </option>
             </select>
         </div>

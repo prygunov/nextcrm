@@ -1,0 +1,33 @@
+<a th:href="@{/addresses/create}">
+    <button type="button" class="btn btn-primary">Создать адрес</button>
+</a>
+
+<h3 th:text="${relative}"></h3>
+
+<ul class="list-group" th:unless="${final}">
+    <li class="list-group-item" th:each="object : ${objects}">
+        <a th:href="${url} + ${relative} + ${object}" th:text="${object}"></a>
+    </li>
+</ul>
+
+
+<table class="table" th:if="${final}">
+    <tr>
+        <td scope="col">Дом</td>
+        <td scope="col">Строение</td>
+        <td scope="col">Подъезд</td>
+        <td scope="col">Квартира</td>
+    </tr>
+
+    <th:block th:each="object : ${objects}">
+        <tr class='clickable-row' th:data-href="@{/addresses/{id}/edit (id = ${object.id})}">
+            <th scope="row">
+                <a th:text="${object.house}">
+                </a>
+            </th>
+            <td th:text="${object.building}"></td>
+            <td th:text="${object.entrance}"></td>
+            <td th:text="${object.flat}"></td>
+        </tr>
+    </th:block>
+</table>
