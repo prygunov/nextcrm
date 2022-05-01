@@ -16,7 +16,7 @@ public abstract class BaseController {
     protected final String pageTitle;
 
     @ModelAttribute("title")
-    public String getPageTitle(){
+    public String getPageTitle() {
         return pageTitle;
     }
 
@@ -25,7 +25,7 @@ public abstract class BaseController {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
-    public String pageWithContent(String content, Model model){
+    public String pageWithContent(String content, Model model) {
         model.addAttribute("content", content);
         return "template";
     }
@@ -33,22 +33,18 @@ public abstract class BaseController {
     @GetMapping
     protected abstract Object getHome(Model model);
 
-    protected Object defaultPage(Model model){
+    protected Object defaultPage(Model model) {
         return new RedirectView(getPageUrl(), false);
     }
 
-    protected Object redirect(String url, Model model, RedirectAttributes redirectAttributes){
-        model.asMap().forEach(new BiConsumer<String, Object>() {
-            @Override
-            public void accept(String s, Object o) {
-                redirectAttributes.addFlashAttribute(s, o);
-            }
-        });
+    protected Object redirect(String url, Model model, RedirectAttributes redirectAttributes) {
+        if (model != null && redirectAttributes != null)
+            model.asMap().forEach((s, o) -> redirectAttributes.addFlashAttribute(s, o));
         return new RedirectView(url, false);
     }
 
     @ModelAttribute("url")
-    protected String getPageUrl(){
+    protected String getPageUrl() {
         return getClass().getAnnotation(RequestMapping.class).value()[0] + '/';
     }
 }

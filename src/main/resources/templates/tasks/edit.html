@@ -3,6 +3,7 @@
           th:object="${object}" method="post">
 
         <input type="hidden" name="id" th:value="${object.id == null} ? 0 : ${object.id}"/>
+        <input type="hidden" th:field="*{comments}"/>
 
 
         <div th:if="${object.id != null}">

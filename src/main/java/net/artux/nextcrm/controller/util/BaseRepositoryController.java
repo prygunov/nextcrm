@@ -31,9 +31,13 @@ public abstract class BaseRepositoryController<E extends BaseEntity, // Осно
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(Model model){
         try {
-            Object o = dClass.newInstance();
-            model.addAttribute("object", o);
-            model.addAttribute(o);
+            String name = dClass.getSimpleName();
+            name = name.replace(name.charAt(0), Character.toLowerCase(name.charAt(0)));
+            if (model.getAttribute(name) == null) {
+                Object o = dClass.newInstance();
+                model.addAttribute(o);
+                model.addAttribute("object", o);
+            }
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

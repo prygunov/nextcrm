@@ -4,6 +4,7 @@
           th:object="${clientEntity}" method="post">
 
         <div th:insert="errors"></div>
+        <input type="hidden" th:field="*{registrationDate}">
 
         <div class="form-group">
             <label for="name"><b>Имя</b></label>
@@ -29,7 +30,7 @@
             <label for="sex">Пол</label>
             <select name="sex" class="form-control" id="sex">
                 <option th:each="sex : ${T(net.artux.nextcrm.model.client.Sex).values()}"
-                        th:value="${sex}" th:text="${sex}" th:selected="${clientEntity.sex == sex}">
+                        th:value="${sex}" th:text="${sex.getTitle()}" th:selected="${clientEntity.sex == sex}">
                 </option>
             </select>
         </div>
@@ -38,36 +39,75 @@
             <input type="text" class="form-control" th:field="*{information}"/>
         </div>
         <input type="submit" name="action" class="btn btn-primary" value="Сохранить"/>
+    </form>
 </div>
-</form>
 
 <div th:if="${object.id != null}">
     <a class="btn btn-primary" role="button" th:href="@{${url} + ${object.id} +  '/remove'}">Удалить</a>
+
+    <H4>Адреса</H4>
+    <div th:insert="clients/address/findAddress"/>
+
+
+    <table class="table">
+        <tr>
+            <td scope="col">Город</td>
+            <td scope="col">Улица</td>
+            <td scope="col">Дом</td>
+            <td scope="col">Строение</td>
+            <td scope="col">Подъезд</td>
+            <td scope="col">Квартира</td>
+            <td scope="col">Действие</td>
+        </tr>
+
+
+        <th:block th:each="address : ${object.addresses}">
+            <tr class='clickable-row' th:data-href="@{/addresses/{id}/edit (id = ${address.id})}">
+                <th scope="row" th:text="${address.city}">
+                </th>
+                <td th:text="${address.street}"></td>
+                <td th:text="${address.house}"></td>
+                <td th:text="${address.building}"></td>
+                <td th:text="${address.entrance}"></td>
+                <td th:text="${address.flat}"></td>
+                <td>
+                    <form th:if="${address.id != object.defaultAddress?.id}" th:attr="action=${url} + ${object.id} +  '/setDefaultAddress'" method="post">
+                        <button type="submit" name="defaultId" th:value="${address.id}">Задать по умолчанию</button>
+                    </form>
+                    <form th:attr="action=${url} + ${object.id} +  '/removeAddress'" method="post">
+                        <button type="submit" name="removeId" th:value="${address.id}">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+        </th:block>
+    </table>
+
+    <hr>
+    <h4>Заказы</h4>
+    <table class="table">
+        <tr>
+            <td scope="col">Номер</td>
+            <td scope="col">Время</td>
+            <td scope="col">Статус</td>
+            <td scope="col">Менеджер</td>
+            <td scope="col">Сумма</td>
+        </tr>
+
+        <th:block th:each="object : ${orders}">
+            <tr class='clickable-row' th:data-href="@{/orders/{id}/edit (id = ${object.id})}">
+                <th scope="row">
+                    <a th:text="${object.id}">
+                    </a>
+                </th>
+                <td th:text="${object.time}"></td>
+                <td th:text="${object.statusName}"></td>
+                <td th:text="${object.login}"></td>
+                <td th:text="${object.price}"></td>
+            </tr>
+        </th:block>
+    </table>
+
 </div>
 
-<hr>
-<h4>Заказы</h4>
-<table class="table">
-    <tr>
-        <td scope="col">Номер</td>
-        <td scope="col">Время</td>
-        <td scope="col">Статус</td>
-        <td scope="col">Менеджер</td>
-        <td scope="col">Сумма</td>
-    </tr>
-
-    <th:block th:each="object : ${orders}">
-        <tr class='clickable-row' th:data-href="@{/orders/{id}/edit (id = ${object.id})}">
-            <th scope="row">
-                <a th:text="${object.id}">
-                </a>
-            </th>
-            <td th:text="${object.time}"></td>
-            <td th:text="${object.statusName}"></td>
-            <td th:text="${object.login}"></td>
-            <td th:text="${object.price}"></td>
-        </tr>
-    </th:block>
-</table>
 
 </div>

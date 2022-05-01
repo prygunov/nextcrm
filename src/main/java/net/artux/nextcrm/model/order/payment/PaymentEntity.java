@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.artux.nextcrm.model.BaseEntity;
 import net.artux.nextcrm.model.order.OrderEntity;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -19,12 +20,20 @@ import java.util.Date;
 @Entity
 public class PaymentEntity extends BaseEntity {
 
+    public PaymentEntity(OrderEntity order) {
+        this.order = order;
+    }
+
     @ManyToOne
     private PaymentStatusEntity status;
 
     @ManyToOne
     private PaymentTypeEntity type;
 
+    @ManyToOne
+    private OrderEntity order;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date time;
     private float sum;
 

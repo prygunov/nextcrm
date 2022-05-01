@@ -1,0 +1,127 @@
+<div>
+
+    <form th:attr="action=${deliveryEntity.id == null} ? ${url} + 'create' :  ${url} + ${deliveryEntity.id} +  '/update'"
+          th:object="${deliveryEntity}" method="post">
+
+        <div th:insert="errors"></div>
+
+        <input type="hidden" th:field="*{address}">
+
+        <div class="form-group">
+            <label>Дата доставки</label>
+            <input type="date" class="form-control" th:field="*{date}"/>
+        </div>
+
+        <div class="row">
+
+            <div class="col">
+                <div class="form-group">
+                    <label for="status"><b>Статус</b></label>
+                    <select name="status" id="status" class="form-control">
+                        <option th:value="null">Не задан</option>
+                        <option th:each="status : ${statuses}" th:value="${status.id}"
+                                th:text="${status.name}"
+                                th:selected="${deliveryEntity.status?.id == status.id}"></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-group">
+                    <label for="type"><b>Тип</b></label>
+                    <select name="type" id="type" class="form-control">
+                        <option th:value="null">Не задан</option>
+                        <option th:each="type : ${types}" th:value="${type.id}"
+                                th:text="${type.name}" th:selected="${deliveryEntity.type?.id == type.id}"></option>
+                    </select>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <label for="order"><b>Заказ</b></label>
+            <select name="order" id="order" class="form-control">
+                <option th:value="null">Не задан</option>
+                <option th:each="order : ${orders}" th:value="${order.id}"
+                        th:text="'#' + ${order.id}" th:selected="${deliveryEntity.order?.id == order.id}"></option>
+            </select>
+        </div>
+
+
+        <div class="form-group">
+            <label for="information">Дополнительная информация</label>
+            <input type="text" class="form-control" th:field="*{information}"/>
+        </div>
+
+        <div th:if="${deliveryEntity.address != null}">
+            <p th:text="'Доставка выполняется по адресу: ' + ${deliveryEntity.address}"></p>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#searchAddress">
+                Задать адрес
+            </button>
+        </div>
+
+
+        <input type="submit" name="action" class="btn btn-primary" value="Сохранить"/>
+
+        <div class="modal fade" id="searchAddress" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Поиск адреса</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <label for="site-search">По совпадению:</label>
+                        <input type="search" id="site-search" name="q" th:value="${q}">
+                        <button type="submit" name="search">Поиск</button>
+
+                        <table class="table">
+                            <tr>
+                                <td scope="col">Город</td>
+                                <td scope="col">Улица</td>
+                                <td scope="col">Дом</td>
+                                <td scope="col">Строение</td>
+                                <td scope="col">Подъезд</td>
+                                <td scope="col">Квартира</td>
+                                <td scope="col">Действие</td>
+                            </tr>
+
+                            <th:block th:each="address : ${addresses}">
+                                <tr class='clickable-row' th:data-href="@{/addresses/{id}/edit (id = ${address.id})}">
+                                    <th scope="row" th:text="${address.city}">
+                                    </th>
+                                    <td th:text="${address.street}"></td>
+                                    <td th:text="${address.house}"></td>
+                                    <td th:text="${address.building}"></td>
+                                    <td th:text="${address.entrance}"></td>
+                                    <td th:text="${address.flat}"></td>
+                                    <td>
+                                        <button type="submit" name="addressId" th:value="${address.id}">Задать</button>
+                                    </td>
+                                </tr>
+                            </th:block>
+
+                        </table>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+
+</div>
+
+
+<div th:if="${deliveryEntity.id != null}">
+    <a class="btn btn-primary" role="button" th:href="@{${url} + ${deliveryEntity.id} +  '/remove'}">Удалить</a>
+</div>

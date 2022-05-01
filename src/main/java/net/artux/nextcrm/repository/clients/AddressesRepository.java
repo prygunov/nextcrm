@@ -20,4 +20,7 @@ public interface AddressesRepository extends CRepository<AddressEntity> {
     @Query("select a from AddressEntity a where a.region = :region and a.city = :city and a.street = :street")
     List<AddressEntity> getAddresses(String region, String city, String street);
 
+    @Query(value = "select * from address a where a.city like :q or cast(house as text) like :q", nativeQuery = true)
+    List<AddressEntity> findAddresses(String q);
+
 }

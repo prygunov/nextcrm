@@ -6,10 +6,12 @@ import net.artux.nextcrm.model.order.*;
 import net.artux.nextcrm.model.order.delivery.DeliveryStatusEntity;
 import net.artux.nextcrm.model.order.delivery.DeliveryTypeEntity;
 import net.artux.nextcrm.model.order.goods.GoodEntity;
+import net.artux.nextcrm.model.order.payment.PaymentEntity;
 import net.artux.nextcrm.model.user.UserEntity;
 import net.artux.nextcrm.repository.clients.ClientRepository;
 import net.artux.nextcrm.repository.orders.DeliveryTypeRepository;
 import net.artux.nextcrm.repository.orders.OrdersRepository;
+import net.artux.nextcrm.repository.orders.PaymentRepository;
 import net.artux.nextcrm.repository.settings.goods.GoodsRepository;
 import net.artux.nextcrm.repository.settings.management.UsersRepository;
 import net.artux.nextcrm.repository.settings.statuses.DeliveryStatusRepository;
@@ -26,11 +28,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.lang.reflect.Field;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 @Controller
 @RequestMapping("/orders")
@@ -39,14 +37,16 @@ public class OrdersController extends BaseController {
     private final OrdersRepository repository;
     private final OrderStatusRepository statusRepository;
     private final GoodsRepository goodsRepository;
+    private final PaymentRepository paymentRepository;
     private final ClientRepository clientRepository;
     private final UsersRepository usersRepository;
     private final DeliveryStatusRepository deliveryStatusRepository;
     private final DeliveryTypeRepository deliveryTypeRepository;
     private final String folder;
 
-    public OrdersController(OrdersRepository repository, OrderStatusRepository statusRepository, GoodsRepository goodsRepository, ClientRepository clientRepository, UsersRepository usersRepository, DeliveryStatusRepository deliveryStatusRepository, DeliveryTypeRepository deliveryTypeRepository){
+    public OrdersController(OrdersRepository repository, OrderStatusRepository statusRepository, GoodsRepository goodsRepository, PaymentRepository paymentRepository, ClientRepository clientRepository, UsersRepository usersRepository, DeliveryStatusRepository deliveryStatusRepository, DeliveryTypeRepository deliveryTypeRepository){
         super("Заказы");
+        this.paymentRepository = paymentRepository;
         folder = "orders";
         this.repository = repository;
         this.statusRepository = statusRepository;
@@ -155,6 +155,16 @@ public class OrdersController extends BaseController {
         model.addAttribute("q", param);
         return pageWithContent(folder + "/edit", model);
     }
+
+    @RequestMapping(value = "/{id}/addPayment")
+    public Object addPayment(Model model, @PathVariable Long id){
+        OrderEntity order = repository.findById(id).orElseThrow();
+        PaymentEntity payment = new PaymentEntity(order);
+        paymentRepository.save(payment);
+        return redirect(getPageUrl() + id + "/edit", model, null);
+    }
+
+
 
     @ModelAttribute("clients")
     private List<ClientEntity> getClients(){

@@ -1,0 +1,62 @@
+<div class="col">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#searchAddress">
+        Задать адрес
+    </button>
+</div>
+<hr>
+
+
+<div class="modal fade" id="searchAddress" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Поиск адреса</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <form th:attr="action=${url} + ${object.id} +  '/findAddress'" method="post">
+                    <label for="site-search">По совпадению:</label>
+                    <input type="search" id="site-search" name="q" th:value="${q}">
+                    <button type="submit" name="search">Поиск</button>
+                </form>
+                <table class="table">
+                    <tr>
+                        <td scope="col">Город</td>
+                        <td scope="col">Улица</td>
+                        <td scope="col">Дом</td>
+                        <td scope="col">Строение</td>
+                        <td scope="col">Подъезд</td>
+                        <td scope="col">Квартира</td>
+                        <td scope="col">Действие</td>
+                    </tr>
+
+                    <form th:attr="action=${url} + ${object.id} +  '/setAddress'" method="post">
+
+                        <th:block th:each="address : ${addresses}">
+                            <tr class='clickable-row' th:data-href="@{/addresses/{id}/edit (id = ${address.id})}">
+                                <th scope="row" th:text="${address.city}">
+                                </th>
+                                <td th:text="${address.street}"></td>
+                                <td th:text="${address.house}"></td>
+                                <td th:text="${address.building}"></td>
+                                <td th:text="${address.entrance}"></td>
+                                <td th:text="${address.flat}"></td>
+                                <td>
+                                    <button type="submit" name="addressId" th:value="${address.id}">Задать</button>
+                                </td>
+                            </tr>
+                        </th:block>
+
+                    </form>
+                </table>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

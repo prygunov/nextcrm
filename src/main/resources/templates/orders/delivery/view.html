@@ -1,0 +1,26 @@
+<a th:href="@{/deliveries/create}">
+    <button type="button" class="btn btn-primary">Создать доставку</button>
+</a>
+
+<table class="table">
+    <tr>
+        <td scope="col">Номер</td>
+        <td scope="col">Тип</td>
+        <td scope="col">Статус</td>
+        <td scope="col">Заказ</td>
+        <td scope="col">Дата</td>
+    </tr>
+
+    <th:block th:each="object : ${objects}">
+        <tr class='clickable-row' th:data-href="@{/deliveries/{id}/edit (id = ${object.id})}">
+            <th scope="row">
+                <a th:text="${object.id}">
+                </a>
+            </th>
+            <td th:text="${object.type.name}"></td>
+            <td th:text="${object.status.name}"></td>
+            <td th:text="${object.order.id}"></td>
+            <td th:text="${object.date}"></td>
+        </tr>
+    </th:block>
+</table>

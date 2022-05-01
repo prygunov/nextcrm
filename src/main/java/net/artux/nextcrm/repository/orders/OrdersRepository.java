@@ -14,7 +14,7 @@ public interface OrdersRepository extends CRepository<OrderEntity> {
     List<OrderEntity> findAllByEmployeeId(Long id);
     List<OrderEntity> findAllByClientId(Long id);
 
-    @Query(value = "SELECT  NEW OrderDto (ao.id, os.name, au.login, ao.employee.id, ao.time, ao.client.id, concat(c.name, ' ', c.lastname), sum(g.price))\n" +
+    @Query(value = "SELECT  NEW net.artux.nextcrm.model.order.OrderDto (ao.id, os.name, au.login, ao.employee.id, ao.time, ao.client.id, concat(c.name, ' ', c.lastname), sum(g.price))\n" +
             "from OrderEntity ao \n" +
             " join OrderGoodEntity aog on ao.id = aog.order_entity_id \n" +
             " join GoodEntity g on g.id = aog.goods_id \n" +
@@ -24,7 +24,7 @@ public interface OrdersRepository extends CRepository<OrderEntity> {
             "group by ao.id, au.id, os.name, au.login, c.name, c.lastname, c.id")
     List<OrderDto> findAllWithSum();
 
-    @Query(value = "SELECT  NEW OrderDto (ao.id, os.name, au.login, ao.employee.id, ao.time, ao.client.id, concat(c.name, ' ', c.lastname), sum(g.price))\n" +
+    @Query(value = "SELECT  NEW net.artux.nextcrm.model.order.OrderDto (ao.id, os.name, au.login, ao.employee.id, ao.time, ao.client.id, concat(c.name, ' ', c.lastname), sum(g.price))\n" +
             "from OrderEntity ao \n" +
             " join OrderGoodEntity aog on ao.id = aog.order_entity_id \n" +
             " join GoodEntity g on g.id = aog.goods_id \n" +
@@ -34,7 +34,7 @@ public interface OrdersRepository extends CRepository<OrderEntity> {
             "group by ao.id, au.id, os.name, au.login, c.name, c.lastname, c.id")
     List<OrderDto> getDtosForClient(@Param("clientId") Long clientId);
 
-    @Query(value = "SELECT  NEW OrderDto (ao.id, os.name, au.login, ao.employee.id, ao.time, ao.client.id, concat(c.name, ' ', c.lastname), sum(g.price))\n" +
+    @Query(value = "SELECT  NEW net.artux.nextcrm.model.order.OrderDto (ao.id, os.name, au.login, ao.employee.id, ao.time, ao.client.id, concat(c.name, ' ', c.lastname), sum(g.price))\n" +
             "from OrderEntity ao \n" +
             " join OrderGoodEntity aog on ao.id = aog.order_entity_id \n" +
             " join GoodEntity g on g.id = aog.goods_id \n" +

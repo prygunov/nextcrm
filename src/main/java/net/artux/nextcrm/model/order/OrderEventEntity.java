@@ -3,6 +3,7 @@ package net.artux.nextcrm.model.order;
 import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import net.artux.nextcrm.model.BaseEntity;
 import net.artux.nextcrm.model.client.ClientEntity;
 import net.artux.nextcrm.model.order.delivery.DeliveryEntity;
@@ -21,8 +22,8 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
-@Data
 @Getter
+@Setter
 @RequiredArgsConstructor
 @Table(name = "order_event")
 @Entity

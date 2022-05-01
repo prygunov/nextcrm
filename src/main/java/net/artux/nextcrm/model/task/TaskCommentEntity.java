@@ -1,11 +1,9 @@
 package net.artux.nextcrm.model.task;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import net.artux.nextcrm.model.BaseEntity;
-import net.artux.nextcrm.model.appeal.AppealEntity;
-import net.artux.nextcrm.model.order.OrderEntity;
 import net.artux.nextcrm.model.user.UserEntity;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -16,7 +14,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Table(name = "task_comment")
-@Data
+@Setter
 @Entity
 @RequiredArgsConstructor
 @Getter

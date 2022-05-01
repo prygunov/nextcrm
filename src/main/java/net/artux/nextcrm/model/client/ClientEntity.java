@@ -3,11 +3,16 @@ package net.artux.nextcrm.model.client;
 import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import net.artux.nextcrm.model.BaseEntity;
 import net.artux.nextcrm.model.address.AddressEntity;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -16,7 +21,6 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-@Getter
 @RequiredArgsConstructor
 @Table(name = "client")
 @Entity
@@ -45,4 +49,5 @@ public class ClientEntity extends BaseEntity {
 
     @OneToOne
     private AddressEntity defaultAddress;
+
 }

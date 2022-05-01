@@ -2,33 +2,15 @@ package net.artux.nextcrm.model.order;
 
 import lombok.Data;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import net.artux.nextcrm.model.BaseEntity;
-import net.artux.nextcrm.model.client.ClientEntity;
-import net.artux.nextcrm.model.order.delivery.DeliveryEntity;
-import net.artux.nextcrm.model.order.goods.GoodEntity;
-import net.artux.nextcrm.model.order.payment.PaymentEntity;
-import net.artux.nextcrm.model.user.UserEntity;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
 import java.util.Date;
-import java.util.List;
 
 @Data
 @Getter
-@Entity
-public class OrderDto extends BaseEntity {
+public class OrderDto {
 
+    private Long id;
     private String statusName;
     private String login;
     private Long employeeId;
@@ -43,7 +25,7 @@ public class OrderDto extends BaseEntity {
     }
 
     public OrderDto(Long id, String statusName, String login, Long employeeId, Date time, Long clientId, String clientName, Double price) {
-        super(id);
+        this.id = id;
         this.statusName = statusName;
         this.login = login;
         this.employeeId = employeeId;

@@ -18,6 +18,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -42,10 +43,11 @@ public class OrderEntity extends BaseEntity {
     @NotNull
     private OrderStatusEntity status;
 
-    @OneToOne
+    @OneToOne(mappedBy = "order")
     private DeliveryEntity delivery;
 
     @OneToMany
+    @JoinColumn(name = "order_id")
     private List<PaymentEntity> payments;
 
     @ManyToOne
