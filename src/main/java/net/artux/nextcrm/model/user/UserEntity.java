@@ -25,4 +25,8 @@ public class UserEntity extends BaseEntity {
     @ManyToOne
     private RoleEntity role;
 
+    public String fullName(){
+        return firstname + " " + lastname;
+    }
+
 }

@@ -3,6 +3,19 @@
         <form th:attr="action=${orderEntity.id == null} ? ${url} + 'create' :  ${url} + ${orderEntity.id} +  '/edit'"
               th:object="${orderEntity}" method="post">
 
+            <div class="row row-cols-auto">
+                <div th:if="${orderEntity.id != null}">
+                    <h2 th:text="'Заказ #' + ${orderEntity.id}"></h2>
+                </div>
+                <button type="submit" name="save" class="btn btn-primary">Сохранить заказ</button>
+                <button th:if="${orderEntity.id != null}" type="submit" name="remove" class="btn btn-primary">Удалить
+                    заказ
+                </button>
+
+                <a th:if="${orderEntity.id != null}" class="btn btn-primary" target="_blank" rel="noopener noreferrer"
+                   th:href="'/printing/order/' + ${orderEntity.id}">Печать</a>
+            </div>
+
             <div th:insert="errors"></div>
 
             <input type="hidden" th:field="*{id}"/>
@@ -12,9 +25,8 @@
             <input type="hidden" th:field="*{costs}"/>
             <input type="hidden" th:field="*{events}"/>
 
-            <h2 th:if="${orderEntity.id != null}" th:text="@{'Заказ '+ ${orderEntity.id}}"></h2>
-
             <H3>Основное</H3>
+            <hr>
             <div class="row">
                 <div class="col">
                     <div class="form-group">
@@ -38,11 +50,11 @@
                         </select>
                     </div>
                 </div>
-                <div class="row" th:if="${orderEntity.id != null}">
-                    <div class="col">
-                        <label for="time"><b>Время заказа</b></label>
-                        <input type="datetime-local" class="form-control" readonly th:field="*{time}">
-                    </div>
+            </div>
+            <div class="row" th:if="${orderEntity.id != null}">
+                <div class="col">
+                    <label for="time"><b>Время заказа</b></label>
+                    <input type="datetime-local" class="form-control" readonly th:field="*{time}">
                 </div>
             </div>
             <div class="row">
@@ -53,6 +65,7 @@
                 </div>
             </div>
 
+            <br>
             <div class="row" th:if="${orderEntity.id == null}">
                 <div class="col">
                     <label for="client"><b>Клиент</b></label>
@@ -66,21 +79,15 @@
             </div>
 
             <div th:if="${orderEntity.id != null}">
-                <hr>
-
                 <input type="hidden" name="client.id"
-                       th:value="${orderEntity.client?.id == null} ? 0 : ${orderEntity.client?.id}"/>
+                       th:value="${orderEntity.client?.id}"/>
 
-                <div class="row justify-content-between">
-                    <div class="col-lg-2">
-                        <H3>Клиент</H3>
-                    </div>
-                    <div class="col-lg-2">
-                        <a class="btn btn-primary" style="width: 100%" role="button"
-                           th:href="@{'/clients/' + ${orderEntity.client.id} +  '/edit'}">Редактировать</a>
-                    </div>
+                <div class="row row-cols-auto">
+                    <H3>Клиент</H3>
+                    <a class="btn btn-primary" role="button"
+                       th:href="@{'/clients/' + ${orderEntity.client.id} +  '/edit'}">Редактировать</a>
                 </div>
-
+                <hr>
                 <div class="row">
                     <div class="col">
                         <label for="client.name"><b>Имя</b></label>
@@ -127,10 +134,9 @@
                                th:value="${orderEntity.client.information}">
                     </div>
                 </div>
-
-                <hr>
             </div>
-            <div class="row">
+            <br>
+            <div class="row row-cols-auto">
                 <H3>Состав заказа</H3>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#search">
                     Добавить товары
@@ -204,29 +210,35 @@
                         <td th:text="${good.name}"></td>
                         <td th:text="${good.price}"></td>
                         <td>
-                            <button type="submit" name="removeGood" th:value="${i.index}">Удалить</button>
+                            <button class="btn btn-primary" type="submit" name="removeGood" th:value="${i.index}">
+                                Удалить
+                            </button>
                         </td>
                     </tr>
                 </th:block>
             </table>
 
             <div th:if="${orderEntity.id != null}">
-                <H3>Доставка</H3>
-                <hr>
-                <div th:if="${orderEntity.delivery == null}">
-                    <a class="btn btn-primary" role="button"
-                       th:href="@{'/deliveries/auto/create?orderId='+ ${orderEntity.id}}">Задать доставку</a>
+                <br>
+                <div class="row row-cols-auto">
+                    <H3>Доставка</H3>
+                    <div th:if="${orderEntity.delivery == null}">
+                        <a class="btn btn-primary" role="button"
+                           th:href="@{'/deliveries/auto/create?orderId='+ ${orderEntity.id}}">Задать доставку</a>
+                    </div>
+                    <div th:unless="${orderEntity.delivery == null}">
+
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#address">
+                            Изменить адрес доставки
+                        </button>
+
+                        <a class="btn btn-primary" role="button"
+                           th:href="@{'/deliveries/' + ${orderEntity.delivery.id} + '/edit'}">Редактировать доставку</a>
+                    </div>
                 </div>
+                <hr>
 
                 <div th:unless="${orderEntity.delivery == null}">
-
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#address">
-                        Изменить адрес доставки
-                    </button>
-
-                    <a class="btn btn-primary" role="button"
-                       th:href="@{'/deliveries/' + ${orderEntity.delivery.id} + '/edit'}">Редактировать доставку</a>
-
 
                     <div class="row">
                         <div class="col">
@@ -315,58 +327,86 @@
                 </div>
 
 
-                <H3>Оплата</H3>
-                <hr>
+            </div>
 
-                <a class="btn btn-primary" role="button"
-                   th:href="@{${url} + ${orderEntity.id} + '/addPayment'}">Добавить</a>
+        </form>
 
-                <th:block th:each="payment : ${orderEntity.payments}">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <label><b>Тип</b></label>
-                                    <input type="text" class="form-control" th:value="${payment.type?.name}" disabled
-                                           readonly>
+        <br>
+
+        <div class="row row-cols-auto">
+            <H3>Оплата</H3>
+            <a class="btn btn-primary" role="button"
+               th:href="@{${url} + ${orderEntity.id} + '/addPayment'}">Добавить платеж</a>
+        </div>
+        <hr>
+
+        <th:block th:each="payment : ${orderEntity.payments}">
+            <br>
+            <div class="card">
+                <div class="card-body">
+                    <form th:attr="action= '/payments/' + ${payment.id} +  '/update'"
+                          th:object="${payment}" method="post">
+                        <h4 th:text="'Платеж'"></h4>
+                        <input type="hidden" name="id" th:value="${payment.id}"/>
+                        <input type="hidden" name="order" th:value="${payment.order.id}"/>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="type"><b>Тип</b></label>
+                                    <select name="type" id="type" class="form-control">
+                                        <option th:value="null">Не задан</option>
+                                        <option th:each="type : ${paymentTypes}" th:value="${type.id}"
+                                                th:text="${type.name}"
+                                                th:selected="${payment.type?.id == type.id}"></option>
+                                    </select>
                                 </div>
-                                <div class="col">
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
                                     <label><b>Статус</b></label>
-                                    <input type="text" class="form-control" th:value="${payment.status?.name}" disabled
-                                           readonly>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <label><b>Время оплаты</b></label>
-                                    <input type="datetime-local" class="form-control" th:value="${payment.time}"
-                                           disabled readonly>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <label><b>Сумма</b></label>
-                                    <input type="text" class="form-control" th:value="${payment.sum}" disabled readonly>
+                                    <select name="status" class="form-control">
+                                        <option th:value="null">Не задан</option>
+                                        <option th:each="status : ${paymentStatuses}" th:value="${status.id}"
+                                                th:text="${status.name}"
+                                                th:selected="${payment.status?.id == status.id}"></option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </th:block>
+                        <div class="row">
+                            <div class="col">
+                                <label><b>Время оплаты</b></label>
+                                <input type="datetime-local" class="form-control" name="time"
+                                       th:value="${{payment.time}}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label><b>Сумма</b></label>
+                                <input type="number" class="form-control" name="sum" th:value="${payment.sum}">
+                            </div>
+                        </div>
+                        <div class="row row-cols-auto">
+                            <button type="submit" name="action" class="btn btn-primary">Сохранить</button>
+                            <a class="btn btn-primary" role="button"
+                               th:href="@{'/payments/' + ${payment.id} +  '/remove'}">Удалить</a>
+                        </div>
 
-            </div>
+                    </form>
 
-            <button type="submit" name="save" class="btn btn-primary">Сохранить</button>
-            <div th:if="${orderEntity.id != null}">
-                <button type="submit" name="remove" class="btn btn-primary">Удалить</button>
+                </div>
             </div>
-        </form>
+        </th:block>
 
     </div>
     <div class="col-auto" th:if="${orderEntity.id != null}">
-        <h3>События</h3>
-        <a class="btn btn-primary" role="button"
-           th:href="@{'/orders/events/auto/create?orderId='+ ${orderEntity.id}}">Добавить</a>
+        <div class="row row-cols-auto">
+            <h3>События</h3>
+            <a class="btn btn-primary" role="button"
+               th:href="@{'/orders/events/auto/create?orderId='+ ${orderEntity.id}}">Добавить</a>
 
+        </div>
         <th:block th:each="event : ${orderEntity.events}">
             <div class="card">
                 <div class="card-body">
@@ -396,9 +436,11 @@
         </th:block>
         <hr>
 
-        <h3>Расходы</h3>
-        <a class="btn btn-primary" role="button"
-           th:href="@{'/costs/create/'+ ${orderEntity.id}}">Новый</a>
+        <div class="row row-cols-auto">
+            <h3>Расходы</h3>
+            <a class="btn btn-primary" role="button"
+               th:href="@{'/costs/create/'+ ${orderEntity.id}}">Добавить</a>
+        </div>
         <th:block th:each="cost : ${orderEntity.costs}">
             <div class="card">
                 <div class="card-body">

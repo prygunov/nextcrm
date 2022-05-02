@@ -65,13 +65,13 @@
             <div class="col">
                 <div class="form-group">
                     <label for="id"><b>Поиск по номеру</b></label>
-                    <input type="number" class="form-control" name="id" id="id" required th:value="${object.id}">
+                    <input type="number" class="form-control" name="id" id="id" th:value="${object.id}">
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
                     <label for="client.name"><b>Поиск по имени клиента</b></label>
-                    <input type="text" class="form-control" name="client.name" id="client.name" required
+                    <input type="text" class="form-control" name="client.name" id="client.name"
                            th:value="${object.client?.name}">
                 </div>
             </div>

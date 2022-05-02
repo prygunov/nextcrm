@@ -1,0 +1,9 @@
+<a class="btn btn-primary" role="button" th:href="@{${url} + 'create'}">
+    <button type="button" class="btn btn-primary">Создать тип</button>
+</a>
+
+<ul class="list-group" th:each="object : ${objects}">
+    <li class="list-group-item">
+        <a th:href="@{'/payment/types/' + ${object.id} + '/edit'}" th:text="${object.name}"></a>
+    </li>
+</ul>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <style type="text/css">
+        body {
+            font-size: 12pt;
+            font-family: arial, helvetica;
+        }
+
+        h1 {
+            font-size: 16pt;
+            font-weight: normal;
+        }
+
+        .info {
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        .info > div {
+            margin: 7px 5px;
+        }
+
+        .info div span {
+            font-weight: bold;
+            padding-left: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-spacing: 0;
+            border-collapse: collapse;
+        }
+
+        table td {
+            border-bottom: 1px solid black;
+        }
+
+        table thead td {
+            text-align: left;
+            font-weight: bold;
+            font-size: 10pt;
+        }
+
+        .numeric, table thead td .numeric {
+            text-align: right;
+        }
+
+        .empty {
+            text-align: center;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        hr {
+            margin: 20px 0;
+            border: 1px solid black;
+        }
+
+        .sub-head {
+            font-size: 13pt;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .ft-lf, .ft-rg {
+            width: 50%;
+            display: inline-block;
+            margin-left: 0;
+            margin-right: 0;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .ft-lf {
+            width: 50%;
+            float: left;
+        }
+
+        .ft-rg {
+            width: 40%;
+            float: right;
+        }
+
+        .clear {
+            clear: both;
+        }
+    </style>
+</head>
+<body onload="window.print()">
+<h1>Заказ <b th:text="${order.id}"></b></h1>
+<hr>
+<div class="info ft-lf">
+    <div class="sub-head">ПОКУПАТЕЛЬ</div>
+    <div>Фамилия: <span th:text="${order.client.lastname}"></span></div>
+    <div>Имя: <span th:text="${order.client.name}"></span></div>
+    <div>Телефон: <span th:text="${order.client.phone}"></span></div>
+    <div>Эл. почта: <span th:text="${order.client.email}"></span></div>
+</div>
+<div class="info ft-rg">
+    <div>Менеджер: <span th:text="${order.employee.fullName()}"></span></div>
+</div>
+<div class="clear"></div>
+<div class="info ft-lf">
+    <div class="sub-head">ДОСТАВКА</div>
+    <div>Тип: <span th:text="${order.delivery.type.name}"></span></div>
+    <div>Адрес доставки: <span th:text="${order.delivery.address}"></span></div>
+    <div>Время доставки: <span th:text="${order.delivery.date}"></span></div>
+    <div>Стоимость: <span th:text="${order.delivery.type.price}"></span></div>
+</div>
+<div class="info ft-rg">
+    <div class="sub-head">ОПЛАТА</div>
+    <th:block th:each="payment : ${order.payments}">
+        <div>Платеж от <span th:text="${payment.time}"></span></div>
+        <div th:if="${payment.type != null}">Тип: <span th:text="${payment.type.name}"></span></div>
+        <div th:if="${payment.status != null}">Статус: <span th:text="${payment.status?.name}"></span></div>
+        <div>Сумма: <span th:text="${payment.sum}"></span></div>
+    </th:block>
+</div>
+<div class="clear"></div>
+<div class="sub-head">СОСТАВ ЗАКАЗА</div>
+<table>
+    <thead>
+    <tr>
+        <td>Артикул</td>
+        <td>Товар</td>
+        <td style="text-align: right;">Цена</td>
+        <td style="text-align: right;">Кол-во</td>
+        <td style="text-align: right;">Стоимость</td>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="good : ${order.goods}">
+        <tr>
+            <td th:text="${good.code}"></td>
+            <td th:text="${good.name}"></td>
+            <td th:text="${good.price}" class="numeric"></td>
+            <td th:text="${good.quantity}" class="numeric"></td>
+            <td th:text="${good.totalPrice}" class="numeric"></td>
+        </tr>
+    </th:block>
+    </tbody>
+</table>
+<div class="info ft-rg" style="text-align:right;">
+    <br>
+    <div>Сумма по товарам: <span th:text="${order.sumGoods}"></span></div>
+    <br>
+    <div>Стоимость доставки: <span th:text="${order.delivery.type.price}"></span></div>
+    <br>
+    <div>Итого: <span th:text="${order.totalPrice}"></span></div>
+</div>
+</body>
+</html>

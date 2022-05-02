@@ -2,20 +2,28 @@ package net.artux.nextcrm.controller.orders;
 
 import net.artux.nextcrm.controller.util.BaseController;
 import net.artux.nextcrm.model.client.ClientEntity;
-import net.artux.nextcrm.model.order.*;
+import net.artux.nextcrm.model.order.OrderEntity;
+import net.artux.nextcrm.model.order.OrderFilter;
+import net.artux.nextcrm.model.order.OrderStatusEntity;
 import net.artux.nextcrm.model.order.delivery.DeliveryStatusEntity;
 import net.artux.nextcrm.model.order.delivery.DeliveryTypeEntity;
 import net.artux.nextcrm.model.order.goods.GoodEntity;
 import net.artux.nextcrm.model.order.payment.PaymentEntity;
+import net.artux.nextcrm.model.order.payment.PaymentStatusEntity;
+import net.artux.nextcrm.model.order.payment.PaymentTypeEntity;
 import net.artux.nextcrm.model.user.UserEntity;
 import net.artux.nextcrm.repository.clients.ClientRepository;
 import net.artux.nextcrm.repository.orders.DeliveryTypeRepository;
 import net.artux.nextcrm.repository.orders.OrdersRepository;
 import net.artux.nextcrm.repository.orders.PaymentRepository;
+import net.artux.nextcrm.repository.orders.PaymentTypesRepository;
 import net.artux.nextcrm.repository.settings.goods.GoodsRepository;
 import net.artux.nextcrm.repository.settings.management.UsersRepository;
 import net.artux.nextcrm.repository.settings.statuses.DeliveryStatusRepository;
 import net.artux.nextcrm.repository.settings.statuses.OrderStatusRepository;
+import net.artux.nextcrm.repository.settings.statuses.PaymentStatusRepository;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -42,12 +50,17 @@ public class OrdersController extends BaseController {
     private final UsersRepository usersRepository;
     private final DeliveryStatusRepository deliveryStatusRepository;
     private final DeliveryTypeRepository deliveryTypeRepository;
+    private final PaymentStatusRepository paymentStatusRepository;
+    private final PaymentTypesRepository paymentTypesRepository;
     private final String folder;
 
-    public OrdersController(OrdersRepository repository, OrderStatusRepository statusRepository, GoodsRepository goodsRepository, PaymentRepository paymentRepository, ClientRepository clientRepository, UsersRepository usersRepository, DeliveryStatusRepository deliveryStatusRepository, DeliveryTypeRepository deliveryTypeRepository){
+    public OrdersController(OrdersRepository repository, OrderStatusRepository statusRepository, GoodsRepository goodsRepository, PaymentRepository paymentRepository, ClientRepository clientRepository, UsersRepository usersRepository, DeliveryStatusRepository deliveryStatusRepository, DeliveryTypeRepository deliveryTypeRepository, PaymentStatusRepository paymentStatusRepository, PaymentTypesRepository paymentTypesRepository){
         super("Заказы");
-        this.paymentRepository = paymentRepository;
         folder = "orders";
+
+        this.paymentRepository = paymentRepository;
+        this.paymentStatusRepository = paymentStatusRepository;
+        this.paymentTypesRepository = paymentTypesRepository;
         this.repository = repository;
         this.statusRepository = statusRepository;
         this.goodsRepository = goodsRepository;
@@ -59,8 +72,18 @@ public class OrdersController extends BaseController {
 
     @Override
     public String getHome(Model model) {
-        model.addAttribute("object", new OrderFilter());
+        model.addAttribute("object", new OrderEntity());
         model.addAttribute("objects", repository.findAllWithSum());
+        return pageWithContent("orders/menu", model);
+    }
+
+    @RequestMapping(value = "/filter", method = RequestMethod.POST)
+    public String create(@ModelAttribute OrderEntity object, Model model){
+        ExampleMatcher exampleMatcher = ExampleMatcher.matchingAny();
+
+        model.addAttribute("object", object);
+        model.addAttribute("objects", repository.findAll(Example.of(object, exampleMatcher)));
+
         return pageWithContent("orders/menu", model);
     }
 
@@ -184,6 +207,16 @@ public class OrdersController extends BaseController {
     @ModelAttribute("deliveryStatuses")
     private List<DeliveryStatusEntity> getDeliveryStatuses(){
         return deliveryStatusRepository.findAll();
+    }
+
+    @ModelAttribute("paymentTypes")
+    private List<PaymentTypeEntity> getPaymentTypes(){
+        return paymentTypesRepository.findAll();
+    }
+
+    @ModelAttribute("paymentStatuses")
+    private List<PaymentStatusEntity> getPaymentStatuses(){
+        return paymentStatusRepository.findAll();
     }
 
     @ModelAttribute("employees")
