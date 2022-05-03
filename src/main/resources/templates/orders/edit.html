@@ -3,6 +3,8 @@
         <form th:attr="action=${orderEntity.id == null} ? ${url} + 'create' :  ${url} + ${orderEntity.id} +  '/edit'"
               th:object="${orderEntity}" method="post">
 
+            <div th:insert="errors"></div>
+
             <div class="row row-cols-auto">
                 <div th:if="${orderEntity.id != null}">
                     <h2 th:text="'Заказ #' + ${orderEntity.id}"></h2>
@@ -12,11 +14,21 @@
                     заказ
                 </button>
 
-                <a th:if="${orderEntity.id != null}" class="btn btn-primary" target="_blank" rel="noopener noreferrer"
-                   th:href="'/printing/order/' + ${orderEntity.id}">Печать</a>
-            </div>
 
-            <div th:insert="errors"></div>
+                <div class="dropdown" th:if="${orderEntity.id != null}">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        Печать
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" th:href="'/printing/order/' + ${orderEntity.id}">Печать заказа</a>
+                        </li>
+                        <li><a class="dropdown-item" th:href="'/printing/order/' + ${orderEntity.id} +'/check'">Чек</a>
+                        </li>
+                        <li><a class="dropdown-item" th:href="'/printing/order/' + ${orderEntity.id} +'/account'">Счет</a></li>
+                    </ul>
+                </div>
+            </div>
 
             <input type="hidden" th:field="*{id}"/>
             <input type="hidden" th:field="*{delivery}"/>
@@ -146,7 +158,7 @@
 
 
             <div class="modal fade" id="search" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Добавить в заказ товары</h5>
@@ -169,7 +181,7 @@
                                 <th:block th:each="good : ${selectGoods}">
                                     <tr class='clickable-row' th:data-href="@{/goods/{id}/edit (id = ${good.id})}">
                                         <th scope="row">
-                                            <img th:src="${good.photo}" class="rounded">
+                                            <img th:src="${good.photo}" class="rounded img-thumbnail">
                                         </th>
                                         <td th:text="${good.category?.name}"></td>
                                         <td th:text="${good.code}"></td>

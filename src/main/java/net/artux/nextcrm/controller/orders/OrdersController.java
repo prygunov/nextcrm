@@ -3,7 +3,6 @@ package net.artux.nextcrm.controller.orders;
 import net.artux.nextcrm.controller.util.BaseController;
 import net.artux.nextcrm.model.client.ClientEntity;
 import net.artux.nextcrm.model.order.OrderEntity;
-import net.artux.nextcrm.model.order.OrderFilter;
 import net.artux.nextcrm.model.order.OrderStatusEntity;
 import net.artux.nextcrm.model.order.delivery.DeliveryStatusEntity;
 import net.artux.nextcrm.model.order.delivery.DeliveryTypeEntity;
@@ -183,6 +182,7 @@ public class OrdersController extends BaseController {
     public Object addPayment(Model model, @PathVariable Long id){
         OrderEntity order = repository.findById(id).orElseThrow();
         PaymentEntity payment = new PaymentEntity(order);
+        payment.setSum((float) order.getGoods().stream().mapToDouble(GoodEntity::getPrice).sum());
         paymentRepository.save(payment);
         return redirect(getPageUrl() + id + "/edit", model, null);
     }

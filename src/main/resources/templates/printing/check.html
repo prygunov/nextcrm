@@ -57,6 +57,8 @@
         hr {
             margin: 20px 0;
             border: 1px solid black;
+            border-width: 0 0 2px 0;
+            border-color: black;
         }
 
         .sub-head {
@@ -80,46 +82,27 @@
         }
 
         .ft-rg {
-            width: 40%;
+            width: 45%;
             float: right;
         }
 
         .clear {
             clear: both;
         }
+
+        hr.small-hr {
+            border-width: 0 0 1px 0;
+        }
     </style>
 </head>
 <body onload="window.print()">
-<h1>Заказ <b th:text="${order.id}"></b></h1>
+<h1>Товарный чек <b th:text="${order.id}"></b> от <span th:text="${order.time}"></span></h1>
 <hr>
-<div class="info ft-lf">
-    <div class="sub-head">ПОКУПАТЕЛЬ</div>
-    <div>Фамилия: <span th:text="${order.client.lastname}"></span></div>
-    <div>Имя: <span th:text="${order.client.name}"></span></div>
-    <div>Телефон: <span th:text="${order.client.phone}"></span></div>
-    <div>Эл. почта: <span th:text="${order.client.email}"></span></div>
+<div class="info">
+    <div>Организация: <span th:text="${company.name}"></span></div>
+    <div>ИНН: <span th:text="${company.inn}"></span></div>
 </div>
-<div class="info ft-rg">
-    <div>Менеджер: <span th:text="${order.employee.fullName()}"></span></div>
-</div>
-<div class="clear"></div>
-<div class="info ft-lf" th:if="${order.delivery != null}">
-    <div class="sub-head">ДОСТАВКА</div>
-    <div>Тип: <span th:text="${order.delivery.type.name}"></span></div>
-    <div>Адрес доставки: <span th:text="${order.delivery.address}"></span></div>
-    <div>Время доставки: <span th:text="${order.delivery.date}"></span></div>
-    <div>Стоимость: <span th:text="${order.delivery.type.price}"></span></div>
-</div>
-<div class="info ft-rg">
-    <div class="sub-head">ОПЛАТА</div>
-    <th:block th:each="payment : ${order.payments}">
-        <div>Платеж от <span th:text="${payment.time}"></span></div>
-        <div th:if="${payment.type != null}">Тип: <span th:text="${payment.type.name}"></span></div>
-        <div th:if="${payment.status != null}">Статус: <span th:text="${payment.status?.name}"></span></div>
-        <div>Сумма: <span th:text="${payment.sum}"></span></div>
-    </th:block>
-</div>
-<div class="clear"></div>
+
 <div class="sub-head">СОСТАВ ЗАКАЗА</div>
 <table>
     <thead>
@@ -147,9 +130,17 @@
     <br>
     <div>Сумма по товарам: <span th:text="${order.sumGoods}"></span></div>
     <br>
-    <div th:if="${order.delivery != null}">Стоимость доставки: <span th:text="${order.delivery.type.price}"></span></div>
+    <div>Стоимость доставки: <span th:text="${order.delivery?.type.price}"></span></div>
     <br>
     <div>Итого: <span th:text="${order.totalPrice}"></span></div>
+</div>
+<div class="clear">
+    <hr class="small-hr">
+    <div class="info">
+        <div th:text="'Чек выдал: ' +${order.employee.fullName()}"><span></span></div>
+        <br>
+        <div>Подпись:</div>
+    </div>
 </div>
 </body>
 </html>

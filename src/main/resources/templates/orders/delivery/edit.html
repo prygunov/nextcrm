@@ -57,10 +57,10 @@
 
         <div th:if="${deliveryEntity.address != null}">
             <p th:text="'Доставка выполняется по адресу: ' + ${deliveryEntity.address}"></p>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#searchAddress">
-                Задать адрес
-            </button>
         </div>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#searchAddress">
+            Задать адрес
+        </button>
 
 
         <input type="submit" name="action" class="btn btn-primary" value="Сохранить"/>

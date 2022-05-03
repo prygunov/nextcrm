@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<style>
+    body {
+        font-family: "Arial", sans-serif;
+        font-size: 10pt;
+    }
+
+    table {
+        font-family: "Arial", sans-serif;
+        font-size: 10pt;
+    }
+</style>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title langs="ru">Счет</title>
+</head>
+<body bgcolor="white" lang="RU" onload="window.print()">
+<div class="Section1">
+    <hr size="1px" noshade="true" color="#000">
+    <p>
+        Поставщик: <span th:text="${company.name}"></span><br>
+        ИНН: <span th:text="${company.inn}"></span><br>
+        Расчетный счет: <span th:text="${company.paymentAccount}"></span><br>
+        Корр. счет: <span th:text="${company.correspondentAccount}"></span><br>
+        Телефоны: <span th:text="${company.phones}"></span><br>
+        Адрес: <span th:text="${company.address}"></span><br>
+    </p>
+    <hr size="2px" noshade="true" color="#000">
+    <p style="text-align:center;">
+        Счет №<span th:text="${order.id}"></span> от <span th:text="${order.time}"></span>
+    </p>
+    <hr size="2px" noshade="true" color="#000">
+    <p>
+        Плательщик: <span th:text="${order.client.fullName()}"></span><br>
+        Адрес: <span th:text="${order.delivery.address}"></span><br>
+        Способ получения: <span th:text="${order.delivery.type.name}"></span><br>
+    </p>
+    <hr size="1px" noshade="true" color="#000">
+    <p style="text-align:center;">
+        <b>ВНИМАНИЕ!</b>
+    </p>
+    <p style="text-align:center;">
+        Срок резервирования товара: для неоплаченных
+        счетов - 4 банковских дня (включая день создания),
+        для оплаченных - 5 банковских дней (включая день прихода средств).<br>Просьба уведомлять об оплате.
+    </p>
+    <p style="text-align:center;">
+        <b>
+            Будьте внимательны при заполнении банковских реквизитов.
+            Деньги отправленные на расчетный счет отличающийся от
+            указанного не будут приниматься к оплате и будут возвращены обратно плательщику.
+        </b>
+    </p>
+    <p style="text-align:center;">
+        Работа отдела безналичных продаж: с понедельника по пятницу с 10:00 до 19:00
+    </p>
+    <p style="text-align:center;">
+        Отпуск товара производится ТОЛЬКО после фактического получения денежных средств на расчетный счет Фирмы.
+        Для получения товара необходим паспорт, доверенность с реестровой печатью или реестровая печать организации.
+    </p>
+    <p style="text-align:center;" th:text="${company.site}">
+    </p>
+    <p style="text-align:center;">
+        <b>Состав заказа</b>
+    </p>
+
+    <table border="0" cellspacing="0" cellpadding="2" width="100%">
+        <tr bgcolor="#E2E2E2">
+            <td align="center" style="border: 1pt solid #000000; border-right:none;">№</td>
+            <td align="center" style="border: 1pt solid #000000; border-right:none;">Наименование товара</td>
+            <td nowrap="" align="center" style="border: 1pt solid #000000; border-right:none;">Кол-во</td>
+            <td nowrap="" align="center" style="border: 1pt solid #000000; border-right:none;">Цена, руб</td>
+            <td nowrap="" align="center" style="border: 1pt solid #000000;">Сумма, руб</td>
+        </tr>
+        <th:block th:each="good, i : ${order.goods}">
+            <tr valign="top" th:with="index = ${i.index + 1}">
+                <td bgcolor="#ffffff" style="border: 1pt solid #000000; border-right:none; border-top:none;"
+                    th:text="${index}">
+                </td>
+                <td bgcolor="#ffffff" style="border: 1pt solid #000000; border-right:none; border-top:none;"
+                    th:text="${good.name}">
+                </td>
+                <td align="right" bgcolor="#ffffff"
+                    style="border: 1pt solid #000000; border-right:none; border-top:none;"
+                    th:text="${good.quantity}">
+                </td>
+                <td align="right" bgcolor="#ffffff"
+                    style="border: 1pt solid #000000; border-right:none; border-top:none;"
+                    th:text="${good.price}">
+                </td>
+                <td align="right" bgcolor="#ffffff" style="border: 1pt solid #000000; border-top:none;"
+                    th:text="${good.totalPrice}">
+                </td>
+            </tr>
+        </th:block>
+        <tr>
+            <td align="right" bgcolor="#ffffff" colspan="4"
+                style="border: 1pt solid #000000; border-right:none; border-top:none;">
+                Итого:
+            </td>
+            <td align="right" bgcolor="#ffffff" style="border: 1pt solid #000000; border-top:none;"
+                th:text="${order.sumGoods}">
+            </td>
+        </tr>
+    </table>
+
+    <p>
+        <b>Всего к оплате: <span th:text="${order.totalPrice}"></span></b>
+    </p>
+
+    <table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tr>
+            <td width="20%">
+                <p>Руководитель организации:</p>
+            </td>
+            <td width="80%">
+                <p> _______________________ / ______________________________ /</p>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%">
+                <p>Гл. бухгалтер:</p>
+            </td>
+            <td width="80%">
+                <p> _______________________ / ______________________________ /</p>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

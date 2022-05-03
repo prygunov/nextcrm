@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.BiConsumer;
@@ -33,6 +34,7 @@ public class OrderPrint {
     private List<PaymentEntity> payments;
     private UserEntity employee;
     private List<GoodPrint> goods;
+    private Date time;
     private float sumGoods;
     private float totalPrice;
 
@@ -43,6 +45,7 @@ public class OrderPrint {
         delivery = order.getDelivery();
         payments = order.getPayments();
         employee = order.getEmployee();
+        time = order.getTime();
         goods = new ArrayList<>();
         order.getGoods().stream().collect(Collectors.toMap(Function.identity(), v -> 1, Integer::sum)).forEach(new BiConsumer<GoodEntity, Integer>() {
             @Override
@@ -52,6 +55,8 @@ public class OrderPrint {
                 sumGoods += good.getTotalPrice();
             }
         });
-        totalPrice = sumGoods + delivery.getType().getPrice();
+        if (delivery!=null)
+            totalPrice = sumGoods + delivery.getType().getPrice();
+        else totalPrice = sumGoods;
     }
 }

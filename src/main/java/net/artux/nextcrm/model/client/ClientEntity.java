@@ -29,6 +29,7 @@ public class ClientEntity extends BaseEntity {
     @NotBlank
     private String name;
     private String lastname;
+    private String middleName;
 
     @Pattern(regexp = "^(\\+7|7|8)?[\\s\\-]?\\(?[489][0-9]{2}\\)?[\\s\\-]?[0-9]{3}[\\s\\-]?[0-9]{2}[\\s\\-]?[0-9]{2}$")
     private String phone;
@@ -41,6 +42,7 @@ public class ClientEntity extends BaseEntity {
     private Sex sex;
 
     @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date registrationDate = new Date();
     private String information;
 
@@ -50,4 +52,8 @@ public class ClientEntity extends BaseEntity {
     @OneToOne
     private AddressEntity defaultAddress;
 
+
+    public String fullName(){
+        return lastname + " " + name + " " + middleName;
+    }
 }

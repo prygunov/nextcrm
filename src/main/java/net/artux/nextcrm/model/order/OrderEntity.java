@@ -54,7 +54,7 @@ public class OrderEntity extends BaseEntity {
     @NotNull
     private UserEntity employee;
 
-    @OneToMany
+    @ManyToMany
     @Size(min = 1, max = 100)
     private List<GoodEntity> goods;
 

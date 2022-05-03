@@ -14,8 +14,12 @@ import java.io.Serializable;
 @RequiredArgsConstructor
 @Table(name = "app_order_goods")
 @Entity
-public class OrderGoodEntity extends BaseEntity {
+@Embeddable
+public class OrderGoodEntity implements Serializable {
 
+    @Id
     private Long order_entity_id;
+    @Id
     private Long goods_id;
+
 }
