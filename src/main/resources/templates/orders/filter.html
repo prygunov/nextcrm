@@ -10,7 +10,7 @@
                     <select name="employee" id="employee" class="form-control">
                         <option th:value="null">Не задан</option>
                         <option th:each="employee : ${employees}" th:value="${employee.id}"
-                                th:text="${employee.login}" th:selected="${object.employee?.id == employee.id}"></option>
+                                th:text="${employee.fullName()}" th:selected="${object.employee?.id == employee.id}"></option>
                     </select>
                 </div>
             </div>

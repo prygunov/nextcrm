@@ -16,8 +16,11 @@ public interface TasksRepository extends CRepository<TaskEntity> {
 
     // -1 значит что значение не было задано
     @Query(value = "select * from task t " +
-            "inner join task_status s on t.status_id = s.id and (?1 = -1 or s.id = ?1)" +
-            "inner join app_user u on t.employee_id = u.id and (?2 = -1 or u.id = ?2)" +
-            "inner join app_order o on (?3 = -1 and t.order_id is null) or (t.order_id = o.id and o.id = ?3)", nativeQuery = true)
+            "join task_status s on t.status_id = s.id and (?1 = -1 or s.id = ?1)" +
+            "join app_user u on t.employee_id = u.id and (?2 = -1 or u.id = ?2)" +
+            "left join app_order o on t.order_id = o.id " +
+            "left join appeal a on t.appeal_id = a.id " +
+            "where ((?3 != -1 and t.order_id = ?3) or (?3 = -1 and t.order_id is null)) " +
+            "and ((?4 != -1 and t.appeal_id = ?4) or (?4 = -1 and t.appeal_id is null))", nativeQuery = true)
     List<TaskEntity> filter(Integer statusId, Integer employeeId, Integer orderId, Integer appealId);
 }

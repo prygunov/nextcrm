@@ -33,6 +33,7 @@ public class ClientController extends BaseRepositoryController<ClientEntity, Cli
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
     public String edit(Model model, @PathVariable Long id) {
         model.addAttribute("orders", ordersRepository.getDtosForClient(id));
+        model.addAttribute("addresses", addressesRepository.findAll());
         return super.edit(model, id);
     }
 

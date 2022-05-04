@@ -42,12 +42,17 @@
             <label for="information">Дополнительная информация</label>
             <input type="text" class="form-control" th:field="*{information}"/>
         </div>
-        <input type="submit" name="action" class="btn btn-primary" value="Сохранить"/>
+        <div class="row row-cols-auto">
+            <br>
+            <input type="submit" name="action" class="btn btn-primary" value="Сохранить"/>
+            <a th:if="${object.id != null}" class="btn btn-outline-danger" role="button"
+               th:href="@{${url} + ${object.id} +  '/remove'}">Удалить</a>
+        </div>
+
     </form>
 </div>
 
 <div th:if="${object.id != null}">
-    <a class="btn btn-primary" role="button" th:href="@{${url} + ${object.id} +  '/remove'}">Удалить</a>
 
     <H4>Адреса</H4>
     <div th:insert="clients/address/findAddress"/>
@@ -75,11 +80,12 @@
                 <td th:text="${address.entrance}"></td>
                 <td th:text="${address.flat}"></td>
                 <td>
-                    <form th:if="${address.id != object.defaultAddress?.id}" th:attr="action=${url} + ${object.id} +  '/setDefaultAddress'" method="post">
+                    <form th:if="${address.id != object.defaultAddress?.id}"
+                          th:attr="action=${url} + ${object.id} +  '/setDefaultAddress'" method="post">
                         <button type="submit" name="defaultId" th:value="${address.id}">Задать по умолчанию</button>
                     </form>
                     <form th:attr="action=${url} + ${object.id} +  '/removeAddress'" method="post">
-                        <button type="submit" name="removeId" th:value="${address.id}">Удалить</button>
+                        <button type="submit" class="btn btn-outline-danger" name="removeId" th:value="${address.id}">Удалить</button>
                     </form>
                 </td>
             </tr>

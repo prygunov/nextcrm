@@ -8,7 +8,7 @@
                     <select name="employee" id="employee" class="form-control">
                         <option th:value="-1">Не задан</option>
                         <option th:each="employee : ${employees}" th:value="${employee.id}"
-                                th:text="${employee.login}" th:selected="${employeeId == employee.id}"></option>
+                                th:text="${employee.fullName()}" th:selected="${employeeId == employee.id}"></option>
                     </select>
                 </div>
             </div>

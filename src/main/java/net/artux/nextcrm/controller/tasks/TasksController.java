@@ -48,11 +48,11 @@ public class TasksController extends BaseRepositoryController<TaskEntity, TasksR
         return new ModelAndView("redirect:" + getPageUrl());
     }
 
-    @RequestMapping(value = "/filter", method = RequestMethod.POST)
-    public Object filter(@RequestParam(value = "order", required = false) Integer orderId,
-                               @RequestParam(value = "employee", required = false) Integer employeeId,
-                               @RequestParam(value = "appeal", required = false) Integer appealId,
-                               @RequestParam(value = "status", required = false) Integer statusId,
+    @RequestMapping(value = "/filter")
+    public Object filter(@RequestParam(value = "order", defaultValue = "-1", required = false) Integer orderId,
+                               @RequestParam(value = "employee", required = false, defaultValue = "-1") Integer employeeId,
+                               @RequestParam(value = "appeal", required = false, defaultValue = "-1") Integer appealId,
+                               @RequestParam(value = "status", required = false, defaultValue = "-1") Integer statusId,
                                Model model) {
 
         model.addAttribute("objects", repository.filter(statusId, employeeId, orderId, appealId));

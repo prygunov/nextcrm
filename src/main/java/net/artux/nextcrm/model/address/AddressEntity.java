@@ -4,11 +4,14 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.artux.nextcrm.model.BaseEntity;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Getter
@@ -24,7 +27,8 @@ public class  AddressEntity extends BaseEntity {
     private String city;
     @NotBlank
     private String street;
-    @NotBlank
+    @NotNull
+    @Range(min = 1, max = 1000)
     private Integer house;
     private Integer entrance;
     private Integer building;

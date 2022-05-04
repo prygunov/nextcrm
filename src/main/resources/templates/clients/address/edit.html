@@ -40,6 +40,6 @@
 </form>
 
 <div th:if="${object.id != null}">
-    <a class="btn btn-primary" role="button" th:href="@{${url} + ${object.id} +  '/remove'}">Удалить</a>
+    <a class="btn btn-outline-danger" role="button" th:href="@{${url} + ${object.id} +  '/remove'}">Удалить</a>
 </div>
 </div>

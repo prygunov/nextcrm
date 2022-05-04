@@ -22,7 +22,7 @@
             <td th:text="${object.startPeriod}"></td>
             <td th:text="${object.endPeriod}"></td>
             <td>
-                <p th:if= "${object.employee != null}" th:text="@{${object.employee.firstname} + ' ' + ${object.employee.lastname}}"></p>
+                <p th:if= "${object.employee != null}" th:text="${object.employee.fullName()}"></p>
             </td>
             <td>
                 <p th:if= "${object.order != null}" th:text="${object.order.id}"></p>

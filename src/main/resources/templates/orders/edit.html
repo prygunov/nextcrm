@@ -10,10 +10,9 @@
                     <h2 th:text="'Заказ #' + ${orderEntity.id}"></h2>
                 </div>
                 <button type="submit" name="save" class="btn btn-primary">Сохранить заказ</button>
-                <button th:if="${orderEntity.id != null}" type="submit" name="remove" class="btn btn-primary">Удалить
+                <button th:if="${orderEntity.id != null}" type="submit" name="remove" class="btn btn-outline-danger">Удалить
                     заказ
                 </button>
-
 
                 <div class="dropdown" th:if="${orderEntity.id != null}">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
@@ -25,9 +24,13 @@
                         </li>
                         <li><a class="dropdown-item" th:href="'/printing/order/' + ${orderEntity.id} +'/check'">Чек</a>
                         </li>
-                        <li><a class="dropdown-item" th:href="'/printing/order/' + ${orderEntity.id} +'/account'">Счет</a></li>
+                        <li><a class="dropdown-item"
+                               th:href="'/printing/order/' + ${orderEntity.id} +'/account'">Счет</a></li>
                     </ul>
                 </div>
+
+                <a th:if="${orderEntity.id != null}" th:href="'/tasks/filter?order=' + ${orderEntity.id}">Задачи по
+                    заказу</a>
             </div>
 
             <input type="hidden" th:field="*{id}"/>
@@ -57,7 +60,7 @@
                         <select name="employee" id="employee" class="form-control">
                             <option th:value="null">Не задан</option>
                             <option th:each="employee : ${employees}" th:value="${employee.id}"
-                                    th:text="${employee.login}"
+                                    th:text="${employee.fullName()}"
                                     th:selected="${orderEntity.employee?.id == employee.id}"></option>
                         </select>
                     </div>
@@ -222,7 +225,7 @@
                         <td th:text="${good.name}"></td>
                         <td th:text="${good.price}"></td>
                         <td>
-                            <button class="btn btn-primary" type="submit" name="removeGood" th:value="${i.index}">
+                            <button class="btn btn-outline-danger" type="submit" name="removeGood" th:value="${i.index}">
                                 Удалить
                             </button>
                         </td>
@@ -401,7 +404,7 @@
                         </div>
                         <div class="row row-cols-auto">
                             <button type="submit" name="action" class="btn btn-primary">Сохранить</button>
-                            <a class="btn btn-primary" role="button"
+                            <a class="btn btn-outline-danger" role="button"
                                th:href="@{'/payments/' + ${payment.id} +  '/remove'}">Удалить</a>
                         </div>
 
@@ -423,7 +426,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title"><a th:href="@{'/settings/management/users/'+ ${event.author?.id} + '/edit'}"
-                                              th:text="${event.author?.login}"></a></h5>
+                                              th:text="${event.author?.fullName()}"></a></h5>
                     <h6 class="card-subtitle mb-2 text-muted" th:text="${event.time}"></h6>
                     <p class="card-text" th:text="${event.content}"></p>
                     <a th:href="@{'/orders/events/'+ ${event.id} + '/edit'}">Редактировать</a>
@@ -438,7 +441,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title"><a th:href="@{'/settings/management/users/'+ ${call.author?.id} + '/edit'}"
-                                              th:text="${call.author?.login}"></a></h5>
+                                              th:text="${call.author?.fullName()}"></a></h5>
                     <h6 class="card-subtitle mb-2 text-muted" th:text="${call.time}"></h6>
                     <p class="card-text" th:text="@{'Входящий:' + ${call.income}}"></p>
                     <p class="card-text" th:text="@{'Номер:' + ${call.number}}"></p>

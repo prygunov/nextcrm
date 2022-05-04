@@ -11,7 +11,7 @@
         <td scope="col">Срок выполнения</td>
         <td scope="col">Статус</td>
         <td scope="col">Название</td>
-        <td scope="col">Назначена</td>
+        <td scope="col">Исполнитель</td>
     </tr>
 
     <th:block th:each="object : ${objects}">
@@ -24,8 +24,7 @@
             <td th:text="${object.deadline}"></td>
             <td th:text="${object.status?.name}"></td>
             <td th:text="${object.name}"></td>
-            <td th:if= "${object.employee != null}">
-                <p th:text="@{${object.employee.firstname} + ' ' + ${object.employee.lastname}}"></p>
+            <td th:if="${object.employee != null}" th:text="${object.employee.fullName()}">
             </td>
         </tr>
     </th:block>

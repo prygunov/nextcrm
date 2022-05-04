@@ -1,13 +1,9 @@
-<a th:href="@{/clients/create}">
-    <button type="button" class="btn btn-primary">Создать клиента</button>
-</a>
+<div class="row row-cols-auto">
+    <a th:href="@{/clients/create}" class="btn btn-primary">Создать клиента</a>
+    <a th:href="@{/potential}" class="btn btn-primary">К потенциальным</a>
+    <a th:href="@{/addresses}" class="btn btn-primary">Адреса</a>
+</div>
 
-<a th:href="@{/potential}">
-    <button type="button" class="btn btn-primary">К потенциальным</button>
-</a>
-<a th:href="@{/addresses}">
-    <button type="button" class="btn btn-primary">Адреса</button>
-</a>
 <table class="table">
     <tr>
         <td scope="col">Идентификатор</td>
@@ -21,7 +17,7 @@
                 <a th:text="${object.id}">
                 </a>
             </th>
-            <td th:text="${object.name}"></td>
+            <td th:text="${object.fullName()}"></td>
             <td th:text="${object.birthday}"></td>
         </tr>
     </th:block>

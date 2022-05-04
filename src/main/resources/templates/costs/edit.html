@@ -38,7 +38,7 @@
                 <select name="employee" id="employee" class="form-control">
                     <option th:value="null">Не задан</option>
                     <option th:each="employee : ${employees}" th:value="${employee.id}"
-                            th:text="${employee.login}"
+                            th:text="${employee.fullName()}"
                             th:selected="${object.employee?.id == employee.id}"></option>
                 </select>
             </div>
@@ -58,7 +58,7 @@
         <div class="row row-cols-auto">
             <input type="submit" name="action" class="btn btn-primary" value="Сохранить"/>
             <div th:if="${object.id != null}">
-                <a class="btn btn-primary" role="button" th:href="@{${url} + ${object.id} +  '/remove'}">Удалить</a>
+                <a class="btn btn-outline-danger" role="button" th:href="@{${url} + ${object.id} +  '/remove'}">Удалить</a>
             </div>
         </div>
 
