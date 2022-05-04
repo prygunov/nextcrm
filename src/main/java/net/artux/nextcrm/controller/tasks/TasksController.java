@@ -8,16 +8,16 @@ import net.artux.nextcrm.model.task.TaskStatusEntity;
 import net.artux.nextcrm.model.user.UserEntity;
 import net.artux.nextcrm.repository.AppealsRepository;
 import net.artux.nextcrm.repository.orders.OrdersRepository;
-import net.artux.nextcrm.repository.tasks.TasksRepository;
 import net.artux.nextcrm.repository.settings.management.UsersRepository;
 import net.artux.nextcrm.repository.settings.statuses.TaskStatusRepository;
+import net.artux.nextcrm.repository.tasks.TasksRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Date;
@@ -46,6 +46,22 @@ public class TasksController extends BaseRepositoryController<TaskEntity, TasksR
         object.setTime(new Date());
         repository.save(object);
         return new ModelAndView("redirect:" + getPageUrl());
+    }
+
+    @RequestMapping(value = "/filter", method = RequestMethod.POST)
+    public Object filter(@RequestParam(value = "order", required = false) Integer orderId,
+                               @RequestParam(value = "employee", required = false) Integer employeeId,
+                               @RequestParam(value = "appeal", required = false) Integer appealId,
+                               @RequestParam(value = "status", required = false) Integer statusId,
+                               Model model) {
+
+        model.addAttribute("objects", repository.filter(statusId, employeeId, orderId, appealId));
+        model.addAttribute("statusId", statusId);
+        model.addAttribute("orderId", orderId);
+        model.addAttribute("appealId", appealId);
+        model.addAttribute("employeeId", employeeId);
+
+        return getHome(model);
     }
 
     @ModelAttribute("statuses")

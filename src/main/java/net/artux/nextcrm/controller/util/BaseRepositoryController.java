@@ -14,7 +14,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 
 public abstract class BaseRepositoryController<E extends BaseEntity, // Основная сущность
-        S extends CRepository<E>> extends BaseController{
+        S extends CRepository<E>> extends BaseController {
 
     public final String folder;
     protected final S repository;
@@ -29,7 +29,7 @@ public abstract class BaseRepositoryController<E extends BaseEntity, // Осно
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String create(Model model){
+    public String create(Model model) {
         try {
             String name = dClass.getSimpleName();
             name = name.replace(name.charAt(0), Character.toLowerCase(name.charAt(0)));
@@ -47,11 +47,11 @@ public abstract class BaseRepositoryController<E extends BaseEntity, // Осно
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public Object create(@Valid @ModelAttribute E object, final BindingResult bindingResult, Model model) throws Exception{
+    public Object create(@Valid @ModelAttribute E object, final BindingResult bindingResult, Model model) throws Exception {
         if (!bindingResult.hasErrors()) {
             repository.save(object);
             return defaultPage(model);
-        }else{
+        } else {
             object.setId(null);
             model.addAttribute("object", object);
             model.addAttribute(object);
@@ -61,14 +61,15 @@ public abstract class BaseRepositoryController<E extends BaseEntity, // Осно
 
     @Override
     @GetMapping
-    public String getHome(Model model){
+    public String getHome(Model model) {
         var list = repository.findAll();
-        model.addAttribute("objects", list);
+        if (model.getAttribute("objects") == null)
+            model.addAttribute("objects", list);
         return pageWithContent(folder + "/view", model);
     }
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
-    public String edit(Model model, @PathVariable Long id){
+    public String edit(Model model, @PathVariable Long id) {
         E v = repository.findById(id).orElseThrow();
 
         model.addAttribute("object", v);
@@ -77,7 +78,7 @@ public abstract class BaseRepositoryController<E extends BaseEntity, // Осно
     }
 
     @RequestMapping(value = "/{id}/update", method = RequestMethod.POST)
-    public Object update(@Valid @ModelAttribute E dto, final BindingResult bindingResult, @PathVariable Long id,  Model model) throws IllegalAccessException {
+    public Object update(@Valid @ModelAttribute E dto, final BindingResult bindingResult, @PathVariable Long id, Model model) throws IllegalAccessException {
         if (!bindingResult.hasErrors()) {
             E v = repository.findById(id).orElseThrow();
             for (Field f :
@@ -87,7 +88,7 @@ public abstract class BaseRepositoryController<E extends BaseEntity, // Осно
             }
             repository.save(v);
             return defaultPage(model);
-        }else{
+        } else {
             model.addAttribute("object", dto);
             model.addAttribute(dto);
             return pageWithContent(folder + "/edit", model);
@@ -95,7 +96,7 @@ public abstract class BaseRepositoryController<E extends BaseEntity, // Осно
     }
 
     @RequestMapping(value = "/{id}/remove", method = RequestMethod.GET)
-    public Object remove(@PathVariable Long id, Model model){
+    public Object remove(@PathVariable Long id, Model model) {
         E v = repository.findById(id).orElseThrow();
         repository.deleteById(id);
         model.addAttribute(v);

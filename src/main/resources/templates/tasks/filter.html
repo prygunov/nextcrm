@@ -1,0 +1,56 @@
+<div>
+    <hr>
+    <form th:attr="action=@{${url} + 'filter'}" method="post" class="default-form-filter">
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="employee"><b>Исполнитель</b></label>
+                    <select name="employee" id="employee" class="form-control">
+                        <option th:value="-1">Не задан</option>
+                        <option th:each="employee : ${employees}" th:value="${employee.id}"
+                                th:text="${employee.login}" th:selected="${employeeId == employee.id}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="status"><b>Статус</b></label>
+                    <select name="status" id="status" class="form-control">
+                        <option th:value="-1">Не задан</option>
+                        <option th:each="status : ${statuses}" th:value="${status.id}"
+                                th:text="${status.name}" th:selected="${statusId == status.id}"></option>
+                    </select>
+                </div>
+
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label><b>Связанный заказ</b></label>
+                    <select name="order" class="form-control">
+                        <option th:value="-1">Не задан</option>
+                        <option th:each="order : ${orders}" th:value="${order.id}"
+                                th:text="'#'+${order.id}" th:selected="${orderId == order.id}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label><b>Связанное обращение</b></label>
+                    <select name="appeal" class="form-control">
+                        <option th:value="-1">Не задан</option>
+                        <option th:each="appeal : ${appeals}" th:value="${appeal.id}"
+                                th:text="'#' + ${appeal.id}"
+                                th:selected="${appealId == appeal.id}"></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <button type="submit" name="action" class="btn btn-primary">Применить</button>
+        <a th:href="${url}">
+            <button type="button" class="btn btn-primary">Сбросить</button>
+        </a>
+        <hr>
+    </form>
+</div>
