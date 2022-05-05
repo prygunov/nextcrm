@@ -3,15 +3,15 @@
         <button type="button" class="btn btn-primary">Создать потенциального клиента</button>
     </a>
 
-    <a class="btn btn-primary" role="button" th:href="@{/clients}">
-        <button type="button" class="btn btn-primary">К клиентам</button>
-    </a>
+    <div th:insert="clients/potential/filter"></div>
     <table class="table">
         <tr>
             <td scope="col">Идентификатор</td>
             <td scope="col">Имя</td>
             <td scope="col">Номер телефона</td>
             <td scope="col">Эл. почта</td>
+            <td scope="col">Канал</td>
+            <td scope="col">Активность</td>
         </tr>
 
         <th:block th:each="object : ${objects}">
@@ -23,6 +23,8 @@
                 <td th:text="${object.name}"></td>
                 <td th:text="${object.phone}"></td>
                 <td th:text="${object.email}"></td>
+                <td th:text="${object.channel?.name}"></td>
+                <td th:text="${object.active}"></td>
             </tr>
         </th:block>
     </table>

@@ -37,6 +37,7 @@
             <input type="hidden" th:field="*{delivery}"/>
             <input type="hidden" th:field="*{goods}"/>
             <input type="hidden" th:field="*{calls}"/>
+            <input type="hidden" th:field="*{messages}"/>
             <input type="hidden" th:field="*{costs}"/>
             <input type="hidden" th:field="*{events}"/>
 
@@ -118,7 +119,7 @@
                 <div class="row">
                     <div class="col">
                         <label for="client.phone"><b>Номер телефона</b></label> <a
-                            th:href="@{'tel:' + ${orderEntity.client.phone}}">Позвонить</a>
+                            target="_blank" th:href="@{'/communication/tel?orderId=' + ${orderEntity.id} + '&number=' + ${orderEntity.client.phone}}">Позвонить</a>
                         <input type="text" class="form-control" name="client.phone" id="client.phone" readonly
                                th:value="${orderEntity.client.phone}">
 
@@ -127,7 +128,7 @@
                 <div class="row">
                     <div class="col">
                         <label for="client.email"><b>Почта</b></label> <a
-                            th:href="@{'mailto:' + ${orderEntity.client.email}}">Написать на почту</a>
+                            target="_blank" th:href="@{'/communication/mail?orderId=' + ${orderEntity.id}}">Написать на почту</a>
                         <input type="text" class="form-control" name="client.email" id="client.email" readonly
                                th:value="${orderEntity.client.email}">
                     </div>
@@ -170,7 +171,7 @@
                         <div class="modal-body">
                             <label for="site-search">По наименованию:</label>
                             <input type="search" id="site-search" name="q" th:value="${q}">
-                            <button type="submit" name="search">Поиск</button>
+                            <button type="submit" class="btn btn-primary" name="search">Поиск</button>
                             <table class="table">
                                 <tr>
                                     <td scope="col">Фото</td>
@@ -191,7 +192,7 @@
                                         <td th:text="${good.name}"></td>
                                         <td th:text="${good.price}"></td>
                                         <td>
-                                            <button type="submit" name="addGood" th:value="${good.id}">Добавить</button>
+                                            <button type="submit" name="addGood" class="btn btn-primary" th:value="${good.id}">Добавить</button>
                                         </td>
                                     </tr>
                                 </th:block>
@@ -443,8 +444,25 @@
                     <h5 class="card-title"><a th:href="@{'/settings/management/users/'+ ${call.author?.id} + '/edit'}"
                                               th:text="${call.author?.fullName()}"></a></h5>
                     <h6 class="card-subtitle mb-2 text-muted" th:text="${call.time}"></h6>
-                    <p class="card-text" th:text="@{'Входящий:' + ${call.income}}"></p>
-                    <p class="card-text" th:text="@{'Номер:' + ${call.number}}"></p>
+                    <p class="card-text" th:text="@{'Входящий: ' + ${call.income}}"></p>
+                    <p class="card-text" th:text="@{'Номер: ' + ${call.number}}"></p>
+                </div>
+            </div>
+            <br>
+        </th:block>
+        <hr>
+
+        <h3>Коммуникации</h3>
+        <th:block th:each="message : ${orderEntity.messages}">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><a th:href="@{'/settings/management/users/'+ ${message.author?.id} + '/edit'}"
+                                              th:text="${message.author?.fullName()}"></a></h5>
+                    <h6 class="card-subtitle mb-2 text-muted" th:text="${message.time}"></h6>
+                    <p class="card-text" th:text="@{'Тип: ' + ${message.type}}"></p>
+                    <p class="card-text" th:text="@{'Получатель: ' + ${message.target}}"></p>
+                    <p class="card-text" th:text="@{'Тема: ' + ${message.subject}}"></p>
+                    <p class="card-text" th:text="@{'Сообщение: ' + ${message.message}}"></p>
                 </div>
             </div>
             <br>

@@ -1,0 +1,29 @@
+<div>
+    <hr>
+    <form th:attr="action=@{${url} + 'filter'}" method="post" class="default-form-filter">
+        <div class="row">
+            <label for="channel"><b>Канал продаж</b></label>
+            <select name="channel" id="channel" class="form-control">
+                <option th:value="-1">Не задан</option>
+                <option th:each="channel : ${channels}" th:value="${channel.id}"
+                        th:text="${channel.name}" th:selected="${channelId == channel.id}"></option>
+            </select>
+        </div>
+        <div class="row">
+            <div class="col">
+                <input class="form-check-input" type="checkbox" name="active" id="active" th:checked="${active}"/>
+                <label class="form-check-label" for="active"><b>Активность</b></label>
+            </div>
+        </div>
+        <div class="row">
+            <label for="name"><b>Поиск по имени</b></label>
+            <input type="text" class="form-control" name="search" id="name" th:value="${search}">
+        </div>
+        <br>
+        <button type="submit" name="action" class="btn btn-primary">Применить</button>
+        <a th:href="${url}">
+            <button type="button" class="btn btn-primary">Сбросить</button>
+        </a>
+        <hr>
+    </form>
+</div>

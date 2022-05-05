@@ -47,6 +47,11 @@ public class DeliveriesController extends BaseRepositoryController<DeliveryEntit
         this.addressesRepository = addressesRepository;
     }
 
+    @ModelAttribute("addresses")
+    List<AddressEntity> getAddresses(){
+        return addressesRepository.findAll();
+    }
+
     @GetMapping("/auto/create")
     public Object autoCreate(Model model, @RequestParam("orderId") Long orderId){
         OrderEntity order = ordersRepository.findById(orderId).get();
@@ -57,6 +62,7 @@ public class DeliveriesController extends BaseRepositoryController<DeliveryEntit
 
         model.addAttribute("object", deliveryEntity);
         model.addAttribute(deliveryEntity);
+        model.addAttribute("addresses", addressesRepository.findAll());
 
         return pageWithContent(folder + "/edit", model);
     }

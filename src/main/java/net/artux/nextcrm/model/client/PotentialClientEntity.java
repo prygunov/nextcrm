@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.artux.nextcrm.model.BaseEntity;
 import net.artux.nextcrm.model.address.AddressEntity;
+import net.artux.nextcrm.model.appeal.ChannelEntity;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
@@ -24,5 +25,8 @@ public class PotentialClientEntity extends BaseEntity {
     private String name;
     private String phone;
     private String email;
+    private boolean active;
+    @ManyToOne
+    private ChannelEntity channel;
 
 }

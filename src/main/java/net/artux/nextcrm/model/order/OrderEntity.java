@@ -77,5 +77,10 @@ public class OrderEntity extends BaseEntity {
     @OneToMany
     @JoinColumn(name = "order_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<MessageEntity> messages;
+
+    @OneToMany
+    @JoinColumn(name = "order_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<CostEntity> costs;
 }

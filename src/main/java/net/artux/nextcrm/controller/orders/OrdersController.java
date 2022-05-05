@@ -172,10 +172,10 @@ public class OrdersController extends BaseController {
     }
 
     @RequestMapping(value = "/{id}/edit", params = "search")
-    public Object findGoods(@Valid @ModelAttribute OrderEntity dto, @RequestParam("q") String param, Model model, @PathVariable String id){
+    public Object findGoods(@Valid @ModelAttribute OrderEntity dto, @RequestParam("q") String param, Model model, RedirectAttributes redirectAttributes, @PathVariable String id){
         model.addAttribute("selectGoods", goodsRepository.findAllByNameContainsIgnoreCase(param));
         model.addAttribute("q", param);
-        return pageWithContent(folder + "/edit", model);
+        return redirect(getPageUrl() + id + "/edit#search", model, redirectAttributes);
     }
 
     @RequestMapping(value = "/{id}/addPayment")
@@ -226,6 +226,11 @@ public class OrdersController extends BaseController {
 
     @ModelAttribute("allGoods")
     private List<GoodEntity> getGoods(){
+        return goodsRepository.findAll();
+    }
+
+    @ModelAttribute("selectGoods")
+    private List<GoodEntity> getSelectGoods(){
         return goodsRepository.findAll();
     }
 }

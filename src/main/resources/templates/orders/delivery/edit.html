@@ -77,7 +77,8 @@
 
                         <label for="site-search">По совпадению:</label>
                         <input type="search" id="site-search" name="q" th:value="${q}">
-                        <button type="submit" name="search">Поиск</button>
+                        <button type="submit" class="btn btn-primary" name="search">Поиск</button>
+                        <a class="btn btn-primary" th:href="'/addresses/create'">Создать новый</a>
 
                         <table class="table">
                             <tr>
@@ -100,7 +101,7 @@
                                     <td th:text="${address.entrance}"></td>
                                     <td th:text="${address.flat}"></td>
                                     <td>
-                                        <button type="submit" name="addressId" th:value="${address.id}">Задать</button>
+                                        <button type="submit" class="btn btn-primary" name="addressId" th:value="${address.id}">Задать</button>
                                     </td>
                                 </tr>
                             </th:block>

@@ -37,6 +37,8 @@ public abstract class BaseRepositoryController<E extends BaseEntity, // Осно
                 Object o = dClass.newInstance();
                 model.addAttribute(o);
                 model.addAttribute("object", o);
+            }else{
+                model.addAttribute("object", model.getAttribute(name));
             }
         } catch (InstantiationException e) {
             e.printStackTrace();
