@@ -47,7 +47,7 @@ public class OrderEntity extends BaseEntity {
     private DeliveryEntity delivery;
 
     @OneToMany
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "order_id", updatable = false)
     private List<PaymentEntity> payments;
 
     @ManyToOne
@@ -65,22 +65,22 @@ public class OrderEntity extends BaseEntity {
     private String comment;
 
     @OneToMany
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "order_id", updatable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<OrderEventEntity> events;
 
     @OneToMany
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "order_id", updatable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<CallEntity> calls;
 
     @OneToMany
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "order_id", updatable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<MessageEntity> messages;
 
     @OneToMany
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "order_id", updatable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<CostEntity> costs;
 }

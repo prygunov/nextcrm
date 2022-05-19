@@ -1,6 +1,7 @@
 package net.artux.nextcrm.controller.clients;
 
 import net.artux.nextcrm.controller.util.BaseRepositoryController;
+import net.artux.nextcrm.controller.util.Tools;
 import net.artux.nextcrm.model.address.AddressEntity;
 import net.artux.nextcrm.model.client.ClientEntity;
 import net.artux.nextcrm.model.client.PotentialClientEntity;
@@ -33,17 +34,25 @@ public class ClientController extends BaseRepositoryController<ClientEntity, Cli
         this.potentialClientRepository = potentialClientRepository;
     }
 
+    @RequestMapping(value = "/filter", method = RequestMethod.POST)
+    public String filter(@RequestParam("clientName") String query,
+                         Model model) {
+        model.addAttribute("clientName", query);
+        model.addAttribute("objects", repository.filter(Tools.getQueryForSimilar(query)));
+        return pageWithContent(folder + "/view", model);
+    }
+
     @RequestMapping(value = "/create", params = "from")
-    public Object createFromPotential(@RequestParam("from") Long id, Model model){
+    public Object createFromPotential(@RequestParam("from") Long id, Model model) {
         PotentialClientEntity potentialClient = potentialClientRepository.findById(id).orElseThrow();
         ClientEntity clientEntity = new ClientEntity();
         String[] names = potentialClient.getName().split(" ", 3);
-        if(names.length==1)
+        if (names.length == 1)
             clientEntity.setName(names[0]);
-        else if (names.length == 2){
+        else if (names.length == 2) {
             clientEntity.setLastname(names[0]);
             clientEntity.setName(names[1]);
-        }else if (names.length == 3){
+        } else if (names.length == 3) {
             clientEntity.setLastname(names[0]);
             clientEntity.setName(names[1]);
             clientEntity.setMiddleName(names[2]);
@@ -57,14 +66,14 @@ public class ClientController extends BaseRepositoryController<ClientEntity, Cli
     @Override
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
     public String edit(Model model, @PathVariable Long id) {
-        model.addAttribute("orders", ordersRepository.getDtosForClient(id));
+        model.addAttribute("orders", ordersRepository.getForClient(id));
         model.addAttribute("addresses", addressesRepository.findAll());
         return super.edit(model, id);
     }
 
     @RequestMapping(value = "/{id}/findAddress", method = RequestMethod.POST)
     public Object findAddresses(Model model, RedirectAttributes redirectAttributes, @PathVariable Long id, @RequestParam("q") String query) {
-        model.addAttribute("addresses", addressesRepository.findAddresses('%' + query + '%'));
+        model.addAttribute("addresses", addressesRepository.parseAndFind(query));
         model.addAttribute("q", query);
 
         return redirect(getPageUrl() + id + "/edit#searchAddress", model, redirectAttributes);

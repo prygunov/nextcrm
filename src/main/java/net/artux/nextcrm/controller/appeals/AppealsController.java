@@ -40,8 +40,10 @@ public class AppealsController extends BaseRepositoryController<AppealEntity, Ap
 
     @RequestMapping(value = "/createPotential", method = RequestMethod.POST)
     public ModelAndView create(@ModelAttribute AppealEntity object, Model model){
-        object.setPotentialClient(potentialClientRepository
-                .save(object.getPotentialClient()));
+        if (object.getClient() == null && !object.getPotentialClient().getName().isBlank()) {
+            object.setPotentialClient(potentialClientRepository
+                    .save(object.getPotentialClient()));
+        }
         object.setTime(new Date());
         repository.save(object);
         return new ModelAndView("redirect:" + getPageUrl());

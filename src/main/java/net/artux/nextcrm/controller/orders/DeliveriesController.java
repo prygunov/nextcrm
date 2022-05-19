@@ -70,7 +70,7 @@ public class DeliveriesController extends BaseRepositoryController<DeliveryEntit
 
     @RequestMapping(value = "/create", params = {"q", "search"})
     public Object findAddresses(@ModelAttribute DeliveryEntity delivery, RedirectAttributes redirectAttributes,@RequestParam("q") String query,  Model model) {
-        model.addAttribute("addresses", addressesRepository.findAddresses('%' + query + '%'));
+        model.addAttribute("addresses", addressesRepository.parseAndFind(query));
         model.addAttribute("q", query);
 
         return redirect(getPageUrl() + "create#searchAddress", model, redirectAttributes);

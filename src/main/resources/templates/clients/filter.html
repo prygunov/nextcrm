@@ -1,0 +1,22 @@
+<div>
+    <hr>
+    <form th:attr="action=@{${url} + 'filter'}"
+          th:object="${object}" method="post" class="default-form-filter">
+
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="client.name"><b>Поиск по имени клиента</b></label>
+                    <input type="text" class="form-control" name="clientName" id="client.name"
+                           th:value="${clientName}">
+                </div>
+            </div>
+        </div>
+        <br>
+        <button type="submit" name="action" class="btn btn-primary">Применить</button>
+        <a th:href="@{/clients/}">
+            <button type="button" class="btn btn-primary">Сбросить</button>
+        </a>
+        <hr>
+    </form>
+</div>

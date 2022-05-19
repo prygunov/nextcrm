@@ -38,6 +38,7 @@ public class CostsController extends BaseRepositoryController<CostEntity, CostRe
         CostEntity costEntity = new CostEntity();
         costEntity.setOrder(ordersRepository.getById(id));
         model.addAttribute("object", costEntity);
+        model.addAttribute(costEntity);
         return pageWithContent(folder + "/edit", model);
     }
 

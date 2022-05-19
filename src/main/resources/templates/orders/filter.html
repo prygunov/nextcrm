@@ -6,11 +6,11 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                    <label for="employee"><b>Ответственный сотрудник</b></label>
+                    <label for="employee"><b>Менеджер</b></label>
                     <select name="employee" id="employee" class="form-control">
                         <option th:value="null">Не задан</option>
                         <option th:each="employee : ${employees}" th:value="${employee.id}"
-                                th:text="${employee.fullName()}" th:selected="${object.employee?.id == employee.id}"></option>
+                                th:text="${employee.fullName()}" th:selected="${employeeId == employee.id}"></option>
                     </select>
                 </div>
             </div>
@@ -20,43 +20,10 @@
                     <select name="status" id="status" class="form-control">
                         <option th:value="null">Не задан</option>
                         <option th:each="status : ${statuses}" th:value="${status.id}"
-                                th:text="${status.name}" th:selected="${object.status?.id == status.id}"></option>
+                                th:text="${status.name}" th:selected="${statusId == status.id}"></option>
                     </select>
                 </div>
 
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <label for="type"><b>Тип доставки</b></label>
-                    <select name="delivery.type" id="type" class="form-control">
-                        <option th:value="null">Не задан</option>
-                        <option th:each="type : ${deliveryTypes}" th:value="${type.id}"
-                                th:text="${type.name}" th:selected="${object.delivery?.type?.id == type.id}"></option>
-                    </select>
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <label for="deliveryStatus"><b>Статус доставки</b></label>
-                    <select name="delivery.status" id="deliveryStatus" class="form-control">
-                        <option th:value="null">Не задан</option>
-                        <option th:each="status : ${deliveryStatuses}" th:value="${status.id}"
-                                th:text="${status.name}"
-                                th:selected="${object.delivery?.status?.id == status.id}"></option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="form-group">
-                    <label for="client"><b>Клиент</b></label>
-                    <select name="client" id="client" class="form-control">
-                        <option th:value="null">Не задан</option>
-                        <option th:each="client : ${clients}" th:value="${client.id}"
-                                th:text="@{${client.name} + ' ' + ${client.lastname}}"
-                                th:selected="${object.client?.id == client.id}"></option>
-                    </select>
-                </div>
             </div>
         </div>
 
@@ -64,15 +31,9 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                    <label for="id"><b>Поиск по номеру</b></label>
-                    <input type="number" class="form-control" name="id" id="id" th:value="${object.id}">
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
                     <label for="client.name"><b>Поиск по имени клиента</b></label>
-                    <input type="text" class="form-control" name="client.name" id="client.name"
-                           th:value="${object.client?.name}">
+                    <input type="text" class="form-control" name="clientName" id="client.name"
+                           th:value="${clientName}">
                 </div>
             </div>
         </div>

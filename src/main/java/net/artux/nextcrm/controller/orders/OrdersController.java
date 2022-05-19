@@ -77,11 +77,21 @@ public class OrdersController extends BaseController {
     }
 
     @RequestMapping(value = "/filter", method = RequestMethod.POST)
-    public String create(@ModelAttribute OrderEntity object, Model model){
-        ExampleMatcher exampleMatcher = ExampleMatcher.matchingAny();
+    public String create(@RequestParam(value = "employee", defaultValue = "-1") Integer employee,
+                         @RequestParam(value = "status", defaultValue = "-1") Integer status,
+                         @RequestParam("clientName") String query,
+                         Model model){
+        model.addAttribute("employeeId", employee);
+        model.addAttribute("statusId", status);
+        model.addAttribute("clientName", query);
 
-        model.addAttribute("object", object);
-        model.addAttribute("objects", repository.findAll(Example.of(object, exampleMatcher)));
+        String[] arr = query.toUpperCase().split(" ");
+        StringBuilder qBuilder = new StringBuilder(arr[0]);
+        for (int i = 1; i < arr.length; i++) {
+            qBuilder.append("|");
+            qBuilder.append(arr[i]);
+        }
+        model.addAttribute("objects", repository.filter(employee, status, "%("+qBuilder + ")%"));
 
         return pageWithContent("orders/menu", model);
     }
@@ -197,16 +207,6 @@ public class OrdersController extends BaseController {
     @ModelAttribute("statuses")
     private List<OrderStatusEntity> getStatuses(){
         return statusRepository.findAll();
-    }
-
-    @ModelAttribute("deliveryTypes")
-    private List<DeliveryTypeEntity> getDeliveryTypes(){
-        return deliveryTypeRepository.findAll();
-    }
-
-    @ModelAttribute("deliveryStatuses")
-    private List<DeliveryStatusEntity> getDeliveryStatuses(){
-        return deliveryStatusRepository.findAll();
     }
 
     @ModelAttribute("paymentTypes")

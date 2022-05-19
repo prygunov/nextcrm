@@ -7,6 +7,7 @@ import net.artux.nextcrm.model.user.UserDto;
 import net.artux.nextcrm.model.user.UserEntity;
 import net.artux.nextcrm.repository.orders.OrdersRepository;
 import net.artux.nextcrm.repository.settings.management.RoleRepository;
+import net.artux.nextcrm.repository.tasks.TasksRepository;
 import net.artux.nextcrm.service.user.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,11 +24,13 @@ public class UsersController extends BaseEntityController<UserCreateDto, UserDto
 
     private final RoleRepository roleRepository;
     private final OrdersRepository ordersRepository;
+    private final TasksRepository tasksRepository;
 
-    public UsersController(UserService userService, RoleRepository roleRepository, OrdersRepository ordersRepository){
+    public UsersController(UserService userService, RoleRepository roleRepository, OrdersRepository ordersRepository, TasksRepository tasksRepository){
         super("Сотрудники", "settings/management/users", userService);
         this.roleRepository = roleRepository;
         this.ordersRepository = ordersRepository;
+        this.tasksRepository = tasksRepository;
     }
 
     @ModelAttribute("roles")
@@ -38,7 +41,8 @@ public class UsersController extends BaseEntityController<UserCreateDto, UserDto
     @Override
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
     public String edit(Model model, @PathVariable Long id) {
-        model.addAttribute("orders", ordersRepository.getDtosForUser(id));
+        model.addAttribute("orders", ordersRepository.getForUser(id));
+        model.addAttribute("tasks", tasksRepository.getForEmployee(Math.toIntExact(id)));
         return super.edit(model, id);
     }
 }

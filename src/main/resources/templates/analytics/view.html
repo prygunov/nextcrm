@@ -1,0 +1,69 @@
+<form th:attr="action=${url}" method="post">
+    <h3>Период</h3>
+    <label>
+        C
+        <input type="date" class="form-control" name="startPeriod" th:value="${{startPeriod}}"/>
+    </label>
+    <label>
+        По
+        <input type="date" class="form-control" name="endPeriod" th:value="${{endPeriod}}"/>
+    </label>
+    <input type="submit" class="btn-primary"/>
+</form>
+<div th:if="${object!=null}">
+    <h2>Аналитика за указанный период</h2>
+    <p th:text="'Выручка ' + ${object.revenue} + ' руб.'"></p>
+    <p th:text="'Расходы ' + ${object.expense} + ' руб.'"></p>
+    <p th:text="'Доход ' + ${object.profit} + ' руб.'"></p>
+    <p th:text="'Средний чек ' + ${object.average} + ' руб.'"></p>
+    <p th:text="'Всего заказов ' + ${object.count}"></p>
+    <h3>Работа сотрудников</h3>
+    <table class="table">
+        <tr>
+            <td scope="col">ID</td>
+            <td scope="col">Полное имя</td>
+            <td scope="col">Количество заказов</td>
+            <td scope="col">Средний чек</td>
+            <td scope="col">Доход</td>
+        </tr>
+
+
+        <th:block th:each="user : ${users}">
+            <tr class='clickable-row' th:data-href="@{'/settings/management/users/' + ${user.id} +'/edit'}">
+                <th scope="row">
+                    <a th:text="${user.id}">
+                    </a>
+                </th>
+                <td th:text="${user.fullName()}"></td>
+                <td th:text="${user.count}"></td>
+                <td th:text="${user.avg} + ' руб.'"></td>
+                <td th:text="${user.profit} + ' руб.'"></td>
+            </tr>
+        </th:block>
+    </table>
+    <hr>
+
+    <h3>Эффективность каналов продаж</h3>
+    <table class="table">
+        <tr>
+            <td scope="col">Канал</td>
+            <td scope="col">Обращений</td>
+            <td scope="col">Обработано</td>
+            <td scope="col">Доля</td>
+        </tr>
+
+
+        <th:block th:each="channel : ${channels}">
+            <tr>
+                <th scope="row">
+                    <a th:text="${channel.name}">
+                    </a>
+                </th>
+                <td th:text="${channel.count}"></td>
+                <td th:text="${channel.closed}"></td>
+                <td th:text="${channel.percent} + '%'"></td>
+            </tr>
+        </th:block>
+    </table>
+
+</div>

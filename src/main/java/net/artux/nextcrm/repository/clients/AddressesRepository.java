@@ -20,7 +20,19 @@ public interface AddressesRepository extends CRepository<AddressEntity> {
     @Query("select a from AddressEntity a where a.region = :region and a.city = :city and a.street = :street")
     List<AddressEntity> getAddresses(String region, String city, String street);
 
-    @Query(value = "select * from address a where a.city like :q or cast(house as text) like :q", nativeQuery = true)
+    @Query(value = "select * from address a where upper(a.region) similar to ?1 or " +
+            "upper(a.city) similar to ?1 or " +
+            "upper(a.street) similar to ?1", nativeQuery = true)
     List<AddressEntity> findAddresses(String q);
+
+    default List<AddressEntity> parseAndFind(String q){
+        String[] arr = q.toUpperCase().split(" ");
+        StringBuilder qBuilder = new StringBuilder(arr[0]);
+        for (int i = 1; i < arr.length; i++) {
+            qBuilder.append("|");
+            qBuilder.append(arr[i]);
+        }
+        return findAddresses("%(" + qBuilder + ")%");
+    }
 
 }

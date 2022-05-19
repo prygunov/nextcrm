@@ -23,4 +23,12 @@ public interface TasksRepository extends CRepository<TaskEntity> {
             "where ((?3 != -1 and t.order_id = ?3) or (?3 = -1 and t.order_id is null)) " +
             "and ((?4 != -1 and t.appeal_id = ?4) or (?4 = -1 and t.appeal_id is null))", nativeQuery = true)
     List<TaskEntity> filter(Integer statusId, Integer employeeId, Integer orderId, Integer appealId);
+
+    @Query(value = "select * from task t " +
+            "join app_user u on t.employee_id = u.id " +
+            "left join task_status s on t.status_id = s.id " +
+            "left join app_order o on t.order_id = o.id " +
+            "left join appeal a on t.appeal_id = a.id " +
+            "where t.employee_id = ?1", nativeQuery = true)
+    List<TaskEntity> getForEmployee(Integer employeeId);
 }

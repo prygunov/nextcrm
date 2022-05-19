@@ -3,12 +3,11 @@ package net.artux.nextcrm.controller.util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
-
-import java.util.function.BiConsumer;
 
 @RequiredArgsConstructor
 public abstract class BaseController {
@@ -39,7 +38,7 @@ public abstract class BaseController {
 
     protected Object redirect(String url, Model model, RedirectAttributes redirectAttributes) {
         if (model != null && redirectAttributes != null)
-            model.asMap().forEach((s, o) -> redirectAttributes.addFlashAttribute(s, o));
+            model.asMap().forEach(redirectAttributes::addFlashAttribute);
         return new RedirectView(url, false);
     }
 
